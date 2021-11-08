@@ -1,0 +1,31 @@
+{
+  "name": "matter",
+  "tree": {
+    "$className": "DataModel",
+    "HttpService": {
+      "$className": "HttpService",
+      "$properties": {
+        "HttpEnabled": {
+          "Type": "Bool",
+          "Value": true
+        }
+      }
+    },
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "$path": "Packages",
+      "Matter": {
+        "$path": "lib"
+      }
+    },
+    "TestService": {
+      "$properties": {
+        "ExecuteWithStudioRun": true
+      },
+      "$className": "TestService",
+      "run": {
+        "$path": "tests.server.lua"
+      }
+    }
+  }
+}

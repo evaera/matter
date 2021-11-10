@@ -2,7 +2,8 @@ local Iterator = {}
 Iterator.__index = Iterator
 
 function Iterator.fromListOfMaps(listOfMaps)
-	return setmetatable({
+	debug.profilebegin("Iterator.fromListOfMaps")
+	local self = setmetatable({
 		_thread = coroutine.create(function()
 			for _, map in ipairs(listOfMaps) do
 				for entityId, entityData in pairs(map) do
@@ -11,6 +12,9 @@ function Iterator.fromListOfMaps(listOfMaps)
 			end
 		end),
 	}, Iterator)
+
+	debug.profileend()
+	return self
 end
 
 function Iterator:filter(predicate)
@@ -29,7 +33,12 @@ function Iterator:next()
 	if coroutine.status(self._thread) == "dead" then
 		return
 	end
-	return select(2, coroutine.resume(self._thread))
+
+	debug.profilebegin("Iterator:next")
+	local nextItem = select(2, coroutine.resume(self._thread))
+	debug.profileend()
+
+	return nextItem
 end
 
 function Iterator:iter()

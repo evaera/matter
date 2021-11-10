@@ -4,7 +4,7 @@ local Iterator = require(script.Parent.Iterator)
 
 local archetypeOfDict = Archetype.archetypeOfDict
 local archetypeOf = Archetype.archetypeOf
-local getCompatibleArchetypes = Archetype.getCompatibleArchetypes
+local areArchetypesCompatible = Archetype.areArchetypesCompatible
 
 local ERROR_NO_ENTITY = "Entity doesn't exist, use world:contains to check before inserting"
 
@@ -43,6 +43,7 @@ function World.new()
 	return setmetatable({
 		_archetypes = {},
 		_entityArchetypes = {},
+		_queryCache = {},
 		_nextId = 0,
 		_size = 0,
 	}, World)
@@ -56,6 +57,29 @@ function World:spawn(components)
 	return self:replaceSpawn(id, components)
 end
 
+function World:_newQueryArchetype(queryArchetype)
+	if self._queryCache[queryArchetype] == nil then
+		self._queryCache[queryArchetype] = {}
+		print("New archetype", queryArchetype)
+	else
+		return -- Archetype isn't actually new
+	end
+
+	for entityArchetype in pairs(self._archetypes) do
+		if areArchetypesCompatible(queryArchetype, entityArchetype) then
+			self._queryCache[queryArchetype][entityArchetype] = true
+		end
+	end
+end
+
+function World:_updateQueryCache(entityArchetype)
+	for queryArchetype, compatibileArchetypes in pairs(self._queryCache) do
+		if areArchetypesCompatible(queryArchetype, entityArchetype) then
+			compatibileArchetypes[entityArchetype] = true
+		end
+	end
+end
+
 function World:_transitionArchetype(id, components)
 	local newArchetype
 	local oldArchetype = self._entityArchetypes[id]
@@ -67,15 +91,19 @@ function World:_transitionArchetype(id, components)
 	if oldArchetype then
 		self._archetypes[oldArchetype][id] = nil
 
-		if next(self._archetypes[oldArchetype]) == nil then
-			self._archetypes[oldArchetype] = nil
-		end
+		-- Keep archetypes around because they're likely to exist again in the future
+		-- if next(self._archetypes[oldArchetype]) == nil then
+		-- 	self._archetypes[oldArchetype] = nil
+		-- end
 	end
 
 	if newArchetype then
 		if self._archetypes[newArchetype] == nil then
 			self._archetypes[newArchetype] = {}
+
+			self:_updateQueryCache(newArchetype)
 		end
+
 		self._archetypes[newArchetype][id] = components
 	end
 
@@ -106,11 +134,38 @@ function World:contains(id)
 	return self._entityArchetypes[id] ~= nil
 end
 
+function World:_getListOfCompatibleMaps(archetype)
+	debug.profilebegin("World:_getListOfCompatibleMaps")
+
+	if self._queryCache[archetype] == nil then
+		self:_newQueryArchetype(archetype)
+	end
+
+	local compatibleArchetypes = self._queryCache[archetype]
+
+	if compatibleArchetypes == nil then
+		error(("No archetype compatibility information for %s"):format(archetype))
+	end
+
+	local listOfMaps = {}
+
+	for targetArchetype, map in pairs(self._archetypes) do
+		if compatibleArchetypes[targetArchetype] then
+			table.insert(listOfMaps, map)
+		end
+	end
+
+	debug.profileend()
+	return listOfMaps
+end
+
 function World:query(...)
+	debug.profilebegin("World:query")
 	local metatables = { ... }
 
-	local listOfMaps = getCompatibleArchetypes(archetypeOf(metatables), self._archetypes)
+	local listOfMaps = self:_getListOfCompatibleMaps(archetypeOf(metatables))
 
+	debug.profileend()
 	return Iterator.fromListOfMaps(listOfMaps)
 end
 

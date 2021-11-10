@@ -13,52 +13,59 @@ local function getValueId(value)
 	return valueIds[value]
 end
 
+-- Potential optimization: Take ownership of values table, avoid intermediate table by sorting in-place and
+-- having custom concat function
 function archetypeOf(values)
+	debug.profilebegin("archetypeOf")
 	local list = Llama.List.map(values, getValueId)
 	table.sort(list)
 
-	return table.concat(list, "_")
+	local archetype = table.concat(list, "_")
+
+	debug.profileend()
+	return archetype
 end
 
 function archetypeOfDict(dict)
 	return archetypeOf(Llama.Dictionary.keys(dict))
 end
 
-function areArchetypesCompatible(query, target)
-	local cachedCompatibility = compatibilityCache[query .. "-" .. target]
+function areArchetypesCompatible(queryArchetype, targetArchetype)
+	local cachedCompatibility = compatibilityCache[queryArchetype .. "-" .. targetArchetype]
 	if cachedCompatibility ~= nil then
 		return cachedCompatibility
 	end
+	debug.profilebegin("areArchetypesCompatible")
 
-	local queryIds = string.split(query, "_")
-	local targetIds = Llama.List.toSet(string.split(target, "_"))
+	local queryIds = string.split(queryArchetype, "_")
+	local targetIds = Llama.List.toSet(string.split(targetArchetype, "_"))
 
 	for _, queryId in ipairs(queryIds) do
 		if targetIds[queryId] == nil then
-			compatibilityCache[query .. "-" .. target] = false
+			compatibilityCache[queryArchetype .. "-" .. targetArchetype] = false
+			debug.profileend()
 			return false
 		end
 	end
 
-	compatibilityCache[query .. "-" .. target] = true
+	compatibilityCache[queryArchetype .. "-" .. targetArchetype] = true
+
+	debug.profileend()
 	return true
-end
-
-function getCompatibleArchetypes(query, archetypeMap)
-	local listOfMaps = {}
-
-	for targetArchetype, map in pairs(archetypeMap) do
-		if areArchetypesCompatible(query, targetArchetype) then
-			table.insert(listOfMaps, map)
-		end
-	end
-
-	return listOfMaps
 end
 
 return {
 	archetypeOf = archetypeOf,
 	archetypeOfDict = archetypeOfDict,
-	getCompatibleArchetypes = getCompatibleArchetypes,
 	areArchetypesCompatible = areArchetypesCompatible,
 }
+
+--[[
+	local listOfMaps = {}
+
+	for targetArchetype, map in pairs(self._archetypes) do
+		if areArchetypesCompatible(query, targetArchetype) then
+			table.insert(listOfMaps, map)
+		end
+	end
+]]

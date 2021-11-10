@@ -11,6 +11,13 @@
         }
       }
     },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$path": "tests"
+      }
+    },
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
       "$path": "Packages",

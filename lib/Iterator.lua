@@ -35,10 +35,10 @@ function Iterator:next()
 	end
 
 	debug.profilebegin("Iterator:next")
-	local nextItem = select(2, coroutine.resume(self._thread))
+	local items = { select(2, coroutine.resume(self._thread)) }
 	debug.profileend()
 
-	return nextItem
+	return unpack(items)
 end
 
 function Iterator:iter()

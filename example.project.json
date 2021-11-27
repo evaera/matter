@@ -1,0 +1,28 @@
+{
+  "name": "matter example game",
+  "tree": {
+    "$className": "DataModel",
+    "HttpService": {
+      "$className": "HttpService",
+      "$properties": {
+        "HttpEnabled": {
+          "Type": "Bool",
+          "Value": true
+        }
+      }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "Game": {
+        "$path": "example/server"
+      }
+    },
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "$path": "Packages",
+      "Matter": {
+        "$path": "lib"
+      }
+    }
+  }
+}

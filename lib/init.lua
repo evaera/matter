@@ -1,10 +1,15 @@
-local RunService = game:GetService("RunService")
 -- local t = require(script.Parent.t)
 
 local World = require(script.World)
+local Loop = require(script.Loop)
 local newComponent = require(script.Component).newComponent
 
 return {
 	World = World,
+	Loop = Loop,
+
 	component = newComponent,
+
+	useEvent = require(script.hooks.useEvent),
+	useDeltaTime = require(script.hooks.useDeltaTime),
 }

@@ -105,6 +105,14 @@ return function()
 			expect(found[two][Player].name).to.equal("bob")
 			expect(found[two][Health].value).to.equal(99)
 			expect(found[two][Poison]).to.never.be.ok()
+
+			local count = 0
+			for id, player in world:query(Player) do
+				expect(type(player.name)).to.equal("string")
+				expect(type(id)).to.equal("number")
+				count += 1
+			end
+			expect(count).to.equal(2)
 		end)
 	end)
 end

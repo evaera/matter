@@ -60,7 +60,6 @@ end
 function World:_newQueryArchetype(queryArchetype)
 	if self._queryCache[queryArchetype] == nil then
 		self._queryCache[queryArchetype] = {}
-		print("New archetype", queryArchetype)
 	else
 		return -- Archetype isn't actually new
 	end
@@ -166,7 +165,7 @@ function World:query(...)
 	local listOfMaps = self:_getListOfCompatibleMaps(archetypeOf(metatables))
 
 	debug.profileend()
-	return Iterator.fromListOfMaps(listOfMaps)
+	return Iterator.fromListOfMaps(listOfMaps, metatables)
 end
 
 function World:insert(id, components)

@@ -12,6 +12,7 @@ end
 local Loop = {}
 Loop.__index = Loop
 
+-- TODO: Let systems specify what event they run on by string name
 function Loop.new(...)
 	return setmetatable({
 		_systems = {},
@@ -23,7 +24,7 @@ function Loop.new(...)
 	}, Loop)
 end
 
-type System = string | { system: (state: any) -> () }
+type System = (...any) -> () | { system: (...any) -> () }
 
 function Loop:scheduleSystem(system: System)
 	return self:scheduleSystems({ system })
@@ -98,6 +99,7 @@ function Loop:_sortSystems()
 	self._orderedSystems = orderedSystems
 end
 
+-- TODO: Pass map of name -> event
 function Loop:begin(event)
 	local lastTime = os.clock()
 

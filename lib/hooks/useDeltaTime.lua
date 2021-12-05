@@ -1,7 +1,7 @@
-local TopoStack = require(script.Parent.Parent.TopoStack)
+local TopoRuntime = require(script.Parent.Parent.TopoRuntime)
 
 local function useDeltaTime()
-	local state = TopoStack.peek()
+	local state = TopoRuntime.useFrameState()
 
 	return state.deltaTime
 end

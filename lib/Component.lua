@@ -5,7 +5,7 @@ local function newComponent(name)
 	component.__index = component
 
 	function component.new(data)
-		return setmetatable(data or {}, component)
+		return table.freeze(setmetatable(data or {}, component))
 	end
 
 	setmetatable(component, {

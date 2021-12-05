@@ -1,5 +1,5 @@
 local Llama = require(script.Parent.Parent.Llama)
-local TopoStack = require(script.Parent.TopoStack)
+local TopoRuntime = require(script.Parent.TopoRuntime)
 
 local function systemFn(system: System)
 	if type(system) == "table" then
@@ -133,22 +133,20 @@ function Loop:begin(events)
 
 			generation = not generation
 
-			TopoStack.push({
-				generation = generation,
-				deltaTime = deltaTime,
-			})
-
 			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
-				local info = TopoStack.peek()
-				info.systemState = self._systemState[system]
-
-				local fn = systemFn(system)
-				debug.profilebegin("system: " .. systemName(system))
-				fn(unpack(self._state, 1, self._stateLength))
-				debug.profileend()
+				TopoRuntime.start({
+					system = self._systemState[system],
+					frame = {
+						generation = generation,
+						deltaTime = deltaTime,
+					},
+				}, function()
+					local fn = systemFn(system)
+					debug.profilebegin("system: " .. systemName(system))
+					fn(unpack(self._state, 1, self._stateLength))
+					debug.profileend()
+				end)
 			end
-
-			TopoStack.pop()
 		end)
 	end
 

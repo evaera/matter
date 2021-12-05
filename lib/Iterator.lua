@@ -1,3 +1,5 @@
+-- TODO: Maybe make private any method that exposes the internal storage of an entity?
+
 local Iterator = {}
 Iterator.__index = Iterator
 

@@ -25,7 +25,7 @@ for _ = 1, 500 do -- 500 entities in the world
 		})
 	end
 
-	world:spawn(Llama.Dictionary.values(componentsToAdd))
+	world:spawn(unpack(Llama.Dictionary.values(componentsToAdd)))
 end
 
 local contiguousComponents = Llama.Dictionary.values(components)

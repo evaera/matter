@@ -5,6 +5,7 @@ local COMPONENTS = {
 	"Transform",
 	"BoundInstance",
 	"Spinner",
+	"ColorTween",
 }
 
 local components = {}

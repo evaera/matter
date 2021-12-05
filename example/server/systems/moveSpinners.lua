@@ -6,7 +6,7 @@ local useDeltaTime = require(ReplicatedStorage.Matter).useDeltaTime
 
 local function move(world)
 	for entityId, transform in world:query(Transform, Spinner) do
-		world:insertOne(
+		world:insert(
 			entityId,
 			Transform({
 				cframe = transform.cframe * CFrame.Angles(0, math.rad(90 * useDeltaTime()), 0),

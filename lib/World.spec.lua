@@ -33,20 +33,18 @@ return function()
 			local Player = component()
 			local Health = component()
 
-			local id = world:spawn({
-				Player(),
-			})
+			local id = world:spawn(Player())
 
 			expect(world:query(Player):next()).to.be.ok()
 			expect(world:query(Health):next()).to.never.be.ok()
 
-			world:insertOne(id, Health())
+			world:insert(id, Health())
 
 			expect(world:query(Player):next()).to.be.ok()
 			expect(world:query(Health):next()).to.be.ok()
 			expect(world:size()).to.equal(1)
 
-			world:removeOne(id, Player)
+			world:remove(id, Player)
 
 			expect(world:query(Player):next()).to.never.be.ok()
 			expect(world:query(Health):next()).to.be.ok()
@@ -60,29 +58,29 @@ return function()
 			local Health = component()
 			local Poison = component()
 
-			local one = world:spawn({
+			local one = world:spawn(
 				Player({
 					name = "alice",
 				}),
 				Health({
 					value = 100,
 				}),
-				Poison(),
-			})
+				Poison()
+			)
 
-			world:spawn({ -- Spawn something we don't want to get back
+			world:spawn( -- Spawn something we don't want to get back
 				component(),
-				component(),
-			})
+				component()
+			)
 
-			local two = world:spawn({
+			local two = world:spawn(
 				Player({
 					name = "bob",
 				}),
 				Health({
 					value = 99,
-				}),
-			})
+				})
+			)
 
 			local result = world:query(Player, Health):collect()
 

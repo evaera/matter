@@ -49,12 +49,12 @@ function World.new()
 	}, World)
 end
 
-function World:spawn(components)
+function World:spawn(...)
 	local id = self._nextId
 	self._nextId += 1
 	self._size += 1
 
-	return self:replaceSpawn(id, components)
+	return self:replace(id, ...)
 end
 
 function World:_newQueryArchetype(queryArchetype)
@@ -109,8 +109,8 @@ function World:_transitionArchetype(id, components)
 	self._entityArchetypes[id] = newArchetype
 end
 
-function World:replaceSpawn(id, components)
-	components = keyByMetatable(components or {})
+function World:replace(id, ...)
+	local components = keyByMetatable({ ... })
 
 	self:_transitionArchetype(id, components)
 
@@ -168,26 +168,22 @@ function World:query(...)
 	return Iterator.fromListOfMaps(listOfMaps, metatables)
 end
 
-function World:insert(id, components)
+function World:insert(id, ...)
 	if not self:contains(id) then
-		error(ERROR_NO_ENTITY)
+		error(ERROR_NO_ENTITY, 2)
 	end
 
 	local existingComponents = self._archetypes[self._entityArchetypes[id]][id]
 
-	self:_transitionArchetype(id, Llama.Dictionary.merge(existingComponents, keyByMetatable(components)))
+	self:_transitionArchetype(id, Llama.Dictionary.merge(existingComponents, keyByMetatable({ ... })))
 end
 
-function World:insertOne(id, component)
-	self:insert(id, { component })
-end
-
-function World:remove(id, metatables)
+function World:remove(id, ...)
 	if not self:contains(id) then
-		error(ERROR_NO_ENTITY)
+		error(ERROR_NO_ENTITY, 2)
 	end
 
-	local toRemove = Llama.List.toSet(metatables)
+	local toRemove = Llama.List.toSet({ ... })
 
 	local existingComponents = self._archetypes[self._entityArchetypes[id]][id]
 
@@ -205,10 +201,6 @@ function World:remove(id, metatables)
 	self:_transitionArchetype(id, newComponents)
 
 	return removed
-end
-
-function World:removeOne(id, metatable)
-	self:remove(id, { metatable })
 end
 
 function World:size()

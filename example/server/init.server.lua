@@ -27,15 +27,15 @@ local boundTags = {
 }
 
 local function spawnBound(instance, component)
-	local id = world:spawn({
+	local id = world:spawn(
 		component(),
 		Components.BoundInstance({
 			instance = instance,
 		}),
 		Components.Transform({
 			cframe = instance.CFrame,
-		}),
-	})
+		})
+	)
 
 	instance:SetAttribute("entityId", id)
 end

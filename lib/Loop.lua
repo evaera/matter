@@ -1,12 +1,17 @@
 local Llama = require(script.Parent.Parent.Llama)
 local TopoStack = require(script.Parent.TopoStack)
 
-local function getSystemFunction(system: System)
+local function systemFn(system: System)
 	if type(system) == "table" then
 		return system.system
 	end
 
 	return system
+end
+
+local function systemName(system: System)
+	local fn = systemFn(system)
+	return debug.info(fn, "s") .. "->" .. debug.info(fn, "n")
 end
 
 local Loop = {}
@@ -39,13 +44,7 @@ end
 
 local function orderSystemsByDependencies(unscheduledSystems: { System })
 	table.sort(unscheduledSystems, function(a, b)
-		local fnA = getSystemFunction(a)
-		local fnB = getSystemFunction(b)
-
-		local nameA = debug.info(fnA, "s") .. "->" .. debug.info(fnA, "n")
-		local nameB = debug.info(fnB, "s") .. "->" .. debug.info(fnB, "n")
-
-		return nameA > nameB
+		return systemName(a) > systemName(b)
 	end)
 
 	local scheduledSystems = {}
@@ -143,8 +142,10 @@ function Loop:begin(events)
 				local info = TopoStack.peek()
 				info.systemState = self._systemState[system]
 
-				local fn = getSystemFunction(system)
+				local fn = systemFn(system)
+				debug.profilebegin("system: " .. systemName(system))
 				fn(unpack(self._state, 1, self._stateLength))
+				debug.profileend()
 			end
 
 			TopoStack.pop()

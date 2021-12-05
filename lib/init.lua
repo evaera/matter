@@ -12,4 +12,5 @@ return {
 
 	useEvent = require(script.hooks.useEvent),
 	useDeltaTime = require(script.hooks.useDeltaTime),
+	useThrottle = require(script.hooks.useThrottle),
 }

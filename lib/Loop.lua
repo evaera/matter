@@ -19,7 +19,6 @@ function Loop.new(...)
 		_state = { ... },
 		_stateLength = select("#", ...),
 		_systemState = {},
-		_generation = false,
 	}, Loop)
 end
 
@@ -126,16 +125,17 @@ function Loop:begin(events)
 		end
 
 		local lastTime = os.clock()
+		local generation = false
 
 		connections[eventName] = event:Connect(function()
 			local currentTime = os.clock()
 			local deltaTime = currentTime - lastTime
 			lastTime = currentTime
 
-			self._generation = not self._generation
+			generation = not generation
 
 			TopoStack.push({
-				generation = self._generation,
+				generation = generation,
 				deltaTime = deltaTime,
 			})
 

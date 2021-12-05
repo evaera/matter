@@ -17,7 +17,7 @@ local function useEvent(event, callback)
 		storage.event = event
 
 		local connection = event:Connect(function(...)
-			table.insert(values, { ... })
+			table.insert(values, table.pack(...))
 		end)
 
 		storage.connection = connection
@@ -29,7 +29,7 @@ local function useEvent(event, callback)
 	end
 
 	for _, args in ipairs(storage.values) do
-		callback(unpack(args))
+		callback(unpack(args, 1, args.n))
 	end
 
 	table.clear(storage.values)

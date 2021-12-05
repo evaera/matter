@@ -16,12 +16,12 @@ return function()
 				expect(c).to.equal(3)
 			end)
 
-			local connection = loop:begin(bindable.Event)
+			local connection = loop:begin({ default = bindable.Event })
 
 			expect(callCount).to.equal(0)
 			bindable:Fire()
 			expect(callCount).to.equal(1)
-			connection:Disconnect()
+			connection.default:Disconnect()
 			expect(callCount).to.equal(1)
 		end)
 
@@ -54,7 +54,7 @@ return function()
 				systemA,
 			})
 
-			local connection = loop:begin(bindable.Event)
+			local connection = loop:begin({ default = bindable.Event })
 
 			expect(#order).to.equal(0)
 
@@ -65,7 +65,7 @@ return function()
 			expect(order[2]).to.equal("b")
 			expect(order[3]).to.equal("c")
 
-			connection:Disconnect()
+			connection.default:Disconnect()
 		end)
 	end)
 end

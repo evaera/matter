@@ -12,11 +12,10 @@ end
 local Loop = {}
 Loop.__index = Loop
 
--- TODO: Let systems specify what event they run on by string name
 function Loop.new(...)
 	return setmetatable({
 		_systems = {},
-		_orderedSystems = {},
+		_orderedSystemsByEvent = {},
 		_state = { ... },
 		_stateLength = select("#", ...),
 		_systemState = {},
@@ -24,7 +23,7 @@ function Loop.new(...)
 	}, Loop)
 end
 
-type System = (...any) -> () | { system: (...any) -> () }
+type System = (...any) -> () | { system: (...any) -> (), event: string? }
 
 function Loop:scheduleSystem(system: System)
 	return self:scheduleSystems({ system })
@@ -39,13 +38,7 @@ function Loop:scheduleSystems(systems: { System })
 	self:_sortSystems()
 end
 
-function Loop:getOrderedSystems()
-	return self._orderedSystems
-end
-
-function Loop:_sortSystems()
-	local unscheduledSystems = Llama.Dictionary.keys(self._systems)
-
+local function orderSystemsByDependencies(unscheduledSystems: { System })
 	table.sort(unscheduledSystems, function(a, b)
 		local fnA = getSystemFunction(a)
 		local fnB = getSystemFunction(b)
@@ -96,35 +89,69 @@ function Loop:_sortSystems()
 		end
 	end
 
-	self._orderedSystems = orderedSystems
+	return orderedSystems
 end
 
--- TODO: Pass map of name -> event
-function Loop:begin(event)
-	local lastTime = os.clock()
+function Loop:_sortSystems()
+	local systemsByEvent = {}
 
-	return event:Connect(function()
-		local currentTime = os.clock()
-		local deltaTime = currentTime - lastTime
-		lastTime = currentTime
+	for system in pairs(self._systems) do
+		local eventName = "default"
 
-		self._generation = not self._generation
-
-		TopoStack.push({
-			generation = self._generation,
-			deltaTime = deltaTime,
-		})
-
-		for _, system in ipairs(self._orderedSystems) do
-			local info = TopoStack.peek()
-			info.systemState = self._systemState[system]
-
-			local fn = getSystemFunction(system)
-			fn(unpack(self._state, 1, self._stateLength))
+		if type(system) == "table" and system.event then
+			eventName = system.event
 		end
 
-		TopoStack.pop()
-	end)
+		if not systemsByEvent[eventName] then
+			systemsByEvent[eventName] = {}
+		end
+
+		table.insert(systemsByEvent[eventName], system)
+	end
+
+	self._orderedSystemsByEvent = {}
+
+	for eventName, systems in pairs(systemsByEvent) do
+		self._orderedSystemsByEvent[eventName] = orderSystemsByDependencies(systems)
+	end
+end
+
+function Loop:begin(events)
+	local connections = {}
+
+	for eventName, event in pairs(events) do
+		if not self._orderedSystemsByEvent[eventName] then
+			-- Skip events that have no systems
+			continue
+		end
+
+		local lastTime = os.clock()
+
+		connections[eventName] = event:Connect(function()
+			local currentTime = os.clock()
+			local deltaTime = currentTime - lastTime
+			lastTime = currentTime
+
+			self._generation = not self._generation
+
+			TopoStack.push({
+				generation = self._generation,
+				deltaTime = deltaTime,
+			})
+
+			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
+				local info = TopoStack.peek()
+				info.systemState = self._systemState[system]
+
+				local fn = getSystemFunction(system)
+				fn(unpack(self._state, 1, self._stateLength))
+			end
+
+			TopoStack.pop()
+		end)
+	end
+
+	return connections
 end
 
 return Loop

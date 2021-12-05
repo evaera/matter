@@ -17,7 +17,10 @@ end
 
 loop:scheduleSystems(systems)
 
-loop:begin(RunService.Heartbeat)
+loop:begin({
+	default = RunService.Heartbeat,
+	RenderStepped = RunService.RenderStepped,
+})
 
 local boundTags = {
 	Spinner = Components.Spinner,

@@ -1,13 +1,11 @@
 local TopoRuntime = require(script.Parent.Parent.TopoRuntime)
 
-local callbacks = {
-	shouldCleanup = function(storage)
-		return os.clock() > storage.expiry
-	end,
-}
+local function cleanup(storage)
+	return os.clock() < storage.expiry
+end
 
 local function useThrottle(seconds, discriminator)
-	local storage = TopoRuntime.useHookState(discriminator, callbacks)
+	local storage = TopoRuntime.useHookState(discriminator, cleanup)
 
 	if storage.time == nil or os.clock() - storage.time >= seconds then
 		storage.time = os.clock()

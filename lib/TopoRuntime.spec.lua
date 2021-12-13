@@ -32,14 +32,13 @@ return function()
 			local shouldCleanup = false
 			local cleanedUpCount = 0
 			local function useHook()
-				local storage = TopoRuntime.useHookState(nil, {
-					cleanup = function()
+				local storage = TopoRuntime.useHookState(nil, function()
+					if shouldCleanup then
 						cleanedUpCount += 1
-					end,
-					shouldCleanup = function()
-						return shouldCleanup
-					end,
-				})
+					else
+						return true
+					end
+				end)
 
 				storage.counter = (storage.counter or 0) + 1
 

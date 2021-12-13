@@ -13,16 +13,14 @@ local function cleanup()
 	for baseKey, state in pairs(currentFrame.node.system) do
 		for key, value in pairs(state.storage) do
 			if not currentFrame.accessedKeys[baseKey] or not currentFrame.accessedKeys[baseKey][key] then
-				local callbacks = state.callbacks
+				local cleanupCallback = state.cleanupCallback
 
-				if callbacks.shouldCleanup then
-					if not callbacks.shouldCleanup(value) then
+				if cleanupCallback then
+					local shouldAbortCleanup = cleanupCallback(value)
+
+					if shouldAbortCleanup then
 						continue
 					end
-				end
-
-				if callbacks.cleanup then
-					callbacks.cleanup(value)
 				end
 
 				state.storage[key] = nil
@@ -42,7 +40,7 @@ local function useFrameState()
 	return stack[#stack].node.frame
 end
 
-local function useHookState(uniqueKey, callbacks)
+local function useHookState(uniqueKey, cleanupCallback)
 	local file, line = debug.info(3, "sl")
 	local fn = debug.info(2, "f")
 
@@ -71,7 +69,7 @@ local function useHookState(uniqueKey, callbacks)
 	if not currentFrame.node.system[baseKey] then
 		currentFrame.node.system[baseKey] = {
 			storage = {},
-			callbacks = callbacks or {},
+			cleanupCallback = cleanupCallback,
 		}
 	end
 

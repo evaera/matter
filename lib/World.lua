@@ -146,7 +146,7 @@ function World:get(id, ...)
 		components[i] = entity[select(i, ...)]
 	end
 
-	return unpack(components)
+	return unpack(components, 1, select("#", ...))
 end
 
 function World:_getListOfCompatibleMaps(archetype)

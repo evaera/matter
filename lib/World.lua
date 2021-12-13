@@ -137,16 +137,18 @@ function World:get(id, ...)
 	local archetype = self._entityArchetypes[id]
 	local entity = self._archetypes[archetype][id]
 
-	if select("#", ...) == 1 then
+	local length = select("#", ...)
+
+	if length == 1 then
 		return entity[...]
 	end
 
 	local components = {}
-	for i = 1, select("#", ...) do
+	for i = 1, length do
 		components[i] = entity[select(i, ...)]
 	end
 
-	return unpack(components, 1, select("#", ...))
+	return unpack(components, 1, length)
 end
 
 function World:_getListOfCompatibleMaps(archetype)

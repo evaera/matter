@@ -67,5 +67,47 @@ return function()
 
 			connection.default:Disconnect()
 		end)
+
+		it("should call systems with priority in order", function()
+			local loop = Loop.new()
+
+			local order = {}
+			local systemA = {
+				system = function()
+					table.insert(order, "a")
+				end,
+			}
+			local systemB = {
+				system = function()
+					table.insert(order, "b")
+				end,
+				priority = -1,
+			}
+			local systemC = {
+				system = function()
+					table.insert(order, "c")
+				end,
+				priority = 1,
+			}
+
+			loop:scheduleSystems({
+				systemC,
+				systemB,
+				systemA,
+			})
+
+			local connection = loop:begin({ default = bindable.Event })
+
+			expect(#order).to.equal(0)
+
+			bindable:Fire()
+
+			expect(#order).to.equal(3)
+			expect(order[1]).to.equal("b")
+			expect(order[2]).to.equal("a")
+			expect(order[3]).to.equal("c")
+
+			connection.default:Disconnect()
+		end)
 	end)
 end

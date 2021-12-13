@@ -14,6 +14,14 @@ local function systemName(system: System)
 	return debug.info(fn, "s") .. "->" .. debug.info(fn, "n")
 end
 
+local function systemPriority(system: System)
+	if type(system) == "table" then
+		return system.priority or 0
+	end
+
+	return 0
+end
+
 local Loop = {}
 Loop.__index = Loop
 
@@ -44,24 +52,38 @@ end
 
 local function orderSystemsByDependencies(unscheduledSystems: { System })
 	table.sort(unscheduledSystems, function(a, b)
-		return systemName(a) > systemName(b)
+		return systemPriority(a) < systemPriority(b) or systemName(a) < systemName(b)
 	end)
 
+	local scheduledSystemsSet = {}
 	local scheduledSystems = {}
-	local orderedSystems = {}
+	local tombstone = {}
 
-	while next(unscheduledSystems) do
+	while #scheduledSystems < #unscheduledSystems do
 		local atLeastOneScheduled = false
 
 		local index = 1
+		local priority
 		while index <= #unscheduledSystems do
 			local system = unscheduledSystems[index]
+
+			-- If the system has already been scheduled it will have been replaced with this value
+			if system == tombstone then
+				index += 1
+				continue
+			end
+
+			if priority == nil then
+				priority = systemPriority(system)
+			elseif systemPriority(system) ~= priority then
+				break
+			end
 
 			local allScheduled = true
 
 			if type(system) == "table" and system.after then
 				for _, dependency in ipairs(system.after) do
-					if scheduledSystems[dependency] == nil then
+					if scheduledSystemsSet[dependency] == nil then
 						allScheduled = false
 						break
 					end
@@ -71,15 +93,13 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 			if allScheduled then
 				atLeastOneScheduled = true
 
-				-- swap removal
-				unscheduledSystems[index] = unscheduledSystems[#unscheduledSystems]
-				unscheduledSystems[#unscheduledSystems] = nil
+				unscheduledSystems[index] = tombstone
 
-				scheduledSystems[system] = system
-				table.insert(orderedSystems, system)
-			else
-				index += 1
+				scheduledSystemsSet[system] = system
+				table.insert(scheduledSystems, system)
 			end
+
+			index += 1
 		end
 
 		if not atLeastOneScheduled then
@@ -87,7 +107,7 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 		end
 	end
 
-	return orderedSystems
+	return scheduledSystems
 end
 
 function Loop:_sortSystems()

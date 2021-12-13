@@ -15,7 +15,7 @@ return function()
 			local fn = function()
 				if shouldCall then
 					local count = 0
-					useEvent(event.Event, function()
+					useEvent(event, event.Event, function()
 						count += 1
 					end)
 					expect(count).to.equal(shouldCount)
@@ -66,7 +66,7 @@ return function()
 			local shouldCount = 0
 			local fn = function()
 				local count = 0
-				useEvent(event.Event, function()
+				useEvent(event, "Event", function()
 					count += 1
 				end)
 				expect(count).to.equal(shouldCount)

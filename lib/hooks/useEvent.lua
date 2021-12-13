@@ -1,10 +1,22 @@
 local TopoRuntime = require(script.Parent.Parent.TopoRuntime)
 
-local function useEvent(event, callback)
+local callbacks = {
+	cleanup = function(storage)
+		storage.connection:Disconnect()
+		table.clear(storage.values)
+	end,
+}
+
+local function useEvent(instance, event, callback)
+	assert(instance ~= nil, "Instance is nil")
 	assert(event ~= nil, "Event is nil")
 	assert(callback ~= nil, "Callback is nil")
 
-	local storage = TopoRuntime.useHookState("useEvent")
+	local storage = TopoRuntime.useHookState(instance, callbacks)
+
+	if type(event) == "string" then
+		event = instance[event]
+	end
 
 	if storage.event ~= event then
 		if storage.cleanup then
@@ -21,11 +33,6 @@ local function useEvent(event, callback)
 		end)
 
 		storage.connection = connection
-
-		storage.cleanup = function()
-			connection:Disconnect()
-			table.clear(values)
-		end
 	end
 
 	for _, args in ipairs(storage.values) do

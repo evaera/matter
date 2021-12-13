@@ -133,6 +133,22 @@ function World:contains(id)
 	return self._entityArchetypes[id] ~= nil
 end
 
+function World:get(id, ...)
+	local archetype = self._entityArchetypes[id]
+	local entity = self._archetypes[archetype][id]
+
+	if select("#", ...) == 1 then
+		return entity[...]
+	end
+
+	local components = {}
+	for i = 1, select("#", ...) do
+		components[i] = entity[select(i, ...)]
+	end
+
+	return unpack(components)
+end
+
 function World:_getListOfCompatibleMaps(archetype)
 	debug.profilebegin("World:_getListOfCompatibleMaps")
 

@@ -112,5 +112,23 @@ return function()
 			end
 			expect(count).to.equal(2)
 		end)
+
+		it("should allow getting single components", function()
+			local world = World.new()
+
+			local Player = component()
+			local Health = component()
+			local Other = component()
+
+			local id = world:spawn(Other({ a = 1 }), Player({ b = 2 }), Health({ c = 3 }))
+
+			expect(world:get(id, Player).b).to.equal(2)
+			expect(world:get(id, Health).c).to.equal(3)
+
+			local one, two = world:get(id, Health, Player)
+
+			expect(one.c).to.equal(3)
+			expect(two.b).to.equal(2)
+		end)
 	end)
 end

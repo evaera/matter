@@ -43,7 +43,8 @@ local function useFrameState()
 end
 
 local function useHookState(uniqueKey, callbacks)
-	local file, line, fn = debug.info(3, "slf")
+	local file, line = debug.info(3, "sl")
+	local fn = debug.info(2, "f")
 
 	local baseKey = string.format("%s:%s:%d", tostring(fn), file, line)
 

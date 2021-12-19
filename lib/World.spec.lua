@@ -119,14 +119,15 @@ return function()
 				})
 			)
 
-			local result = world:query(Player, Health):collect()
-
 			local found = {}
 			local foundCount = 0
 
-			for entityId, entityData in pairs(result) do
-				found[entityId] = entityData
+			for entityId, player, health in world:query(Player, Health) do
 				foundCount += 1
+				found[entityId] = {
+					[Player] = player,
+					[Health] = health,
+				}
 			end
 
 			expect(foundCount).to.equal(2)
@@ -134,12 +135,10 @@ return function()
 			expect(found[one]).to.be.ok()
 			expect(found[one][Player].name).to.equal("alice")
 			expect(found[one][Health].value).to.equal(100)
-			expect(found[one][Poison]).to.be.ok()
 
 			expect(found[two]).to.be.ok()
 			expect(found[two][Player].name).to.equal("bob")
 			expect(found[two][Health].value).to.equal(99)
-			expect(found[two][Poison]).to.never.be.ok()
 
 			local count = 0
 			for id, player in world:query(Player) do

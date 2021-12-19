@@ -5,12 +5,14 @@ local nextValueId = 0
 local compatibilityCache = {}
 
 local function getValueId(value)
-	if valueIds[value] == nil then
+	local valueId = valueIds[value]
+	if valueId == nil then
 		valueIds[value] = nextValueId
+		valueId = nextValueId
 		nextValueId += 1
 	end
 
-	return valueIds[value]
+	return valueId
 end
 
 function archetypeOf(...)

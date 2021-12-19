@@ -1,6 +1,5 @@
 local Llama = require(script.Parent.Parent.Llama)
 local Archetype = require(script.Parent.Archetype)
-local Iterator = require(script.Parent.Iterator)
 local TopoRuntime = require(script.Parent.TopoRuntime)
 
 local archetypeOfDict = Archetype.archetypeOfDict
@@ -171,8 +170,8 @@ function World:get(id, ...)
 	return unpack(components, 1, length)
 end
 
-function World:_getListOfCompatibleMaps(archetype)
-	debug.profilebegin("World:_getListOfCompatibleMaps")
+function World:_getCompatibleStorages(archetype)
+	debug.profilebegin("World:_getCompatibleStorages")
 
 	if self._queryCache[archetype] == nil then
 		self:_newQueryArchetype(archetype)
@@ -184,26 +183,101 @@ function World:_getListOfCompatibleMaps(archetype)
 		error(("No archetype compatibility information for %s"):format(archetype))
 	end
 
-	local listOfMaps = {}
+	local compatibleStorages = {}
 
 	for targetArchetype, map in pairs(self._archetypes) do
 		if compatibleArchetypes[targetArchetype] then
-			table.insert(listOfMaps, map)
+			table.insert(compatibleStorages, map)
 		end
 	end
 
 	debug.profileend()
-	return listOfMaps
+	return compatibleStorages
+end
+
+local QueryResult = {}
+QueryResult.__index = QueryResult
+
+function QueryResult:__call()
+	return self._expand(self._next())
+end
+
+function QueryResult:next()
+	return self._expand(self._next())
+end
+
+function QueryResult:without(...)
+	while true do
+		local entityId, entityData = self._next()
+
+		if not entityId then
+			break
+		end
+
+		for i = 1, select("#", ...) do
+			if entityData[select(i, ...)] then
+				continue
+			end
+		end
+
+		return self._expand(entityId, entityData)
+	end
 end
 
 function World:query(...)
 	debug.profilebegin("World:query")
 	local metatables = { ... }
+	local queryLength = select("#", ...)
 
-	local listOfMaps = self:_getListOfCompatibleMaps(archetypeOf(...))
+	local compatibleStorages = self:_getCompatibleStorages(archetypeOf(...))
 
 	debug.profileend()
-	return Iterator.fromListOfMaps(listOfMaps, metatables)
+
+	if #compatibleStorages == 0 then
+		-- If there are no compatible storages avoid creating our complicated iterator
+		return setmetatable({
+			_expand = function() end,
+			_next = function() end,
+		}, QueryResult)
+	end
+
+	local storageIndex = 1
+	local last
+	local queryOutput = table.create(queryLength)
+
+	local function expand(entityId, entityData)
+		if not entityId then
+			return
+		end
+
+		for i, metatable in ipairs(metatables) do
+			queryOutput[i] = entityData[metatable]
+		end
+
+		return entityId, unpack(queryOutput, 1, queryLength)
+	end
+
+	local function nextItem()
+		local entityId, entityData = next(compatibleStorages[storageIndex], last)
+
+		if entityId == nil then
+			storageIndex += 1
+
+			if compatibleStorages[storageIndex] == nil then
+				return
+			end
+
+			entityId, entityData = next(compatibleStorages[storageIndex])
+		end
+		last = entityId
+
+		return entityId, entityData
+	end
+
+	return setmetatable({
+		_expand = expand,
+		_next = nextItem,
+	}, QueryResult)
 end
 
 function World:queryChanged(metatable, empty)

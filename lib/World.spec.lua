@@ -181,6 +181,7 @@ return function()
 
 			local A = component()
 			local B = component()
+			local C = component()
 
 			local expectedResults = {
 				nil,
@@ -224,9 +225,10 @@ return function()
 
 			local resultIndex = 0
 
+			local additionalQuery = C
 			loop:scheduleSystem(function(w)
 				local ran = false
-				for entityId, record in w:queryChanged(A) do
+				for entityId, record in w:queryChanged(A, additionalQuery) do
 					ran = true
 					resultIndex += 1
 
@@ -274,11 +276,16 @@ return function()
 			defaultBindable:Fire()
 			infrequentBindable:Fire()
 
-			local entityId = world:spawn(A({
-				generation = 1,
-			}))
+			local entityId = world:spawn(
+				A({
+					generation = 1,
+				}),
+				C()
+			)
 
 			defaultBindable:Fire()
+
+			additionalQuery = nil
 
 			world:insert(
 				entityId,
@@ -294,9 +301,12 @@ return function()
 				})
 			)
 
-			world:spawn(A({
-				generation = 1,
-			}))
+			world:spawn(
+				A({
+					generation = 1,
+				}),
+				C()
+			)
 
 			defaultBindable:Fire()
 			defaultBindable:Fire()

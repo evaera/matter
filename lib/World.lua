@@ -289,9 +289,7 @@ function World:query(...)
 	}, QueryResult)
 end
 
-function World:queryChanged(metatable, empty)
-	assert(empty == nil, "queryChanged does not take additional parameters")
-
+function World:queryChanged(metatable, ...)
 	local hookState = TopoRuntime.useHookState(metatable)
 
 	if not hookState.storage then
@@ -305,15 +303,47 @@ function World:queryChanged(metatable, empty)
 		table.insert(self._changedStorage[metatable], storage)
 	end
 
-	return function()
-		local index, value = next(hookState.storage)
+	local queryLength = select("#", ...)
+	local queryOutput = table.create(queryLength)
+	local queryMetatables = { ... }
 
-		if index then
-			hookState.storage[index] = nil
+	if #queryMetatables == 0 then
+		return function()
+			local entityId, component = next(hookState.storage)
 
-			return index, value
+			if entityId then
+				hookState.storage[entityId] = nil
+
+				return entityId, component
+			end
 		end
 	end
+
+	local function queryIterator()
+		local entityId, component = next(hookState.storage)
+
+		if entityId then
+			hookState.storage[entityId] = nil
+
+			-- If the entity doesn't currently contain the requested components, don't return anything
+			if not self:contains(entityId) then
+				return queryIterator()
+			end
+
+			for i, queryMetatable in ipairs(queryMetatables) do
+				local queryComponent = self:get(entityId, queryMetatable)
+				if not queryComponent then
+					return queryIterator()
+				end
+
+				queryOutput[i] = queryComponent
+			end
+
+			return entityId, component, unpack(queryOutput, 1, queryLength)
+		end
+	end
+
+	return queryIterator
 end
 
 function World:_trackChanged(metatable, id, old, new)

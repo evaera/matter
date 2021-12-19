@@ -147,6 +147,13 @@ return function()
 				count += 1
 			end
 			expect(count).to.equal(2)
+
+			local withoutCount = 0
+			for _id, _player in world:query(Player):without(Poison) do
+				withoutCount += 1
+			end
+
+			expect(withoutCount).to.equal(1)
 		end)
 
 		it("should allow getting single components", function()

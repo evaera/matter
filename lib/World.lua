@@ -207,20 +207,29 @@ function QueryResult:next()
 end
 
 function QueryResult:without(...)
-	while true do
-		local entityId, entityData = self._next()
+	local metatables = { ... }
+	return function()
+		while true do
+			local entityId, entityData = self._next()
 
-		if not entityId then
-			break
-		end
+			if not entityId then
+				break
+			end
 
-		for i = 1, select("#", ...) do
-			if entityData[select(i, ...)] then
+			local skip = false
+			for _, metatable in ipairs(metatables) do
+				if entityData[metatable] then
+					skip = true
+					break
+				end
+			end
+
+			if skip then
 				continue
 			end
-		end
 
-		return self._expand(entityId, entityData)
+			return self._expand(entityId, entityData)
+		end
 	end
 end
 

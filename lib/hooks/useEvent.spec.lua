@@ -10,24 +10,33 @@ return function()
 
 			local event = Instance.new("BindableEvent")
 
+			local a, b, c
 			local shouldCall = true
 			local shouldCount = 0
 			local fn = function()
 				if shouldCall then
 					local count = 0
-					useEvent(event, event.Event, function()
+					for index, fa, fb, fc in useEvent(event, event.Event) do
+						expect(index).to.equal(count + 1)
 						count += 1
-					end)
+						a = fa
+						b = fb
+						c = fc
+					end
 					expect(count).to.equal(shouldCount)
 				end
 			end
 
 			TopoRuntime.start(node, fn)
 
-			event:Fire()
+			event:Fire(3, 4, 5)
 
 			shouldCount = 1
 			TopoRuntime.start(node, fn)
+
+			expect(a).to.equal(3)
+			expect(b).to.equal(4)
+			expect(c).to.equal(5)
 
 			shouldCount = 3
 
@@ -66,9 +75,9 @@ return function()
 			local shouldCount = 0
 			local fn = function()
 				local count = 0
-				useEvent(event, "Event", function()
+				for _ in useEvent(event, "Event") do
 					count += 1
-				end)
+				end
 				expect(count).to.equal(shouldCount)
 			end
 

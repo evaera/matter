@@ -1,14 +1,14 @@
 local TopoRuntime = require(script.Parent.Parent.TopoRuntime)
+local Queue = require(script.Parent.Parent.Queue)
 
 local function cleanup(storage)
 	storage.connection:Disconnect()
-	table.clear(storage.values)
+	storage.queue = nil
 end
 
-local function useEvent(instance, event, callback)
+local function useEvent(instance, event)
 	assert(instance ~= nil, "Instance is nil")
 	assert(event ~= nil, "Event is nil")
-	assert(callback ~= nil, "Callback is nil")
 
 	local storage = TopoRuntime.useHookState(instance, cleanup)
 
@@ -22,22 +22,27 @@ local function useEvent(instance, event, callback)
 			table.clear(storage)
 		end
 
-		local values = {}
-		storage.values = values
+		local queue = Queue.new()
+		storage.queue = queue
 		storage.event = event
 
 		local connection = event:Connect(function(...)
-			table.insert(values, table.pack(...))
+			queue:pushBack(table.pack(...))
 		end)
 
 		storage.connection = connection
 	end
 
-	for _, args in ipairs(storage.values) do
-		callback(unpack(args, 1, args.n))
-	end
+	local index = 0
+	return function()
+		index += 1
 
-	table.clear(storage.values)
+		local arguments = storage.queue:popFront()
+
+		if arguments then
+			return index, unpack(arguments, 1, arguments.n)
+		end
+	end
 end
 
 return useEvent

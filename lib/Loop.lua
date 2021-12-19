@@ -1,4 +1,3 @@
-local Llama = require(script.Parent.Parent.Llama)
 local TopoRuntime = require(script.Parent.TopoRuntime)
 
 local function systemFn(system: System)

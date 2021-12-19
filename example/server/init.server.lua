@@ -32,7 +32,7 @@ local boundTags = {
 local function spawnBound(instance, component)
 	local id = world:spawn(
 		component(),
-		Components.BoundInstance({
+		Components.Bind({
 			instance = instance,
 		}),
 		Components.Transform({

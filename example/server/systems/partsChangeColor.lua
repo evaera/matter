@@ -5,11 +5,11 @@ local useEvent = Matter.useEvent
 local useThrottle = Matter.useThrottle
 local useDeltaTime = Matter.useDeltaTime
 
-local BoundInstance = Components.BoundInstance
+local Bind = Components.Bind
 
 local function partsChangeColor(world)
-	for entityId, boundInstance in world:query(BoundInstance):without(Components.ColorTween) do
-		useEvent(boundInstance.instance, "Touched", function()
+	for entityId, bind in world:query(Bind):without(Components.ColorTween) do
+		for _ in useEvent(bind.instance, "Touched") do
 			if useThrottle(1, entityId) then
 				world:insert(
 					entityId,
@@ -19,14 +19,22 @@ local function partsChangeColor(world)
 					})
 				)
 			end
-		end)
+		end
 	end
 
-	for entityId, boundInstance, tween in world:query(BoundInstance, Components.ColorTween) do
-		boundInstance.instance.Color = boundInstance.instance.Color:lerp(tween.goal, useDeltaTime() * 2)
+	for entityId, bind, tween in world:query(Bind, Components.ColorTween) do
+		bind.instance.Color = bind.instance.Color:lerp(tween.goal, useDeltaTime() * 2)
 
 		if os.clock() - tween.time >= 1 then
 			world:remove(entityId, Components.ColorTween)
+		end
+	end
+
+	for entityId, tweenRecord, bind in world:queryChanged(Components.ColorTween, Bind) do
+		if tweenRecord.new then
+			bind.instance.Transparency = 0.5
+		else
+			bind.instance.Transparency = 0
 		end
 	end
 end

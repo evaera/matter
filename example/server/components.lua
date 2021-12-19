@@ -3,7 +3,7 @@ local Matter = require(ReplicatedStorage.Matter)
 
 local COMPONENTS = {
 	"Transform",
-	"BoundInstance",
+	"Bind",
 	"Spinner",
 	"ColorTween",
 }

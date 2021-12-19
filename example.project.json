@@ -15,6 +15,9 @@
       "$className": "ServerScriptService",
       "Game": {
         "$path": "example/server"
+      },
+      "ExamplePackages": {
+        "$path": "example/Packages"
       }
     },
     "ReplicatedStorage": {

@@ -1,6 +1,7 @@
 local Llama = require(script.Parent.Parent.Llama)
 local Archetype = require(script.Parent.Archetype)
 local Iterator = require(script.Parent.Iterator)
+local TopoRuntime = require(script.Parent.TopoRuntime)
 
 local archetypeOfDict = Archetype.archetypeOfDict
 local archetypeOf = Archetype.archetypeOf
@@ -46,6 +47,7 @@ function World.new()
 		_queryCache = {},
 		_nextId = 0,
 		_size = 0,
+		_changedStorage = {},
 	}, World)
 end
 
@@ -83,17 +85,35 @@ function World:_transitionArchetype(id, components)
 	local newArchetype
 	local oldArchetype = self._entityArchetypes[id]
 
-	if components then
-		newArchetype = archetypeOfDict(components)
-	end
-
+	local oldComponents
 	if oldArchetype then
+		oldComponents = self._archetypes[oldArchetype][id]
 		self._archetypes[oldArchetype][id] = nil
 
 		-- Keep archetypes around because they're likely to exist again in the future
-		-- if next(self._archetypes[oldArchetype]) == nil then
-		-- 	self._archetypes[oldArchetype] = nil
-		-- end
+	end
+
+	if components then
+		newArchetype = archetypeOfDict(components)
+
+		for metatable in pairs(components) do
+			local old = oldComponents and oldComponents[metatable]
+			local new = components[metatable]
+
+			if old ~= new then
+				self:_trackChanged(metatable, id, old, new)
+			end
+		end
+	end
+
+	if oldComponents then
+		for metatable in pairs(oldComponents) do
+			if components and components[metatable] then
+				continue
+			end
+
+			self:_trackChanged(metatable, id, oldComponents[metatable], nil)
+		end
 	end
 
 	if newArchetype then
@@ -184,6 +204,48 @@ function World:query(...)
 
 	debug.profileend()
 	return Iterator.fromListOfMaps(listOfMaps, metatables)
+end
+
+function World:queryChanged(metatable, empty)
+	assert(empty == nil, "queryChanged does not take additional parameters")
+
+	local hookState = TopoRuntime.useHookState(metatable)
+
+	if not hookState.storage then
+		if not self._changedStorage[metatable] then
+			self._changedStorage[metatable] = {}
+		end
+
+		local storage = {}
+		hookState.storage = storage
+
+		table.insert(self._changedStorage[metatable], storage)
+	end
+
+	return function()
+		local index, value = next(hookState.storage)
+
+		if index then
+			hookState.storage[index] = nil
+
+			return index, value
+		end
+	end
+end
+
+function World:_trackChanged(metatable, id, old, new)
+	if not self._changedStorage[metatable] then
+		return
+	end
+
+	local record = table.freeze({
+		old = old,
+		new = new,
+	})
+
+	for _, storage in ipairs(self._changedStorage[metatable]) do
+		storage[id] = record
+	end
 end
 
 function World:insert(id, ...)

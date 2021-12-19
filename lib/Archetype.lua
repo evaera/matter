@@ -13,11 +13,16 @@ local function getValueId(value)
 	return valueIds[value]
 end
 
--- Potential optimization: Take ownership of values table, avoid intermediate table by sorting in-place and
--- having custom concat function
-function archetypeOf(values)
+function archetypeOf(...)
 	debug.profilebegin("archetypeOf")
-	local list = Llama.List.map(values, getValueId)
+
+	local length = select("#", ...)
+	local list = table.create(length)
+
+	for i = 1, length do
+		list[i] = getValueId(select(i, ...))
+	end
+
 	table.sort(list)
 
 	local archetype = table.concat(list, "_")
@@ -27,7 +32,7 @@ function archetypeOf(values)
 end
 
 function archetypeOfDict(dict)
-	return archetypeOf(Llama.Dictionary.keys(dict))
+	return archetypeOf(unpack(Llama.Dictionary.keys(dict)))
 end
 
 function areArchetypesCompatible(queryArchetype, targetArchetype)

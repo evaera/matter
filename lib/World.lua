@@ -200,7 +200,7 @@ function World:query(...)
 	debug.profilebegin("World:query")
 	local metatables = { ... }
 
-	local listOfMaps = self:_getListOfCompatibleMaps(archetypeOf(metatables))
+	local listOfMaps = self:_getListOfCompatibleMaps(archetypeOf(...))
 
 	debug.profileend()
 	return Iterator.fromListOfMaps(listOfMaps, metatables)

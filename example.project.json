@@ -2,14 +2,15 @@
   "name": "matter example game",
   "tree": {
     "$className": "DataModel",
-    "HttpService": {
-      "$className": "HttpService",
-      "$properties": {
-        "HttpEnabled": {
-          "Type": "Bool",
-          "Value": true
-        }
+    "Workspace": {
+      "$className": "Workspace",
+      "Terrain": {
+        "$path": "example/terrain.rbxm"
       }
+    },
+    "Lighting": {
+      "$className": "Lighting",
+      "$path": "example/lighting.rbxm"
     },
     "ServerScriptService": {
       "$className": "ServerScriptService",
@@ -23,6 +24,9 @@
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
       "$path": "Packages",
+      "Assets": {
+        "$path": "example/assets.rbxm"
+      },
       "Matter": {
         "$path": "lib"
       }

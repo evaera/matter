@@ -2,10 +2,14 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Matter = require(ReplicatedStorage.Matter)
 
 local COMPONENTS = {
+	"Roomba",
+	"Model",
+	"Charge",
+	"Health",
+	"Target",
 	"Transform",
-	"Bind",
-	"Spinner",
-	"ColorTween",
+	"Mothership",
+	"Lasering",
 }
 
 local components = {}

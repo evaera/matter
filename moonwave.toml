@@ -1,2 +1,16 @@
+# apiCategories = ["hooks", "utilities", "style", "widgets"]
+gitSourceBranch = "main"
+
 [docusaurus]
-url = "https://docs.upliftgames.cloud"
+url = "https://eryn.io"
+tagline = "A modern ECS library for Roblox"
+
+[[navbar.items]]
+href = "https://discord.gg/aQwDAYhqtJ"
+label = "Roblox Open Source Discord"
+position = "right"
+
+[home]
+enabled = true
+includeReadme = false
+

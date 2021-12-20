@@ -269,7 +269,7 @@ function World:query(...)
 	local function nextItem()
 		local entityId, entityData = next(compatibleStorages[storageIndex], last)
 
-		if entityId == nil then
+		while entityId == nil do
 			storageIndex += 1
 
 			if compatibleStorages[storageIndex] == nil then

@@ -133,7 +133,11 @@ function Loop:_sortSystems()
 	end
 end
 
-function Loop:begin(events)
+function Loop:begin(events, middleware)
+	middleware = middleware or function(nextFn)
+		nextFn()
+	end
+
 	local connections = {}
 
 	for eventName, event in pairs(events) do
@@ -152,20 +156,22 @@ function Loop:begin(events)
 
 			generation = not generation
 
-			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
-				TopoRuntime.start({
-					system = self._systemState[system],
-					frame = {
-						generation = generation,
-						deltaTime = deltaTime,
-					},
-				}, function()
-					local fn = systemFn(system)
-					debug.profilebegin("system: " .. systemName(system))
-					fn(unpack(self._state, 1, self._stateLength))
-					debug.profileend()
-				end)
-			end
+			middleware(function()
+				for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
+					TopoRuntime.start({
+						system = self._systemState[system],
+						frame = {
+							generation = generation,
+							deltaTime = deltaTime,
+						},
+					}, function()
+						local fn = systemFn(system)
+						debug.profilebegin("system: " .. systemName(system))
+						fn(unpack(self._state, 1, self._stateLength))
+						debug.profileend()
+					end)
+				end
+			end)
 		end)
 	end
 

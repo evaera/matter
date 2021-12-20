@@ -46,10 +46,10 @@ local function spawnMotherships(world)
 			else
 				world:insert(
 					id,
-					Components.Mothership(Matter.merge(mothership, {
+					mothership:patch({
 						goal = mothership.nextGoal,
 						lasered = true,
-					})),
+					}),
 					Components.Lasering({
 						expireTime = os.clock() + 1,
 					})

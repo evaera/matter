@@ -20,7 +20,7 @@ local function mothershipsSpawnRoombas(world)
 				})
 			)
 
-			world:insert(id, Components.Lasering(Matter.merge(lasering, { spawned = true })))
+			world:insert(id, lasering:patch({ spawned = true }))
 		end
 
 		if os.clock() > lasering.expireTime then

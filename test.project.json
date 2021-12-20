@@ -2,15 +2,6 @@
   "name": "matter",
   "tree": {
     "$className": "DataModel",
-    "HttpService": {
-      "$className": "HttpService",
-      "$properties": {
-        "HttpEnabled": {
-          "Type": "Bool",
-          "Value": true
-        }
-      }
-    },
     "StarterPlayer": {
       "$className": "StarterPlayer",
       "StarterPlayerScripts": {

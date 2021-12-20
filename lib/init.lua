@@ -16,4 +16,5 @@ return {
 	useThrottle = require(script.hooks.useThrottle),
 
 	merge = Llama.Dictionary.merge,
+	None = Llama.None,
 }

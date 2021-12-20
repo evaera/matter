@@ -48,7 +48,7 @@ end
 local contiguousComponents = Llama.Dictionary.values(components)
 local systemComponentsToQuery = {}
 
-for _ = 1, 200 do -- 200 systems
+for _ = 1, 2000 do -- 200 systems
 	local numComponentsToQuery = math.random(1, 10)
 	local componentsToQuery = {}
 
@@ -69,10 +69,17 @@ RunService.Heartbeat:Connect(function()
 		return
 	end
 	local systemStartTime = os.clock()
+	debug.profilebegin("systems")
 	for _, componentsToQuery in ipairs(systemComponentsToQuery) do
-		for entityId, entityData in world:query(unpack(componentsToQuery)) do
+		debug.profilebegin("system")
+		local query = world:query(unpack(componentsToQuery))
+		debug.profilebegin("loop")
+		for entityId, entityData in query do
 		end
+		debug.profileend()
+		debug.profileend()
 	end
+	debug.profileend()
 
 	if results == nil then
 		return

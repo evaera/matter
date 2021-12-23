@@ -51,7 +51,7 @@ local function spawnMotherships(world)
 						lasered = true,
 					}),
 					Components.Lasering({
-						expireTime = os.clock() + 1,
+						remainingTime = 1,
 					})
 				)
 			end

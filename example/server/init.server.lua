@@ -22,12 +22,16 @@ loop:scheduleSystems(systems)
 
 local plasmaNode = Plasma.new(workspace)
 
+loop:addMiddleware(function(nextFn)
+	return function()
+		Plasma.start(plasmaNode, nextFn)
+	end
+end)
+
 loop:begin({
 	default = RunService.Heartbeat,
 	RenderStepped = RunService.RenderStepped,
-}, function(nextFn)
-	Plasma.start(plasmaNode, nextFn)
-end)
+})
 
 local boundTags = {
 	Spinner = Components.Spinner,

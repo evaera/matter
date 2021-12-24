@@ -109,5 +109,36 @@ return function()
 
 			connection.default:Disconnect()
 		end)
+
+		it("should call middleware", function()
+			local loop = Loop.new(1, 2, 3)
+
+			local called = {}
+			loop:addMiddleware(function(nextFn)
+				return function()
+					table.insert(called, 2)
+					nextFn()
+				end
+			end)
+			loop:addMiddleware(function(nextFn)
+				return function()
+					table.insert(called, 1)
+					nextFn()
+				end
+			end)
+
+			loop:scheduleSystem(function()
+				table.insert(called, 3)
+			end)
+
+			loop:begin({ default = bindable.Event })
+
+			expect(#called).to.equal(0)
+			bindable:Fire()
+			expect(#called).to.equal(3)
+			expect(called[1]).to.equal(1)
+			expect(called[2]).to.equal(2)
+			expect(called[3]).to.equal(3)
+		end)
 	end)
 end

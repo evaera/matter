@@ -1,5 +1,8 @@
 local TopoRuntime = require(script.Parent.TopoRuntime)
 
+local recentErrors = {}
+local recentErrorLastTime = 0
+
 local function systemFn(system: System)
 	if type(system) == "table" then
 		return system.system
@@ -31,6 +34,7 @@ function Loop.new(...)
 		_state = { ... },
 		_stateLength = select("#", ...),
 		_systemState = {},
+		_middlewares = {},
 	}, Loop)
 end
 
@@ -133,11 +137,11 @@ function Loop:_sortSystems()
 	end
 end
 
-function Loop:begin(events, middleware)
-	middleware = middleware or function(nextFn)
-		nextFn()
-	end
+function Loop:addMiddleware(fn: (() -> ()) -> () -> ())
+	table.insert(self._middlewares, fn)
+end
 
+function Loop:begin(events)
 	local connections = {}
 
 	for eventName, event in pairs(events) do
@@ -148,31 +152,94 @@ function Loop:begin(events, middleware)
 
 		local lastTime = os.clock()
 		local generation = false
+		local lastSystem = nil
 
-		connections[eventName] = event:Connect(function()
+		local function stepSystems()
 			local currentTime = os.clock()
 			local deltaTime = currentTime - lastTime
 			lastTime = currentTime
 
 			generation = not generation
 
-			middleware(function()
-				for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
-					TopoRuntime.start({
-						system = self._systemState[system],
-						frame = {
-							generation = generation,
-							deltaTime = deltaTime,
-						},
-					}, function()
-						local fn = systemFn(system)
-						debug.profilebegin("system: " .. systemName(system))
-						fn(unpack(self._state, 1, self._stateLength))
-						debug.profileend()
-					end)
+			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
+				TopoRuntime.start({
+					system = self._systemState[system],
+					frame = {
+						generation = generation,
+						deltaTime = deltaTime,
+					},
+				}, function()
+					lastSystem = system
+
+					local fn = systemFn(system)
+					debug.profilebegin("system: " .. systemName(system))
+
+					local success, errorValue = xpcall(fn, debug.traceback, unpack(self._state, 1, self._stateLength))
+
+					if not success then
+						if os.clock() - recentErrorLastTime > 10 then
+							recentErrorLastTime = os.clock()
+							recentErrors = {}
+						end
+
+						local errorString = systemName(system) .. ": " .. tostring(errorValue)
+
+						if not recentErrors[errorString] then
+							task.spawn(error, errorString)
+							warn("Matter: The above error will be suppressed for the next 10 seconds")
+							recentErrors[errorString] = true
+						end
+					end
+
+					debug.profileend()
+				end)
+			end
+		end
+
+		local runningThread = nil
+
+		local function coroutineMiddleware(nextFn)
+			return function()
+				if runningThread then
+					coroutine.close(runningThread)
+
+					task.spawn(
+						error,
+						(
+							"Matter: System %s yielded last frame and prevented systems after it from running. "
+							.. "The thread has now been closed. Please do not yield in your systems."
+						):format(systemName(lastSystem[eventName]))
+					)
 				end
-			end)
-		end)
+
+				runningThread = coroutine.create(function()
+					nextFn()
+
+					lastSystem = nil
+					runningThread = nil
+				end)
+
+				task.spawn(runningThread)
+			end
+		end
+
+		stepSystems = coroutineMiddleware(stepSystems)
+
+		for _, middleware in ipairs(self._middlewares) do
+			stepSystems = middleware(stepSystems)
+
+			if type(stepSystems) ~= "function" then
+				error(
+					("Middleware function %s:%s returned %s instead of a function"):format(
+						debug.info(middleware, "s"),
+						debug.info(middleware, "l"),
+						typeof(stepSystems)
+					)
+				)
+			end
+		end
+
+		connections[eventName] = event:Connect(stepSystems)
 	end
 
 	return connections

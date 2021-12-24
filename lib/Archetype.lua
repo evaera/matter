@@ -66,13 +66,3 @@ return {
 	archetypeOfDict = archetypeOfDict,
 	areArchetypesCompatible = areArchetypesCompatible,
 }
-
---[[
-	local listOfMaps = {}
-
-	for targetArchetype, map in pairs(self._archetypes) do
-		if areArchetypesCompatible(query, targetArchetype) then
-			table.insert(listOfMaps, map)
-		end
-	end
-]]

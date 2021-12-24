@@ -48,7 +48,7 @@ end
 local contiguousComponents = Llama.Dictionary.values(components)
 local systemComponentsToQuery = {}
 
-for _ = 1, 2000 do -- 200 systems
+for _ = 1, 200 do -- 200 systems
 	local numComponentsToQuery = math.random(1, 10)
 	local componentsToQuery = {}
 

@@ -1,4 +1,4 @@
-# apiCategories = ["hooks", "utilities", "style", "widgets"]
+classOrder = ["Matter", "World", "QueryResult", "Loop"]
 gitSourceBranch = "main"
 
 [docusaurus]

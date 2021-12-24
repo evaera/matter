@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="generator" content="Docusaurus v2.0.0-beta.9">
+<title data-react-helmet="true">QueryResult | matter</title><meta data-react-helmet="true" property="og:title" content="QueryResult | matter"><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="description" content="A result from the [`World:query`](/api/World#query) function.
+
+Calling the table or the `next` method allows iteration over the results. Once all results have been returned, the
+QueryResult is exhausted and is no longer useful.
+
+```lua
+for id, enemy, charge, model in world:query(Enemy, Charge, Model) do
+	-- Do something
+end
+```"><meta data-react-helmet="true" property="og:description" content="A result from the [`World:query`](/api/World#query) function.
+
+Calling the table or the `next` method allows iteration over the results. Once all results have been returned, the
+QueryResult is exhausted and is no longer useful.
+
+```lua
+for id, enemy, charge, model in world:query(Enemy, Charge, Model) do
+	-- Do something
+end
+```"><meta data-react-helmet="true" property="og:url" content="https://eryn.io/matter/api/QueryResult"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="canonical" href="https://eryn.io/matter/api/QueryResult"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/QueryResult" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/QueryResult" hreflang="x-default"><link rel="stylesheet" href="/matter/assets/css/styles.ea555ebc.css">
+<link rel="preload" href="/matter/assets/js/runtime~main.e86ed830.js" as="script">
+<link rel="preload" href="/matter/assets/js/main.813414f1.js" as="script">
+</head>
+<body>
+<script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
+<div><a href="#" class="skipToContent_1oUP">Skip to main content</a></div><nav class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Navigation bar toggle" class="navbar__toggle clean-btn" type="button" tabindex="0"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/matter/"><b class="navbar__title">matter</b></a><a class="navbar__item navbar__link" href="/matter/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/matter/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://discord.gg/aQwDAYhqtJ" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link"><span>Roblox Open Source Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_3J9K"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></span></a><a href="https://github.com/evaera/matter" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link"><span>GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_3J9K"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></span></a><div class="toggle_71bT toggle_3Zt9 toggleDisabled_3cF-"><div class="toggleTrack_32Fl" role="button" tabindex="-1"><div class="toggleTrackCheck_3lV7"><span class="toggleIcon_O4iE">🌜</span></div><div class="toggleTrackX_S2yS"><span class="toggleIcon_O4iE">🌞</span></div><div class="toggleTrackThumb_xI_Z"></div></div><input type="checkbox" class="toggleScreenReader_28Tw" aria-label="Switch between dark and light mode"></div><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input type="search" id="search_input_react" placeholder="Press S to Search..." aria-label="Search" class="navbar__search-input search-bar"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div class="main-wrapper docPageContainer_3ccu"><div class="docPage_8QDt"><div class="docSidebarContainer_1Ern"><div class="sidebar_15mo"><nav class="menu thin-scrollbar menu_Bmed"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Matter">​Matter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/World">​World</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/matter/api/QueryResult">​Query​Result</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Loop">​Loop</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Component">​Component</a></li></ul></nav><button type="button" title="Collapse sidebar" aria-label="Collapse sidebar" class="button button--secondary button--outline collapseSidebarButton_1CGd"><svg width="20" height="20" aria-hidden="true" class="collapseSidebarButtonIcon_3E-R"><g fill="#7a7a7a"><path d="M9.992 10.023c0 .2-.062.399-.172.547l-4.996 7.492a.982.982 0 01-.828.454H1c-.55 0-1-.453-1-1 0-.2.059-.403.168-.551l4.629-6.942L.168 3.078A.939.939 0 010 2.528c0-.548.45-.997 1-.997h2.996c.352 0 .649.18.828.45L9.82 9.472c.11.148.172.347.172.55zm0 0"></path><path d="M19.98 10.023c0 .2-.058.399-.168.547l-4.996 7.492a.987.987 0 01-.828.454h-3c-.547 0-.996-.453-.996-1 0-.2.059-.403.168-.551l4.625-6.942-4.625-6.945a.939.939 0 01-.168-.55 1 1 0 01.996-.997h3c.348 0 .649.18.828.45l4.996 7.492c.11.148.168.347.168.55zm0 0"></path></g></svg></button></div></div><main class="docMainContainer_27Zo"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_N2vh"><div class="docItemContainer_3H03"><article><div class="member_2635 markdown"><div class="tocCollapsible_1PrD theme-doc-toc-mobile tocMobile_30Sy"><button type="button" class="clean-btn tocCollapsibleButton_2O1e">On this page</button></div><header><h1 class="docTitle_GF7h" style="text-decoration:none"><span style="display:inline-block">Query</span><span style="display:inline-block">Result</span></h1><div class="luaClassTags_Ddhq"></div><div>
+<p>A result from the <a href="/matter/api/World#query"><code>World:query</code></a> function.</p>
+<p>
+  Calling the table or the <code>next</code> method allows iteration over the results. Once all results have been returned, the
+  QueryResult is exhausted and is no longer useful.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">for</span> id<span class="token punctuation">,</span> enemy<span class="token punctuation">,</span> charge<span class="token punctuation">,</span> model <span class="token keyword">in</span> world<span class="token punctuation">:</span><span class="token function">query</span><span class="token punctuation">(</span>Enemy<span class="token punctuation">,</span> Charge<span class="token punctuation">,</span> Model<span class="token punctuation">)</span> <span class="token keyword">do</span>
+	<span class="token comment">-- Do something</span>
+<span class="token keyword">end</span>
+</code></pre>
+</div></header><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="next"><code style="text-decoration:none">next</code><a aria-hidden="true" class="hash-link" href="#next" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L298"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>QueryResult<!-- -->:</code><code class="green_K7bQ">next</code><code>(</code><code>) → </code><code>(</code><div class="inset_2aGl"><div><code class="blue_1B1Q">id</code><code>,</code><span class="inlineDescription_30X9">-- <span>
+<p>Entity ID</p>
+</span></span></div><div><code class="blue_1B1Q"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">...ComponentInstance</a></code><span class="inlineDescription_30X9">-- <span>
+<p>The requested component values</p>
+</span></span></div></div><code>)</code></div><div>
+<p>
+  Returns the next set of values from the query result. Once all results have been returned, the
+  QueryResult is exhausted and is no longer useful.
+</p>
+<div class="admonition admonition-info alert alert--info">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16">
+          <path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
+        </svg></span>info</h5>
+  </div>
+  <div class="admonition-content">
+    <p>
+      This function is equivalent to calling the QueryResult as a function. When used in a for loop, this is implicitly
+      done by the language itself.
+    </p>
+  </div>
+</div>
+<pre class="language-lua"><code class="language-lua"><span class="token comment">-- Using world:query in this position will make Lua invoke the table as a function. This is conventional.</span>
+<span class="token keyword">for</span> id<span class="token punctuation">,</span> enemy<span class="token punctuation">,</span> charge<span class="token punctuation">,</span> model <span class="token keyword">in</span> world<span class="token punctuation">:</span><span class="token function">query</span><span class="token punctuation">(</span>Enemy<span class="token punctuation">,</span> Charge<span class="token punctuation">,</span> Model<span class="token punctuation">)</span> <span class="token keyword">do</span>
+	<span class="token comment">-- Do something</span>
+<span class="token keyword">end</span>
+</code></pre>
+<p>
+  If you wanted to iterate over the QueryResult without a for loop, it's recommended that you call <code>next</code> directly
+  instead of calling the QueryResult as a function.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> id<span class="token punctuation">,</span> enemy<span class="token punctuation">,</span> charge<span class="token punctuation">,</span> model <span class="token operator">=</span> world<span class="token punctuation">:</span><span class="token function">query</span><span class="token punctuation">(</span>Enemy<span class="token punctuation">,</span> Charge<span class="token punctuation">,</span> Model<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">local</span> id<span class="token punctuation">,</span> enemy<span class="token punctuation">,</span> charge<span class="token punctuation">,</span> model <span class="token operator">=</span> world<span class="token punctuation">:</span><span class="token function">query</span><span class="token punctuation">(</span>Enemy<span class="token punctuation">,</span> Charge<span class="token punctuation">,</span> Model<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">-- Possible, but unconventional</span>
+</code></pre>
+</div><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="without"><code style="text-decoration:none">without</code><a aria-hidden="true" class="hash-link" href="#without" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L322"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>QueryResult<!-- -->:</code><code class="green_K7bQ">without</code><code>(</code><div class="inset_2aGl"><div><code>...<!-- -->: </code><code class="blue_1B1Q"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_30X9">-- <span>
+<p>The component types to filter against.</p>
+</span></span></div></div><code>) → </code><code class="green_K7bQ">(</code><code class="green_K7bQ">)</code><code class="green_K7bQ"> → </code><code class="green_K7bQ">(</code><div class="inset_2aGl"><code class="blue_1B1Q">id</code><code class="green_K7bQ">,</code></div><div class="inset_2aGl"><code class="blue_1B1Q"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">...ComponentInstance</a></code></div><code class="green_K7bQ">)</code><span class="inlineDescription_30X9">-- <span>
+<p>Iterator of entity ID followed by the requested component values</p>
+</span></span></div><div>
+<p>Returns an iterator that will skip any entities that also have the given components.</p>
+<div class="admonition admonition-tip alert alert--success">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16">
+          <path d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path>
+        </svg></span>tip</h5>
+  </div>
+  <div class="admonition-content">
+    <p>
+      This is essentially equivalent to querying normally, using <code>World:get</code> to check if a component is present,
+      and using Lua's <code>continue</code> keyword to skip this iteration (though, using <code>:without</code> is faster).
+    </p>
+    <p>
+      This means that you should avoid queries that return a very large amount of results only to filter them down
+      to a few with <code>:without</code>. If you can, always prefer adding components and making your query more specific.
+    </p>
+  </div>
+</div>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">for</span> id <span class="token keyword">in</span> world<span class="token punctuation">:</span><span class="token function">query</span><span class="token punctuation">(</span>Target<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">without</span><span class="token punctuation">(</span>Model<span class="token punctuation">)</span> <span class="token keyword">do</span>
+	<span class="token comment">-- Do something</span>
+<span class="token keyword">end</span>
+</code></pre>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;next&quot;,
+            &quot;desc&quot;: &quot;Returns the next set of values from the query result. Once all results have been returned, the\nQueryResult is exhausted and is no longer useful.\n\n:::info\nThis function is equivalent to calling the QueryResult as a function. When used in a for loop, this is implicitly\ndone by the language itself.\n:::\n\n```lua\n-- Using world:query in this position will make Lua invoke the table as a function. This is conventional.\nfor id, enemy, charge, model in world:query(Enemy, Charge, Model) do\n\t-- Do something\nend\n```\n\nIf you wanted to iterate over the QueryResult without a for loop, it&#x27;s recommended that you call `next` directly\ninstead of calling the QueryResult as a function.\n```lua\nlocal id, enemy, charge, model = world:query(Enemy, Charge, Model):next()\nlocal id, enemy, charge, model = world:query(Enemy, Charge, Model)() -- Possible, but unconventional\n```&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Entity ID&quot;,
+                    &quot;lua_type&quot;: &quot;id&quot;
+                },
+                {
+                    &quot;desc&quot;: &quot;The requested component values&quot;,
+                    &quot;lua_type&quot;: &quot;...ComponentInstance&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 298,
+                &quot;path&quot;: &quot;lib/World.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;without&quot;,
+            &quot;desc&quot;: &quot;Returns an iterator that will skip any entities that also have the given components.\n\n:::tip\nThis is essentially equivalent to querying normally, using `World:get` to check if a component is present,\nand using Lua&#x27;s `continue` keyword to skip this iteration (though, using `:without` is faster).\n\nThis means that you should avoid queries that return a very large amount of results only to filter them down\nto a few with `:without`. If you can, always prefer adding components and making your query more specific.\n:::\n\n\n```lua\nfor id in world:query(Target):without(Model) do\n\t-- Do something\nend\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;...&quot;,
+                    &quot;desc&quot;: &quot;The component types to filter against.&quot;,
+                    &quot;lua_type&quot;: &quot;Component&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Iterator of entity ID followed by the requested component values&quot;,
+                    &quot;lua_type&quot;: &quot;() -&gt; (id, ...ComponentInstance)&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;method&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 322,
+                &quot;path&quot;: &quot;lib/World.lua&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;QueryResult&quot;,
+    &quot;desc&quot;: &quot;A result from the [`World:query`](/api/World#query) function.\n\nCalling the table or the `next` method allows iteration over the results. Once all results have been returned, the\nQueryResult is exhausted and is no longer useful.\n\n```lua\nfor id, enemy, charge, model in world:query(Enemy, Charge, Model) do\n\t-- Do something\nend\n```&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 265,
+        &quot;path&quot;: &quot;lib/World.lua&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#next" class="table-of-contents__link toc-highlight">:next</a></li><li><a href="#without" class="table-of-contents__link toc-highlight">:without</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2021 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/matter/assets/js/runtime~main.e86ed830.js"></script>
+<script src="/matter/assets/js/main.813414f1.js"></script>
+</body>
+</html>

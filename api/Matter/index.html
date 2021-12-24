@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="generator" content="Docusaurus v2.0.0-beta.9">
+<title data-react-helmet="true">Matter | matter</title><meta data-react-helmet="true" property="og:title" content="Matter | matter"><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="description" content="Matter. It&#x27;s what everything is made out of."><meta data-react-helmet="true" property="og:description" content="Matter. It&#x27;s what everything is made out of."><meta data-react-helmet="true" property="og:url" content="https://eryn.io/matter/api/Matter"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="canonical" href="https://eryn.io/matter/api/Matter"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/Matter" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/Matter" hreflang="x-default"><link rel="stylesheet" href="/matter/assets/css/styles.ea555ebc.css">
+<link rel="preload" href="/matter/assets/js/runtime~main.e86ed830.js" as="script">
+<link rel="preload" href="/matter/assets/js/main.813414f1.js" as="script">
+</head>
+<body>
+<script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
+<div><a href="#" class="skipToContent_1oUP">Skip to main content</a></div><nav class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Navigation bar toggle" class="navbar__toggle clean-btn" type="button" tabindex="0"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/matter/"><b class="navbar__title">matter</b></a><a class="navbar__item navbar__link" href="/matter/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/matter/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://discord.gg/aQwDAYhqtJ" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link"><span>Roblox Open Source Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_3J9K"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></span></a><a href="https://github.com/evaera/matter" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link"><span>GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_3J9K"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></span></a><div class="toggle_71bT toggle_3Zt9 toggleDisabled_3cF-"><div class="toggleTrack_32Fl" role="button" tabindex="-1"><div class="toggleTrackCheck_3lV7"><span class="toggleIcon_O4iE">🌜</span></div><div class="toggleTrackX_S2yS"><span class="toggleIcon_O4iE">🌞</span></div><div class="toggleTrackThumb_xI_Z"></div></div><input type="checkbox" class="toggleScreenReader_28Tw" aria-label="Switch between dark and light mode"></div><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input type="search" id="search_input_react" placeholder="Press S to Search..." aria-label="Search" class="navbar__search-input search-bar"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div class="main-wrapper docPageContainer_3ccu"><div class="docPage_8QDt"><div class="docSidebarContainer_1Ern"><div class="sidebar_15mo"><nav class="menu thin-scrollbar menu_Bmed"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/matter/api/Matter">​Matter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/World">​World</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/QueryResult">​Query​Result</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Loop">​Loop</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Component">​Component</a></li></ul></nav><button type="button" title="Collapse sidebar" aria-label="Collapse sidebar" class="button button--secondary button--outline collapseSidebarButton_1CGd"><svg width="20" height="20" aria-hidden="true" class="collapseSidebarButtonIcon_3E-R"><g fill="#7a7a7a"><path d="M9.992 10.023c0 .2-.062.399-.172.547l-4.996 7.492a.982.982 0 01-.828.454H1c-.55 0-1-.453-1-1 0-.2.059-.403.168-.551l4.629-6.942L.168 3.078A.939.939 0 010 2.528c0-.548.45-.997 1-.997h2.996c.352 0 .649.18.828.45L9.82 9.472c.11.148.172.347.172.55zm0 0"></path><path d="M19.98 10.023c0 .2-.058.399-.168.547l-4.996 7.492a.987.987 0 01-.828.454h-3c-.547 0-.996-.453-.996-1 0-.2.059-.403.168-.551l4.625-6.942-4.625-6.945a.939.939 0 01-.168-.55 1 1 0 01.996-.997h3c.348 0 .649.18.828.45l4.996 7.492c.11.148.168.347.168.55zm0 0"></path></g></svg></button></div></div><main class="docMainContainer_27Zo"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_N2vh"><div class="docItemContainer_3H03"><article><div class="member_2635 markdown"><div class="tocCollapsible_1PrD theme-doc-toc-mobile tocMobile_30Sy"><button type="button" class="clean-btn tocCollapsibleButton_2O1e">On this page</button></div><header><h1 class="docTitle_GF7h" style="text-decoration:none"><span style="display:inline-block">Matter</span></h1><div class="luaClassTags_Ddhq"></div><div>
+<p>Matter. It's what everything is made out of.</p>
+</div></header><h2 class="anchor anchorWithStickyNavbar_31ik" id="properties">Properties<a aria-hidden="true" class="hash-link" href="#properties" title="Direct link to heading">​</a></h2><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="World"><code style="text-decoration:none">World</code><a aria-hidden="true" class="hash-link" href="#World" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/init.lua#L11"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>Matter<!-- -->.<!-- -->World<!-- -->:<!-- --> </code> <code class="blue_1B1Q"><a style="text-decoration:underline;color:inherit" href="/matter/api/World">World</a></code></div><div></div><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Loop"><code style="text-decoration:none">Loop</code><a aria-hidden="true" class="hash-link" href="#Loop" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/init.lua#L16"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>Matter<!-- -->.<!-- -->Loop<!-- -->:<!-- --> </code> <code class="blue_1B1Q"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop">Loop</a></code></div><div></div><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="None"><code style="text-decoration:none">None</code><a aria-hidden="true" class="hash-link" href="#None" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/init.lua#L25"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>Matter<!-- -->.<!-- -->None<!-- -->:<!-- --> </code> <code class="blue_1B1Q">None</code></div><div>
+<p>A value should be interpreted as nil when merging dictionaries.</p>
+<p><code>Matter.None</code> is used by <a href="/matter/api/Component#patch"><code>Component:patch</code></a>.</p>
+</div><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="useDeltaTime"><code style="text-decoration:none">useDeltaTime</code><a aria-hidden="true" class="hash-link" href="#useDeltaTime" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/hooks/useDeltaTime.lua#L13"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>Matter<!-- -->.</code><code class="green_K7bQ">useDeltaTime</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+<div class="admonition admonition-info alert alert--info">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16">
+          <path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
+        </svg></span>Topologically-aware function</h5>
+  </div>
+  <div class="admonition-content">
+    <p>This function is only usable if called within the context of <a href="/matter/api/Loop#begin"><code>Loop:begin</code></a>.</p>
+  </div>
+</div>
+<p>Returns the <code>os.clock()</code> time delta between the start of this and last frame.</p>
+</div><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="useEvent"><code style="text-decoration:none">useEvent</code><a aria-hidden="true" class="hash-link" href="#useEvent" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/hooks/useEvent.lua#L75"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>Matter<!-- -->.</code><code class="green_K7bQ">useEvent</code><code>(</code><div class="inset_2aGl"><div><code>instance<!-- -->: </code><code class="blue_1B1Q"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code><span class="inlineDescription_30X9">-- <span>
+<p>The instance that has the event you want to connect to</p>
+</span></span></div><div><code>event<!-- -->: </code><code class="blue_1B1Q">string</code><code class="op_EBMF"> | </code><code class="blue_1B1Q"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptSignal" target="_blank" rel="noopener noreferrer">RBXScriptSignal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><span class="inlineDescription_30X9">-- <span>
+<p>The name of or actual event that you want to connect to</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<div class="admonition admonition-info alert alert--info">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16">
+          <path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
+        </svg></span>Topologically-aware function</h5>
+  </div>
+  <div class="admonition-content">
+    <p>This function is only usable if called within the context of <a href="/matter/api/Loop#begin"><code>Loop:begin</code></a>.</p>
+  </div>
+</div>
+<p>Collects events that fire during the frame and allows iteration over event arguments.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">for</span> _<span class="token punctuation">,</span> player <span class="token keyword">in</span> <span class="token function">ipairs</span><span class="token punctuation">(</span>Players<span class="token punctuation">:</span><span class="token function">GetPlayers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">do</span>
+	<span class="token keyword">for</span> i<span class="token punctuation">,</span> character <span class="token keyword">in</span> <span class="token function">useEvent</span><span class="token punctuation">(</span>player<span class="token punctuation">,</span> <span class="token string">"CharacterAdded"</span><span class="token punctuation">)</span> <span class="token keyword">do</span>
+		world<span class="token punctuation">:</span><span class="token function">spawn</span><span class="token punctuation">(</span>
+			Components<span class="token punctuation">.</span><span class="token function">Target</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+			Components<span class="token punctuation">.</span><span class="token function">Model</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+				model <span class="token operator">=</span> character<span class="token punctuation">,</span>
+			<span class="token punctuation">}</span><span class="token punctuation">)</span>
+		<span class="token punctuation">)</span>
+	<span class="token keyword">end</span>
+<span class="token keyword">end</span>
+</code></pre>
+<p>
+  Returns an iterator function that returns an ever-increasing number, starting at 1, followed by any event arguments
+  from the specified event.
+</p>
+<p>Events are returned in the order that they were fired.</p>
+<div class="admonition admonition-caution alert alert--warning">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+          <path d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path>
+        </svg></span>caution</h5>
+  </div>
+  <div class="admonition-content">
+    <p>
+      <code>useEvent</code> keys storage uniquely identified by <strong>the script and line number</strong> <code>useEvent</code> was called from, and the
+      first parameter (instance). If the second parameter, <code>event</code>, is not equal to the event passed in for this unique
+      storage last frame, the old event is disconnected from and the new one is connected in its place.
+    </p>
+    <p>
+      Tl;dr: on a given line, you should hard-code a single event to connect to. Do not dynamically change the event with
+      a variable. Dynamically changing the first parameter (instance) is fine.
+    </p>
+    <pre class="language-lua"><code class="language-lua"><span class="token keyword">for</span> _<span class="token punctuation">,</span> instance <span class="token keyword">in</span> <span class="token function">pairs</span><span class="token punctuation">(</span>someTable<span class="token punctuation">)</span> <span class="token keyword">do</span>
+	<span class="token keyword">for</span> i<span class="token punctuation">,</span> arg1<span class="token punctuation">,</span> arg2 <span class="token keyword">in</span> <span class="token function">useEvent</span><span class="token punctuation">(</span>instance<span class="token punctuation">,</span> <span class="token string">"Touched"</span><span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token comment">-- This is ok</span>
+
+	<span class="token keyword">end</span>
+<span class="token keyword">end</span>
+
+<span class="token keyword">for</span> _<span class="token punctuation">,</span> instance <span class="token keyword">in</span> <span class="token function">pairs</span><span class="token punctuation">(</span>someTable<span class="token punctuation">)</span> <span class="token keyword">do</span>
+	<span class="token keyword">local</span> event <span class="token operator">=</span> <span class="token function">getEventSomehow</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">for</span> i<span class="token punctuation">,</span> arg1<span class="token punctuation">,</span> arg2 <span class="token keyword">in</span> <span class="token function">useEvent</span><span class="token punctuation">(</span>instance<span class="token punctuation">,</span> event<span class="token punctuation">)</span> <span class="token keyword">do</span> <span class="token comment">-- PANIC! This is NOT OK</span>
+
+	<span class="token keyword">end</span>
+<span class="token keyword">end</span>
+</code></pre>
+  </div>
+</div>
+<p>
+  If <code>useEvent</code> ceases to be called on the same line with the same instance and event, the event connection is
+  disconnected from automatically.
+</p>
+<p>You can also pass the actual event object instead of its name as the second parameter:</p>
+<pre class="language-lua"><code class="language-lua"><span class="token function">useEvent</span><span class="token punctuation">(</span>instance<span class="token punctuation">,</span> instance<span class="token punctuation">.</span>Touched<span class="token punctuation">)</span>
+
+<span class="token function">useEvent</span><span class="token punctuation">(</span>instance<span class="token punctuation">,</span> instance<span class="token punctuation">:</span><span class="token function">GetPropertyChangedSignal</span><span class="token punctuation">(</span><span class="token string">"Name"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="useThrottle"><code style="text-decoration:none">useThrottle</code><a aria-hidden="true" class="hash-link" href="#useThrottle" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/hooks/useThrottle.lua#L39"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>Matter<!-- -->.</code><code class="green_K7bQ">useThrottle</code><code>(</code><div class="inset_2aGl"><div><code>seconds<!-- -->: </code><code class="blue_1B1Q">number</code><code>,</code><span class="inlineDescription_30X9">-- <span>
+<p>The number of seconds to throttle for</p>
+</span></span></div><div><code>discriminator?<!-- -->: </code><code class="blue_1B1Q">any</code><span class="inlineDescription_30X9">-- <span>
+<p>A unique value to additionally key by</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<div class="admonition admonition-info alert alert--info">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16">
+          <path d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path>
+        </svg></span>Topologically-aware function</h5>
+  </div>
+  <div class="admonition-content">
+    <p>This function is only usable if called within the context of <a href="/matter/api/Loop#begin"><code>Loop:begin</code></a>.</p>
+  </div>
+</div>
+<p>Utility for easy time-based throttling.</p>
+<p>
+  Accepts a duration, and returns <code>true</code> if it has been that long since the last time this function returned <code>true</code>.
+  Always returns <code>true</code> the first time.
+</p>
+<p>
+  This function returns unique results keyed by script and line number. Additionally, uniqueness can be keyed by a
+  unique value, which is passed as a second parameter. This is useful when iterating over a query result, as you can
+  throttle doing something to each entity individually.
+</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">if</span> <span class="token function">useThrottle</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">then</span> <span class="token comment">-- Keyed by script and line number only</span>
+	<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"only prints every second"</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+
+<span class="token keyword">for</span> id<span class="token punctuation">,</span> enemy <span class="token keyword">in</span> world<span class="token punctuation">:</span><span class="token function">query</span><span class="token punctuation">(</span>Enemy<span class="token punctuation">)</span> <span class="token keyword">do</span>
+	<span class="token keyword">if</span> <span class="token function">useThrottle</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span> <span class="token keyword">then</span> <span class="token comment">-- Keyed by script, line number, and the entity id</span>
+		<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Recalculate target..."</span><span class="token punctuation">)</span>
+	<span class="token keyword">end</span>
+<span class="token keyword">end</span>
+</code></pre>
+</div><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="component"><code style="text-decoration:none">component</code><a aria-hidden="true" class="hash-link" href="#component" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/init.lua#L44"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>Matter<!-- -->.</code><code class="green_K7bQ">component</code><code>(</code><div class="inset_2aGl"><div><code>name?<!-- -->: </code><code class="blue_1B1Q">string</code><span class="inlineDescription_30X9">-- <span>
+<p>Optional name for debugging purposes</p>
+</span></span></div></div><code>) → </code><code class="blue_1B1Q"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_30X9">-- <span>
+<p>Your new type of component</p>
+</span></span></div><div>
+<p>Creates a new type of component. Call the component as a function to create an instance of that component.</p>
+<pre class="language-lua"><code class="language-lua"><span class="token comment">-- Component:</span>
+<span class="token keyword">local</span> MyComponent <span class="token operator">=</span> Matter<span class="token punctuation">.</span><span class="token function">component</span><span class="token punctuation">(</span><span class="token string">"My component"</span><span class="token punctuation">)</span>
+
+<span class="token comment">-- component instance:</span>
+<span class="token keyword">local</span> myComponentInstance <span class="token operator">=</span> <span class="token function">MyComponent</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	some <span class="token operator">=</span> <span class="token string">"data"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="divider_wJfn"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="useHookState"><code style="text-decoration:none">useHookState</code><a aria-hidden="true" class="hash-link" href="#useHookState" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1YsL"><a class="sourceButton_3Nc5" href="https://github.com/evaera/matter/blob/main/lib/TopoRuntime.lua#L111"><div class="sourceButtonText_B34l">&lt;/&gt;</div></a></div><div class="memberString_2_bn"><code>Matter<!-- -->.</code><code class="green_K7bQ">useHookState</code><code>(</code><div class="inset_2aGl"><div><code>discriminator?<!-- -->: </code><code class="blue_1B1Q">any</code><code>,</code><span class="inlineDescription_30X9">-- <span>
+<p>A unique value to additionally key by</p>
+</span></span></div><div><code>cleanupCallback<!-- -->: </code><code class="green_K7bQ">(</code><code>storage<!-- -->: </code><code class="op_EBMF">{</code><code class="op_EBMF">}</code><code class="green_K7bQ">)</code><code class="green_K7bQ"> → </code><code class="blue_1B1Q">boolean?</code><span class="inlineDescription_30X9">-- <span>
+<p>A function to run when the storage for this hook is cleaned up</p>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<div class="admonition admonition-tip alert alert--success">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16">
+          <path d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path>
+        </svg></span>tip</h5>
+  </div>
+  <div class="admonition-content">
+    <p><strong>Don't use this function directly in your systems.</strong></p>
+    <p>
+      This function is used for implementing your own topologically-aware functions. It should not be used in your
+      systems directly. You should use this function to implement your own utilities, similar to <code>useEvent</code> and
+      <code>useThrottle</code>.
+    </p>
+  </div>
+</div>
+<p>
+  <code>useHookState</code> does one thing: it returns a table. An empty, pristine table. Here's the cool thing though:
+  it always returns the <em>same</em> table, based on the script and line where <em>your function</em> (the function calling
+  <code>useHookState</code>) was called.
+</p>
+<h3>Uniqueness</h3>
+<p>
+  If your function is called multiple times from the same line, perhaps within a loop, the default behavior of
+  <code>useHookState</code> is to uniquely identify these by call count, and will return a unique table for each call.
+</p>
+<p>
+  However, you can override this behavior: you can choose to key by any other value. This means that in addition to
+  script and line number, the storage will also only return the same table if the unique value (otherwise known as the
+  "discriminator") is the same.
+</p>
+<h3>Cleaning up</h3>
+<p>
+  As a second optional parameter, you can pass a function that is automatically invoked when your storage is about
+  to be cleaned up. This happens when your function (and by extension, <code>useHookState</code>) ceases to be called again
+  next frame (keyed by script, line number, and discriminator).
+</p>
+<p>
+  Your cleanup callback is passed the storage table that's about to be cleaned up. You can then perform cleanup work,
+  like disconnecting events.
+</p>
+<p>
+  <em>Or</em>, you could return <code>true</code>, and abort cleaning up altogether. If you abort cleanup, your storage will stick
+  around another frame (even if your function wasn't called again). This can be used when you know that the user will
+  (or might) eventually call your function again, even if they didn't this frame. (For example, caching a value for
+  a number of seconds).
+</p>
+<p>
+  If cleanup is aborted, your cleanup function will continue to be called every frame, until you don't abort cleanup,
+  or the user actually calls your function again.
+</p>
+<h3>Example: useThrottle</h3>
+<p>This is the entire implementation of the built-in <code>useThrottle</code> function:</p>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> <span class="token keyword">function</span> <span class="token function">cleanup</span><span class="token punctuation">(</span>storage<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> os<span class="token punctuation">.</span><span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&#x3C;</span> storage<span class="token punctuation">.</span>expiry
+<span class="token keyword">end</span>
+
+<span class="token keyword">local</span> <span class="token keyword">function</span> <span class="token function">useThrottle</span><span class="token punctuation">(</span>seconds<span class="token punctuation">,</span> discriminator<span class="token punctuation">)</span>
+	<span class="token keyword">local</span> storage <span class="token operator">=</span> <span class="token function">useHookState</span><span class="token punctuation">(</span>discriminator<span class="token punctuation">,</span> cleanup<span class="token punctuation">)</span>
+
+	<span class="token keyword">if</span> storage<span class="token punctuation">.</span>time <span class="token operator">==</span> <span class="token keyword">nil</span> <span class="token keyword">or</span> os<span class="token punctuation">.</span><span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> storage<span class="token punctuation">.</span>time <span class="token operator">>=</span> seconds <span class="token keyword">then</span>
+		storage<span class="token punctuation">.</span>time <span class="token operator">=</span> os<span class="token punctuation">.</span><span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+		storage<span class="token punctuation">.</span>expiry <span class="token operator">=</span> os<span class="token punctuation">.</span><span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> seconds
+		<span class="token keyword">return</span> <span class="token keyword">true</span>
+	<span class="token keyword">end</span>
+
+	<span class="token keyword">return</span> <span class="token keyword">false</span>
+<span class="token keyword">end</span>
+</code></pre>
+<p>A lot of talk for something so simple, right?</p>
+</div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
+    &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;useDeltaTime&quot;,
+            &quot;desc&quot;: &quot;:::info Topologically-aware function\nThis function is only usable if called within the context of [`Loop:begin`](/api/Loop#begin).\n:::\n\nReturns the `os.clock()` time delta between the start of this and last frame.&quot;,
+            &quot;params&quot;: [],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 13,
+                &quot;path&quot;: &quot;lib/hooks/useDeltaTime.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;useEvent&quot;,
+            &quot;desc&quot;: &quot;:::info Topologically-aware function\nThis function is only usable if called within the context of [`Loop:begin`](/api/Loop#begin).\n:::\n\nCollects events that fire during the frame and allows iteration over event arguments.\n\n```lua\nfor _, player in ipairs(Players:GetPlayers()) do\n\tfor i, character in useEvent(player, \&quot;CharacterAdded\&quot;) do\n\t\tworld:spawn(\n\t\t\tComponents.Target(),\n\t\t\tComponents.Model({\n\t\t\t\tmodel = character,\n\t\t\t})\n\t\t)\n\tend\nend\n```\n\nReturns an iterator function that returns an ever-increasing number, starting at 1, followed by any event arguments\nfrom the specified event.\n\nEvents are returned in the order that they were fired.\n\n:::caution\n`useEvent` keys storage uniquely identified by **the script and line number** `useEvent` was called from, and the\nfirst parameter (instance). If the second parameter, `event`, is not equal to the event passed in for this unique\nstorage last frame, the old event is disconnected from and the new one is connected in its place.\n\nTl;dr: on a given line, you should hard-code a single event to connect to. Do not dynamically change the event with\na variable. Dynamically changing the first parameter (instance) is fine.\n\n```lua\nfor _, instance in pairs(someTable) do\n\tfor i, arg1, arg2 in useEvent(instance, \&quot;Touched\&quot;) do -- This is ok\n\n\tend\nend\n\nfor _, instance in pairs(someTable) do\n\tlocal event = getEventSomehow()\n\tfor i, arg1, arg2 in useEvent(instance, event) do -- PANIC! This is NOT OK\n\n\tend\nend\n```\n:::\n\nIf `useEvent` ceases to be called on the same line with the same instance and event, the event connection is\ndisconnected from automatically.\n\nYou can also pass the actual event object instead of its name as the second parameter:\n\n```lua\nuseEvent(instance, instance.Touched)\n\nuseEvent(instance, instance:GetPropertyChangedSignal(\&quot;Name\&quot;))\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;instance&quot;,
+                    &quot;desc&quot;: &quot;The instance that has the event you want to connect to&quot;,
+                    &quot;lua_type&quot;: &quot;Instance&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;event&quot;,
+                    &quot;desc&quot;: &quot;The name of or actual event that you want to connect to&quot;,
+                    &quot;lua_type&quot;: &quot;string | RBXScriptSignal&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 75,
+                &quot;path&quot;: &quot;lib/hooks/useEvent.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;useThrottle&quot;,
+            &quot;desc&quot;: &quot;:::info Topologically-aware function\nThis function is only usable if called within the context of [`Loop:begin`](/api/Loop#begin).\n:::\n\nUtility for easy time-based throttling.\n\nAccepts a duration, and returns `true` if it has been that long since the last time this function returned `true`.\nAlways returns `true` the first time.\n\nThis function returns unique results keyed by script and line number. Additionally, uniqueness can be keyed by a\nunique value, which is passed as a second parameter. This is useful when iterating over a query result, as you can\nthrottle doing something to each entity individually.\n\n```lua\nif useThrottle(1) then -- Keyed by script and line number only\n\tprint(\&quot;only prints every second\&quot;)\nend\n\nfor id, enemy in world:query(Enemy) do\n\tif useThrottle(5, id) then -- Keyed by script, line number, and the entity id\n\t\tprint(\&quot;Recalculate target...\&quot;)\n\tend\nend\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;seconds&quot;,
+                    &quot;desc&quot;: &quot;The number of seconds to throttle for&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;discriminator?&quot;,
+                    &quot;desc&quot;: &quot;A unique value to additionally key by&quot;,
+                    &quot;lua_type&quot;: &quot;any&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 39,
+                &quot;path&quot;: &quot;lib/hooks/useThrottle.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;component&quot;,
+            &quot;desc&quot;: &quot;Creates a new type of component. Call the component as a function to create an instance of that component.\n\n```lua\n-- Component:\nlocal MyComponent = Matter.component(\&quot;My component\&quot;)\n\n-- component instance:\nlocal myComponentInstance = MyComponent({\n\tsome = \&quot;data\&quot;\n})\n```&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;name?&quot;,
+                    &quot;desc&quot;: &quot;Optional name for debugging purposes&quot;,
+                    &quot;lua_type&quot;: &quot;string&quot;
+                }
+            ],
+            &quot;returns&quot;: [
+                {
+                    &quot;desc&quot;: &quot;Your new type of component&quot;,
+                    &quot;lua_type&quot;: &quot;Component&quot;
+                }
+            ],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 44,
+                &quot;path&quot;: &quot;lib/init.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;useHookState&quot;,
+            &quot;desc&quot;: &quot;:::tip\n**Don&#x27;t use this function directly in your systems.**\n\nThis function is used for implementing your own topologically-aware functions. It should not be used in your\nsystems directly. You should use this function to implement your own utilities, similar to `useEvent` and\n`useThrottle`.\n:::\n\n`useHookState` does one thing: it returns a table. An empty, pristine table. Here&#x27;s the cool thing though:\nit always returns the *same* table, based on the script and line where *your function* (the function calling\n`useHookState`) was called.\n\n### Uniqueness\n\nIf your function is called multiple times from the same line, perhaps within a loop, the default behavior of\n`useHookState` is to uniquely identify these by call count, and will return a unique table for each call.\n\nHowever, you can override this behavior: you can choose to key by any other value. This means that in addition to\nscript and line number, the storage will also only return the same table if the unique value (otherwise known as the\n\&quot;discriminator\&quot;) is the same.\n\n### Cleaning up\nAs a second optional parameter, you can pass a function that is automatically invoked when your storage is about\nto be cleaned up. This happens when your function (and by extension, `useHookState`) ceases to be called again\nnext frame (keyed by script, line number, and discriminator).\n\nYour cleanup callback is passed the storage table that&#x27;s about to be cleaned up. You can then perform cleanup work,\nlike disconnecting events.\n\n*Or*, you could return `true`, and abort cleaning up altogether. If you abort cleanup, your storage will stick\naround another frame (even if your function wasn&#x27;t called again). This can be used when you know that the user will\n(or might) eventually call your function again, even if they didn&#x27;t this frame. (For example, caching a value for\na number of seconds).\n\nIf cleanup is aborted, your cleanup function will continue to be called every frame, until you don&#x27;t abort cleanup,\nor the user actually calls your function again.\n\n### Example: useThrottle\n\nThis is the entire implementation of the built-in `useThrottle` function:\n\n```lua\nlocal function cleanup(storage)\n\treturn os.clock() &lt; storage.expiry\nend\n\nlocal function useThrottle(seconds, discriminator)\n\tlocal storage = useHookState(discriminator, cleanup)\n\n\tif storage.time == nil or os.clock() - storage.time &gt;= seconds then\n\t\tstorage.time = os.clock()\n\t\tstorage.expiry = os.clock() + seconds\n\t\treturn true\n\tend\n\n\treturn false\nend\n```\n\nA lot of talk for something so simple, right?&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;discriminator?&quot;,
+                    &quot;desc&quot;: &quot;A unique value to additionally key by&quot;,
+                    &quot;lua_type&quot;: &quot;any&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;cleanupCallback&quot;,
+                    &quot;desc&quot;: &quot;A function to run when the storage for this hook is cleaned up&quot;,
+                    &quot;lua_type&quot;: &quot;(storage: {}) -&gt; boolean?&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 111,
+                &quot;path&quot;: &quot;lib/TopoRuntime.lua&quot;
+            }
+        }
+    ],
+    &quot;properties&quot;: [
+        {
+            &quot;name&quot;: &quot;World&quot;,
+            &quot;desc&quot;: &quot;&quot;,
+            &quot;lua_type&quot;: &quot;World&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 11,
+                &quot;path&quot;: &quot;lib/init.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Loop&quot;,
+            &quot;desc&quot;: &quot;&quot;,
+            &quot;lua_type&quot;: &quot;Loop&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 16,
+                &quot;path&quot;: &quot;lib/init.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;None&quot;,
+            &quot;desc&quot;: &quot;A value should be interpreted as nil when merging dictionaries.\n\n`Matter.None` is used by [`Component:patch`](/api/Component#patch).&quot;,
+            &quot;lua_type&quot;: &quot;None&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 25,
+                &quot;path&quot;: &quot;lib/init.lua&quot;
+            }
+        }
+    ],
+    &quot;types&quot;: [],
+    &quot;name&quot;: &quot;Matter&quot;,
+    &quot;desc&quot;: &quot;Matter. It&#x27;s what everything is made out of.&quot;,
+    &quot;source&quot;: {
+        &quot;line&quot;: 6,
+        &quot;path&quot;: &quot;lib/init.lua&quot;
+    }
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#Loop" class="table-of-contents__link toc-highlight">Loop</a></li><li><a href="#None" class="table-of-contents__link toc-highlight">None</a></li><li><a href="#World" class="table-of-contents__link toc-highlight">World</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#component" class="table-of-contents__link toc-highlight">.component</a></li><li><a href="#useDeltaTime" class="table-of-contents__link toc-highlight">.useDeltaTime</a></li><li><a href="#useEvent" class="table-of-contents__link toc-highlight">.useEvent</a></li><li><a href="#useHookState" class="table-of-contents__link toc-highlight">.useHookState</a></li><li><a href="#useThrottle" class="table-of-contents__link toc-highlight">.useThrottle</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2021 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/matter/assets/js/runtime~main.e86ed830.js"></script>
+<script src="/matter/assets/js/main.813414f1.js"></script>
+</body>
+</html>

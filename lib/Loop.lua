@@ -24,9 +24,29 @@ local function systemPriority(system: System)
 	return 0
 end
 
+--[=[
+	@class Loop
+
+	The Loop class handles scheduling and *looping* (who would have guessed) over all of your game systems.
+]=]
 local Loop = {}
 Loop.__index = Loop
 
+--[=[
+	Creates a new loop. `Loop.new` accepts as arguments the values that will be passed to all of your systems.
+
+	So typically, you want to pass the World in here, as well as maybe a table of global game state.
+
+	```lua
+	local world = World.new()
+	local gameState = {}
+
+	local loop = Loop.new(world, gameState)
+	```
+
+	@param ... ...any -- Values that will be passed to all of your systems
+	@return Loop
+]=]
 function Loop.new(...)
 	return setmetatable({
 		_systems = {},
@@ -38,12 +58,66 @@ function Loop.new(...)
 	}, Loop)
 end
 
-type System = (...any) -> () | { system: (...any) -> (), event: string? }
+--[=[
+	@within Loop
+	@type System SystemTable | (...any) -> ()
 
-function Loop:scheduleSystem(system: System)
-	return self:scheduleSystems({ system })
-end
+	Either a plain function or a table defining the system.
+]=]
 
+--[=[
+	@within Loop
+	@interface SystemTable
+	.system (...any) -> () -- The system function
+	.event? string -- The event the system runs on. A string, a key from the table you pass to `Loop:begin`.
+	.priority? number -- Priority influences the position in the frame the system is scheduled to run at.
+	.after? {System} -- A list of systems that this system must run after.
+
+	A table defining a system with possible options.
+
+	Systems are scheduled in order of `priority`, meaning lower `priority` runs first.
+	The default priority is `0`.
+]=]
+
+type System = (...any) -> () | { system: (...any) -> (), event: string?, priority: number?, after: nil | {} }
+
+--[=[
+	Schedules a set of systems based on the constraints they define.
+
+	Systems may optionally declare:
+	- The name of the event they run on (e.g., RenderStepped, Stepped, Heartbeat)
+	- A numerical priority value
+	- Other systems that they must run *after*
+
+	If systems do not specify an event, they will run on the `default` event.
+
+	Systems that share an event will run in order of their priority, which means that systems with a lower `priority`
+	value run first. The default priority is `0`.
+
+	Systems that have defined what systems they run `after` can only be scheduled after all systems they depend on have
+	already been scheduled.
+
+	All else being equal, the order in which systems run is stable, meaning if you don't change your code, your systems
+	will always run in the same order across machines.
+
+	:::info
+	It is possible for your systems to be in an unresolvable state. In which case, `scheduleSystems` will error.
+	This can happen when your systems have circular or unresolvable dependency chains.
+
+	If a system has both a `priority` and defines systems it runs `after`, the system can only be scheduled if all of
+	the systems it depends on have a lower or equal priority.
+
+	Systems can never depend on systems that run on other events, because it is not guaranteed or required that events
+	will fire every frame or will always fire in the same order.
+	:::
+
+	:::caution
+	`scheduleSystems` has to perform nontrivial sorting work each time it's called, so you should avoid calling it multiple
+	times if possible.
+	:::
+
+	@param systems { System } -- Array of systems to schedule.
+]=]
 function Loop:scheduleSystems(systems: { System })
 	for _, system in ipairs(systems) do
 		self._systems[system] = system
@@ -51,6 +125,10 @@ function Loop:scheduleSystems(systems: { System })
 	end
 
 	self:_sortSystems()
+end
+
+function Loop:scheduleSystem(system: System)
+	return self:scheduleSystems({ system })
 end
 
 local function orderSystemsByDependencies(unscheduledSystems: { System })
@@ -137,10 +215,35 @@ function Loop:_sortSystems()
 	end
 end
 
-function Loop:addMiddleware(fn: (() -> ()) -> () -> ())
-	table.insert(self._middlewares, fn)
-end
+--[=[
+	Connects to frame events and starts invoking your systems.
 
+	Pass a table of events you want to be able to run systems on, a map of name to event. Systems can use these names
+	to define what event they run on. By default, systems run on an event named `"default"`. Custom events may be used
+	if they have a `Connect` function.
+
+	```lua
+	loop:begin({
+		default = RunService.Heartbeat,
+		Heartbeat = RunService.Heartbeat,
+		RenderStepped = RunService.RenderStepped,
+		Stepped = RunService.Stepped,
+	})
+	```
+
+	&nbsp;
+
+	:::info
+	Events that do not have any systems scheduled to run on them **at the time you call `Loop:begin`** will be skipped
+	and never connected to. All systems should be scheduled before you call this function.
+	:::
+
+	Returns a table similar to the one you passed in, but the values are `RBXScriptConnection` values (or whatever is
+	returned by `:Connect` if you passed in a synthetic event).
+
+	@param events {[string]: RBXScriptSignal} -- A map from event name to event objects.
+	@return {[string]: RBXScriptConnection} -- A map from your event names to connection objects.
+]=]
 function Loop:begin(events)
 	local connections = {}
 
@@ -243,6 +346,33 @@ function Loop:begin(events)
 	end
 
 	return connections
+end
+
+--[=[
+	Adds a user-defined middleware function that is called during each frame.
+
+	This allows you to run code before and after each frame, to perform initialization and cleanup work.
+
+	```lua
+	loop:addMiddleware(function(nextFn)
+		return function()
+			Plasma.start(plasmaNode, nextFn)
+		end
+	end)
+	```
+
+	You must pass `addMiddleware` a function that itself returns a function that invokes `nextFn` at some point.
+
+	The outer function is invoked only once. The inner function is invoked during each frame event.
+
+	:::info
+	Middleware added later "wraps" middleware that was added earlier. The innermost middleware function is the internal
+	function that actually calls your systems.
+	:::
+	@param middleware (nextFn: () -> ()) -> () -> ()
+]=]
+function Loop:addMiddleware(fn: (nextFn: () -> ()) -> () -> ())
+	table.insert(self._middlewares, fn)
 end
 
 return Loop

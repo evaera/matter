@@ -3,6 +3,7 @@ name = "evaera/matter"
 version = "0.1.0"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
+exclude = ["example", "docs", "Packages"]
 
 [dependencies]
 TestEZ = "roblox/testez@0.4.1"

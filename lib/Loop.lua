@@ -371,8 +371,8 @@ end
 	:::
 	@param middleware (nextFn: () -> ()) -> () -> ()
 ]=]
-function Loop:addMiddleware(fn: (nextFn: () -> ()) -> () -> ())
-	table.insert(self._middlewares, fn)
+function Loop:addMiddleware(middleware: (nextFn: () -> ()) -> () -> ())
+	table.insert(self._middlewares, middleware)
 end
 
 return Loop

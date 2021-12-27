@@ -516,18 +516,18 @@ end
 	@param ...? Component -- Additional query components. Checked at time of iteration, not time of change.
 	@return () -> (id, ChangeRecord, ...ComponentInstance) -- Iterator of entity ID followed by the requested component values, in order
 ]=]
-function World:queryChanged(metatable, ...)
-	local hookState = TopoRuntime.useHookState(metatable)
+function World:queryChanged(componentToTrack, ...)
+	local hookState = TopoRuntime.useHookState(componentToTrack)
 
 	if not hookState.storage then
-		if not self._changedStorage[metatable] then
-			self._changedStorage[metatable] = {}
+		if not self._changedStorage[componentToTrack] then
+			self._changedStorage[componentToTrack] = {}
 		end
 
 		local storage = {}
 		hookState.storage = storage
 
-		table.insert(self._changedStorage[metatable], storage)
+		table.insert(self._changedStorage[componentToTrack], storage)
 	end
 
 	local queryLength = select("#", ...)

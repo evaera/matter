@@ -10,6 +10,13 @@ href = "https://discord.gg/aQwDAYhqtJ"
 label = "Roblox Open Source Discord"
 position = "right"
 
+[navbar]
+title = ""
+
+[navbar.logo]
+alt = "Matter"
+src = "/logo.svg"
+
 [home]
 enabled = true
 includeReadme = false

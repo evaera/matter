@@ -5,7 +5,6 @@ local function cleanup(storage)
 end
 
 --[=[
-	@function useThrottle
 	@within Matter
 
 	:::info Topologically-aware function

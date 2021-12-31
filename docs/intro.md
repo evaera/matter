@@ -26,7 +26,7 @@ Matter is a pure ECS library with fast archetypical entity storage, automatic sy
 
 ## Performance today
 
-Matter currently achieves an average frame time of 0.75ms spent inside Matter code for the following benchmark:
+Matter currently achieves an average frame time of 0.65ms spent inside Matter code for the following benchmark:
 
 - World with 1000 entities
 - Between 2-30 components on each entity

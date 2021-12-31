@@ -223,31 +223,6 @@ function World:get(id, ...)
 	return unpack(components, 1, length)
 end
 
-function World:_getCompatibleStorages(archetype)
-	debug.profilebegin("World:_getCompatibleStorages")
-
-	if self._queryCache[archetype] == nil then
-		self:_newQueryArchetype(archetype)
-	end
-
-	local compatibleArchetypes = self._queryCache[archetype]
-
-	if compatibleArchetypes == nil then
-		error(("No archetype compatibility information for %s"):format(archetype))
-	end
-
-	local compatibleStorages = {}
-
-	for targetArchetype, map in pairs(self._archetypes) do
-		if compatibleArchetypes[targetArchetype] then
-			table.insert(compatibleStorages, map)
-		end
-	end
-
-	debug.profileend()
-	return compatibleStorages
-end
-
 --[=[
 	@class QueryResult
 
@@ -383,11 +358,17 @@ function World:query(...)
 	local metatables = { ... }
 	local queryLength = select("#", ...)
 
-	local compatibleStorages = self:_getCompatibleStorages(archetypeOf(...))
+	local archetype = archetypeOf(...)
+
+	if self._queryCache[archetype] == nil then
+		self:_newQueryArchetype(archetype)
+	end
+
+	local compatibleArchetypes = self._queryCache[archetype]
 
 	debug.profileend()
 
-	if #compatibleStorages == 0 then
+	if next(compatibleArchetypes) == nil then
 		-- If there are no compatible storages avoid creating our complicated iterator
 		return setmetatable({
 			_expand = function() end,
@@ -395,8 +376,6 @@ function World:query(...)
 		}, QueryResult)
 	end
 
-	local storageIndex = 1
-	local last
 	local queryOutput = table.create(queryLength)
 
 	local function expand(entityId, entityData)
@@ -411,19 +390,21 @@ function World:query(...)
 		return entityId, unpack(queryOutput, 1, queryLength)
 	end
 
+	local compatibleArchetype = next(compatibleArchetypes)
+	local lastEntityId
 	local function nextItem()
-		local entityId, entityData = next(compatibleStorages[storageIndex], last)
+		local entityId, entityData = next(self._archetypes[compatibleArchetype], lastEntityId)
 
 		while entityId == nil do
-			storageIndex += 1
+			compatibleArchetype = next(compatibleArchetypes, compatibleArchetype)
 
-			if compatibleStorages[storageIndex] == nil then
+			if compatibleArchetype == nil then
 				return
 			end
 
-			entityId, entityData = next(compatibleStorages[storageIndex])
+			entityId, entityData = next(self._archetypes[compatibleArchetype])
 		end
-		last = entityId
+		lastEntityId = entityId
 
 		return entityId, entityData
 	end

@@ -64,10 +64,6 @@ local results = {}
 startTime = os.clock()
 
 RunService.Heartbeat:Connect(function()
-	if os.clock() - startTime < 2 then
-		-- discard first 2 seconds
-		return
-	end
 	local systemStartTime = os.clock()
 	debug.profilebegin("systems")
 	for _, componentsToQuery in ipairs(systemComponentsToQuery) do
@@ -81,6 +77,11 @@ RunService.Heartbeat:Connect(function()
 	end
 	debug.profileend()
 
+	if os.clock() - startTime < 2 then
+		-- discard first 2 seconds
+		return
+	end
+
 	if results == nil then
 		return
 	elseif #results < 100 then
@@ -92,6 +93,7 @@ RunService.Heartbeat:Connect(function()
 			sum += result
 		end
 		print(("Average frame time: %fms"):format((sum / #results) * 1000))
+
 		results = nil
 
 		local n = 0

@@ -3,6 +3,7 @@ local Llama = require(script.Parent.Parent.Llama)
 local valueIds = {}
 local nextValueId = 0
 local compatibilityCache = {}
+local archetypeCache = {}
 
 local function getValueId(value)
 	local valueId = valueIds[value]
@@ -19,6 +20,25 @@ function archetypeOf(...)
 	debug.profilebegin("archetypeOf")
 
 	local length = select("#", ...)
+
+	local currentNode = archetypeCache
+
+	for i = 1, length do
+		local nextNode = currentNode[select(i, ...)]
+
+		if not nextNode then
+			nextNode = {}
+			currentNode[select(i, ...)] = nextNode
+		end
+
+		currentNode = nextNode
+	end
+
+	if currentNode._archetype then
+		debug.profileend()
+		return currentNode._archetype
+	end
+
 	local list = table.create(length)
 
 	for i = 1, length do
@@ -29,7 +49,10 @@ function archetypeOf(...)
 
 	local archetype = table.concat(list, "_")
 
+	currentNode._archetype = archetype
+
 	debug.profileend()
+
 	return archetype
 end
 

@@ -34,6 +34,7 @@ end
 
 	@param seconds number -- The number of seconds to throttle for
 	@param discriminator? any -- A unique value to additionally key by
+	@return boolean -- returns true every x seconds, otherwise false
 ]=]
 local function useThrottle(seconds, discriminator)
 	local storage = TopoRuntime.useHookState(discriminator, cleanup)

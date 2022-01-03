@@ -80,7 +80,10 @@ local function newComponent(name)
 	@return ComponentInstance -- A copy of the component instance with values from `partialNewData` overriding existing values.
 	]=]
 	function component:patch(partialNewData)
-		return getmetatable(self).new(Llama.Dictionary.merge(self, partialNewData))
+		debug.profilebegin("patch")
+		local patch = getmetatable(self).new(Llama.Dictionary.merge(self, partialNewData))
+		debug.profileend()
+		return patch
 	end
 
 	setmetatable(component, {

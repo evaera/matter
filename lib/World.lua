@@ -2,39 +2,10 @@ local Llama = require(script.Parent.Parent.Llama)
 local Archetype = require(script.Parent.Archetype)
 local TopoRuntime = require(script.Parent.TopoRuntime)
 
-local archetypeOfDict = Archetype.archetypeOfDict
 local archetypeOf = Archetype.archetypeOf
 local areArchetypesCompatible = Archetype.areArchetypesCompatible
 
-local ERROR_NO_ENTITY = "Entity doesn't exist, use world:contains to check before inserting"
-
-local function keyByMetatable(list)
-	local result = {}
-
-	for index, entry in ipairs(list) do
-		if typeof(entry) ~= "table" then
-			error(("Non-table in list at index %d"):format(index))
-		end
-
-		local metatable = getmetatable(entry)
-
-		if metatable == nil then
-			error(("Table in list at index %d does not have a metatable"):format(index))
-		end
-
-		if result[metatable] ~= nil then
-			error(
-				("Two tables with the same metatable appear twice in this list, duplicate found at index %d"):format(
-					index
-				)
-			)
-		end
-
-		result[metatable] = entry
-	end
-
-	return result
-end
+local ERROR_NO_ENTITY = "Entity doesn't exist, use world:contains to check if needed"
 
 --[=[
 	@class World
@@ -51,11 +22,26 @@ World.__index = World
 ]=]
 function World.new()
 	return setmetatable({
+		-- Map from entity ID -> archetype string
 		_archetypes = {},
+
+		-- Map from archetype string --> entity ID --> entity data
 		_entityArchetypes = {},
+
+		-- Cache of the component metatables on each entity. Used for generating archetype.
+		-- Map of entity ID -> array
+		_entityMetatablesCache = {},
+
+		-- Cache of what query archetypes are compatible with what component archetypes
 		_queryCache = {},
+
+		-- The next ID that will be assigned with World:spawn
 		_nextId = 0,
+
+		-- The total number of active entities in the world
 		_size = 0,
+
+		-- Storage for `queryChanged`
 		_changedStorage = {},
 	}, World)
 end
@@ -71,7 +57,28 @@ function World:spawn(...)
 	self._nextId += 1
 	self._size += 1
 
-	return self:replace(id, ...)
+	local components = {}
+	local metatables = {}
+
+	for i = 1, select("#", ...) do
+		local newComponent = select(i, ...)
+		local metatable = getmetatable(newComponent)
+
+		if components[metatable] then
+			error(("Duplicate component type at index %d"):format(i), 2)
+		end
+
+		self:_trackChanged(metatable, id, nil, newComponent)
+
+		components[metatable] = newComponent
+		table.insert(metatables, metatable)
+	end
+
+	self._entityMetatablesCache[id] = metatables
+
+	self:_transitionArchetype(id, components)
+
+	return id
 end
 
 function World:_newQueryArchetype(queryArchetype)
@@ -89,59 +96,41 @@ function World:_newQueryArchetype(queryArchetype)
 end
 
 function World:_updateQueryCache(entityArchetype)
-	for queryArchetype, compatibileArchetypes in pairs(self._queryCache) do
+	for queryArchetype, compatibleArchetypes in pairs(self._queryCache) do
 		if areArchetypesCompatible(queryArchetype, entityArchetype) then
-			compatibileArchetypes[entityArchetype] = true
+			compatibleArchetypes[entityArchetype] = true
 		end
 	end
 end
 
 function World:_transitionArchetype(id, components)
-	local newArchetype
+	debug.profilebegin("transitionArchetype")
+	local newArchetype = nil
 	local oldArchetype = self._entityArchetypes[id]
 
-	local oldComponents
 	if oldArchetype then
-		oldComponents = self._archetypes[oldArchetype][id]
 		self._archetypes[oldArchetype][id] = nil
 
 		-- Keep archetypes around because they're likely to exist again in the future
 	end
 
 	if components then
-		newArchetype = archetypeOfDict(components)
+		newArchetype = archetypeOf(unpack(self._entityMetatablesCache[id]))
 
-		for metatable in pairs(components) do
-			local old = oldComponents and oldComponents[metatable]
-			local new = components[metatable]
-
-			if old ~= new then
-				self:_trackChanged(metatable, id, old, new)
-			end
-		end
-	end
-
-	if oldComponents then
-		for metatable in pairs(oldComponents) do
-			if components and components[metatable] then
-				continue
-			end
-
-			self:_trackChanged(metatable, id, oldComponents[metatable], nil)
-		end
-	end
-
-	if newArchetype then
 		if self._archetypes[newArchetype] == nil then
 			self._archetypes[newArchetype] = {}
 
+			debug.profilebegin("update query cache")
 			self:_updateQueryCache(newArchetype)
+			debug.profileend()
 		end
 
 		self._archetypes[newArchetype][id] = components
 	end
 
 	self._entityArchetypes[id] = newArchetype
+
+	debug.profileend()
 end
 
 --[=[
@@ -150,14 +139,39 @@ end
 
 	@param id number -- The entity ID
 	@param ... ComponentInstance -- The component values to spawn the entity with.
-	@return number -- The new entity ID.
 ]=]
 function World:replace(id, ...)
-	local components = keyByMetatable({ ... })
+	if not self:contains(id) then
+		error(ERROR_NO_ENTITY, 2)
+	end
+
+	local components = {}
+	local metatables = {}
+	local existingComponents = self._archetypes[self._entityArchetypes[id]][id]
+
+	for i = 1, select("#", ...) do
+		local newComponent = select(i, ...)
+		local metatable = getmetatable(newComponent)
+
+		if components[metatable] then
+			error(("Duplicate component type at index %d"):format(i), 2)
+		end
+
+		self:_trackChanged(metatable, id, existingComponents[metatable], newComponent)
+
+		components[metatable] = newComponent
+		table.insert(metatables, metatable)
+	end
+
+	for metatable, component in pairs(existingComponents) do
+		if not components[metatable] then
+			self:_trackChanged(metatable, id, component, nil)
+		end
+	end
+
+	self._entityMetatablesCache[id] = metatables
 
 	self:_transitionArchetype(id, components)
-
-	return id
 end
 
 --[=[
@@ -166,6 +180,13 @@ end
 	@param id number -- The entity ID
 ]=]
 function World:despawn(id)
+	local existingComponents = self._archetypes[self._entityArchetypes[id]][id]
+
+	for metatable, component in pairs(existingComponents) do
+		self:_trackChanged(metatable, id, component, nil)
+	end
+
+	self._entityMetatablesCache[id] = nil
 	self:_transitionArchetype(id, nil)
 
 	self._size -= 1
@@ -181,6 +202,7 @@ end
 function World:clear()
 	self._entityArchetypes = {}
 	self._archetypes = {}
+	self._entityMetatablesCache = {}
 	self._size = 0
 end
 
@@ -429,6 +451,9 @@ end
 
 	Queries for components that have changed **since the last time your system ran `queryChanged`**.
 
+	Only one changed record is returned per entity, even if the same entity changed multiple times. The order
+	in which changed records are returned is not guaranteed to be the order that the changes occurred in.
+
 	It should be noted that `queryChanged` does not have the same iterator invalidation limitations as `World:query`.
 
 	:::caution
@@ -559,6 +584,10 @@ function World:_trackChanged(metatable, id, old, new)
 		return
 	end
 
+	if old == new then
+		return
+	end
+
 	local record = table.freeze({
 		old = old,
 		new = new,
@@ -590,13 +619,35 @@ end
 	@param ... ComponentInstance -- The component values to insert
 ]=]
 function World:insert(id, ...)
+	debug.profilebegin("insert")
 	if not self:contains(id) then
 		error(ERROR_NO_ENTITY, 2)
 	end
 
 	local existingComponents = self._archetypes[self._entityArchetypes[id]][id]
 
-	self:_transitionArchetype(id, Llama.Dictionary.merge(existingComponents, keyByMetatable({ ... })))
+	local wasNew = false
+	for i = 1, select("#", ...) do
+		local newComponent = select(i, ...)
+		local metatable = getmetatable(newComponent)
+		local oldComponent = existingComponents[metatable]
+
+		if not oldComponent then
+			wasNew = true
+
+			table.insert(self._entityMetatablesCache[id], metatable)
+		end
+
+		self:_trackChanged(metatable, id, oldComponent, newComponent)
+
+		existingComponents[metatable] = newComponent
+	end
+
+	if wasNew then -- wasNew
+		self:_transitionArchetype(id, existingComponents)
+	end
+
+	debug.profileend()
 end
 
 --[=[
@@ -615,22 +666,33 @@ function World:remove(id, ...)
 		error(ERROR_NO_ENTITY, 2)
 	end
 
-	local toRemove = Llama.List.toSet({ ... })
-
 	local existingComponents = self._archetypes[self._entityArchetypes[id]][id]
 
-	local newComponents = {}
+	local length = select("#", ...)
 	local removed = {}
 
-	for metatable, value in pairs(existingComponents) do
-		if toRemove[metatable] then
-			removed[metatable] = value
-		else
-			newComponents[metatable] = value
-		end
+	for i = 1, length do
+		local metatable = select(i, ...)
+
+		local oldComponent = existingComponents[metatable]
+
+		removed[metatable] = oldComponent
+
+		self:_trackChanged(metatable, id, oldComponent, nil)
+
+		existingComponents[metatable] = nil
 	end
 
-	self:_transitionArchetype(id, newComponents)
+	-- Rebuild entity metatable cache
+	local metatables = {}
+
+	for metatable in pairs(existingComponents) do
+		table.insert(metatables, metatable)
+	end
+
+	self._entityMetatablesCache[id] = metatables
+
+	self:_transitionArchetype(id, existingComponents)
 
 	return removed
 end

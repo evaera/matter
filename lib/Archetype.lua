@@ -56,10 +56,6 @@ function archetypeOf(...)
 	return archetype
 end
 
-function archetypeOfDict(dict)
-	return archetypeOf(unpack(Llama.Dictionary.keys(dict)))
-end
-
 function areArchetypesCompatible(queryArchetype, targetArchetype)
 	local cachedCompatibility = compatibilityCache[queryArchetype .. "-" .. targetArchetype]
 	if cachedCompatibility ~= nil then
@@ -86,6 +82,5 @@ end
 
 return {
 	archetypeOf = archetypeOf,
-	archetypeOfDict = archetypeOfDict,
 	areArchetypesCompatible = areArchetypesCompatible,
 }

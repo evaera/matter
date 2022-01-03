@@ -64,15 +64,20 @@ local results = {}
 startTime = os.clock()
 
 RunService.Heartbeat:Connect(function()
+	local added = 0
 	local systemStartTime = os.clock()
 	debug.profilebegin("systems")
 	for _, componentsToQuery in ipairs(systemComponentsToQuery) do
 		debug.profilebegin("system")
-		local query = world:query(unpack(componentsToQuery))
-		debug.profilebegin("loop")
-		for entityId, entityData in query do
+		for entityId, firstComponent in world:query(unpack(componentsToQuery)) do
+			world:insert(
+				entityId,
+				firstComponent:patch({
+					DummyData = firstComponent.DummyData + 1,
+				})
+			)
+			added += 1
 		end
-		debug.profileend()
 		debug.profileend()
 	end
 	debug.profileend()
@@ -87,6 +92,7 @@ RunService.Heartbeat:Connect(function()
 	elseif #results < 100 then
 		table.insert(results, os.clock() - systemStartTime)
 	else
+		print("added", added)
 		print("World created in", worldCreateTime * 1000, "ms")
 		local sum = 0
 		for _, result in ipairs(results) do

@@ -214,6 +214,14 @@ return function()
 				},
 				nil,
 				{
+					1,
+					{
+						old = {
+							generation = 1,
+						},
+					},
+				},
+				{
 					0,
 					{
 						old = {
@@ -262,7 +270,7 @@ return function()
 						expect(count).to.equal(2)
 
 						expect(results[0].old.generation).to.equal(2)
-						expect(results[1].new.generation).to.equal(1)
+						expect(results[1].old.generation).to.equal(1)
 					end
 				end,
 				event = "infrequent",
@@ -301,7 +309,7 @@ return function()
 				})
 			)
 
-			world:spawn(
+			local secondEntityId = world:spawn(
 				A({
 					generation = 1,
 				}),
@@ -310,6 +318,8 @@ return function()
 
 			defaultBindable:Fire()
 			defaultBindable:Fire()
+
+			world:replace(secondEntityId, B())
 
 			world:despawn(entityId)
 

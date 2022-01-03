@@ -9,8 +9,8 @@ The World is queryable and can be used to get entities with a specific set of co
 Entities are simply ever-increasing integers."><meta data-react-helmet="true" property="og:description" content="A World contains entities which have components.
 The World is queryable and can be used to get entities with a specific set of components.
 Entities are simply ever-increasing integers."><meta data-react-helmet="true" property="og:url" content="https://eryn.io/matter/api/World"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="canonical" href="https://eryn.io/matter/api/World"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/World" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/World" hreflang="x-default"><link rel="stylesheet" href="/matter/assets/css/styles.b230ca78.css">
-<link rel="preload" href="/matter/assets/js/runtime~main.b2bcbd47.js" as="script">
-<link rel="preload" href="/matter/assets/js/main.ac60c9a6.js" as="script">
+<link rel="preload" href="/matter/assets/js/runtime~main.c02efbee.js" as="script">
+<link rel="preload" href="/matter/assets/js/main.a8b90b93.js" as="script">
 </head>
 <body>
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -20,30 +20,28 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
   The World is queryable and can be used to get entities with a specific set of components.
   Entities are simply ever-increasing integers.
 </p>
-</div></header><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="new"><code style="text-decoration:none">new</code><a aria-hidden="true" class="hash-link" href="#new" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L52"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->.</code><code class="green_3LnD">new</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div></header><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="new"><code style="text-decoration:none">new</code><a aria-hidden="true" class="hash-link" href="#new" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L23"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->.</code><code class="green_3LnD">new</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Creates a new World.</p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="spawn"><code style="text-decoration:none">spawn</code><a aria-hidden="true" class="hash-link" href="#spawn" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L69"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">spawn</code><code>(</code><div class="inset_2cJr"><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="spawn"><code style="text-decoration:none">spawn</code><a aria-hidden="true" class="hash-link" href="#spawn" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L55"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">spawn</code><code>(</code><div class="inset_2cJr"><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><span class="inlineDescription_17uy">-- <span>
 <p>The component values to spawn the entity with.</p>
 </span></span></div></div><code>) → </code><code class="blue_2Afy">number</code><span class="inlineDescription_17uy">-- <span>
 <p>The new entity ID.</p>
 </span></span></div><div>
 <p>Spawns a new entity in the world with the given components.</p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="replace"><code style="text-decoration:none">replace</code><a aria-hidden="true" class="hash-link" href="#replace" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L155"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">replace</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><code>,</code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="replace"><code style="text-decoration:none">replace</code><a aria-hidden="true" class="hash-link" href="#replace" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L143"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">replace</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><code>,</code><span class="inlineDescription_17uy">-- <span>
 <p>The entity ID</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><span class="inlineDescription_17uy">-- <span>
 <p>The component values to spawn the entity with.</p>
-</span></span></div></div><code>) → </code><code class="blue_2Afy">number</code><span class="inlineDescription_17uy">-- <span>
-<p>The new entity ID.</p>
-</span></span></div><div>
+</span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>
   Replaces a given entity by ID with an entirely new set of components.
   Equivalent to removing all components from an entity, and then adding these ones.
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="despawn"><code style="text-decoration:none">despawn</code><a aria-hidden="true" class="hash-link" href="#despawn" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L168"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">despawn</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="despawn"><code style="text-decoration:none">despawn</code><a aria-hidden="true" class="hash-link" href="#despawn" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L182"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">despawn</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><span class="inlineDescription_17uy">-- <span>
 <p>The entity ID</p>
 </span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Despawns a given entity by ID, removing it and all its components from the world entirely.</p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="clear"><code style="text-decoration:none">clear</code><a aria-hidden="true" class="hash-link" href="#clear" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L181"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">clear</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="clear"><code style="text-decoration:none">clear</code><a aria-hidden="true" class="hash-link" href="#clear" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L202"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">clear</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Removes all entities from the world.</p>
 <div class="admonition admonition-warning alert alert--danger">
   <div class="admonition-heading">
@@ -55,13 +53,13 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
     <p>Removing entities in this way is not reported by <code>queryChanged</code>.</p>
   </div>
 </div>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="contains"><code style="text-decoration:none">contains</code><a aria-hidden="true" class="hash-link" href="#contains" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L193"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">contains</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="contains"><code style="text-decoration:none">contains</code><a aria-hidden="true" class="hash-link" href="#contains" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L215"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">contains</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><span class="inlineDescription_17uy">-- <span>
 <p>The entity ID</p>
 </span></span></div></div><code>) → </code><code class="blue_2Afy">bool</code><span class="inlineDescription_17uy">-- <span>
 <p><code>true</code> if the entity exists</p>
 </span></span></div><div>
 <p>Checks if the given entity ID is currently spawned in this world.</p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="get"><code style="text-decoration:none">get</code><a aria-hidden="true" class="hash-link" href="#get" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L204"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">get</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><code>,</code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="get"><code style="text-decoration:none">get</code><a aria-hidden="true" class="hash-link" href="#get" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L226"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">get</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><code>,</code><span class="inlineDescription_17uy">-- <span>
 <p>The entity ID</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_17uy">-- <span>
 <p>The components to fetch</p>
@@ -69,7 +67,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
 <p>Returns the component values in the same order they were passed in</p>
 </span></span></div><div>
 <p>Gets a specific component (or set of components) from a specific entity in this world.</p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="query"><code style="text-decoration:none">query</code><a aria-hidden="true" class="hash-link" href="#query" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L381"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">query</code><code>(</code><div class="inset_2cJr"><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="query"><code style="text-decoration:none">query</code><a aria-hidden="true" class="hash-link" href="#query" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L378"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">query</code><code>(</code><div class="inset_2cJr"><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_17uy">-- <span>
 <p>The component types to query. Only entities with <em>all</em> of these components will be returned.</p>
 </span></span></div></div><code>) → </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/QueryResult">QueryResult</a></code><span class="inlineDescription_17uy">-- <span>
 <p>See <a href="/matter/api/QueryResult">QueryResult</a> docs.</p>
@@ -116,7 +114,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
   after your iteration loop. <strong>Inserting existing components</strong> and <strong>despawning entities</strong> during iteration is safe,
   however.
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="queryChanged"><code style="text-decoration:none">queryChanged</code><a aria-hidden="true" class="hash-link" href="#queryChanged" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L519"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">queryChanged</code><code>(</code><div class="inset_2cJr"><div><code>componentToTrack<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><code>,</code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="queryChanged"><code style="text-decoration:none">queryChanged</code><a aria-hidden="true" class="hash-link" href="#queryChanged" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L525"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">queryChanged</code><code>(</code><div class="inset_2cJr"><div><code>componentToTrack<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><code>,</code><span class="inlineDescription_17uy">-- <span>
 <p>The component you want to listen to changes for.</p>
 </span></span></div><div><code>...?<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_17uy">-- <span>
 <p>Additional query components. Checked at time of iteration, not time of change.</p>
@@ -138,6 +136,10 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
   </div>
 </div>
 <p>Queries for components that have changed <strong>since the last time your system ran <code>queryChanged</code></strong>.</p>
+<p>
+  Only one changed record is returned per entity, even if the same entity changed multiple times. The order
+  in which changed records are returned is not guaranteed to be the order that the changes occurred in.
+</p>
 <p>It should be noted that <code>queryChanged</code> does not have the same iterator invalidation limitations as <code>World:query</code>.</p>
 <div class="admonition admonition-caution alert alert--warning">
   <div class="admonition-heading">
@@ -231,7 +233,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
     </p>
   </div>
 </div>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="insert"><code style="text-decoration:none">insert</code><a aria-hidden="true" class="hash-link" href="#insert" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L611"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">insert</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><code>,</code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="insert"><code style="text-decoration:none">insert</code><a aria-hidden="true" class="hash-link" href="#insert" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L621"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">insert</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><code>,</code><span class="inlineDescription_17uy">-- <span>
 <p>The entity ID</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><span class="inlineDescription_17uy">-- <span>
 <p>The component values to insert</p>
@@ -248,7 +250,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
 	<span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">)</span>
 </code></pre>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="remove"><code style="text-decoration:none">remove</code><a aria-hidden="true" class="hash-link" href="#remove" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L632"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">remove</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><code>,</code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="remove"><code style="text-decoration:none">remove</code><a aria-hidden="true" class="hash-link" href="#remove" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L664"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">remove</code><code>(</code><div class="inset_2cJr"><div><code>id<!-- -->: </code><code class="blue_2Afy">number</code><code>,</code><span class="inlineDescription_17uy">-- <span>
 <p>The entity ID</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_17uy">-- <span>
 <p>The components to remove</p>
@@ -258,7 +260,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
 <p>Removes a component (or set of components) from an existing entity.</p>
 <pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> removedA<span class="token punctuation">,</span> removedB <span class="token operator">=</span> world<span class="token punctuation">:</span><span class="token function">remove</span><span class="token punctuation">(</span>entityId<span class="token punctuation">,</span> ComponentA<span class="token punctuation">,</span> ComponentB<span class="token punctuation">)</span>
 </code></pre>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="size"><code style="text-decoration:none">size</code><a aria-hidden="true" class="hash-link" href="#size" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L660"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">size</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="size"><code style="text-decoration:none">size</code><a aria-hidden="true" class="hash-link" href="#size" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L703"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>World<!-- -->:</code><code class="green_3LnD">size</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Returns the number of entities currently spawned in the world.</p>
 </div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
     &quot;functions&quot;: [
@@ -269,7 +271,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;static&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 52,
+                &quot;line&quot;: 23,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -291,7 +293,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 69,
+                &quot;line&quot;: 55,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -310,15 +312,10 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
                     &quot;lua_type&quot;: &quot;ComponentInstance&quot;
                 }
             ],
-            &quot;returns&quot;: [
-                {
-                    &quot;desc&quot;: &quot;The new entity ID.&quot;,
-                    &quot;lua_type&quot;: &quot;number&quot;
-                }
-            ],
+            &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 155,
+                &quot;line&quot;: 143,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -335,7 +332,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 168,
+                &quot;line&quot;: 182,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -346,7 +343,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 181,
+                &quot;line&quot;: 202,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -368,7 +365,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 193,
+                &quot;line&quot;: 215,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -395,7 +392,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 204,
+                &quot;line&quot;: 226,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -417,13 +414,13 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 381,
+                &quot;line&quot;: 378,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
         {
             &quot;name&quot;: &quot;queryChanged&quot;,
-            &quot;desc&quot;: &quot;:::info Topologically-aware function\nThis function is only usable if called within the context of [`Loop:begin`](/api/Loop#begin).\n:::\n\nQueries for components that have changed **since the last time your system ran `queryChanged`**.\n\nIt should be noted that `queryChanged` does not have the same iterator invalidation limitations as `World:query`.\n\n:::caution\nThe first time your system runs (i.e., on the first frame), no results are returned. Results only begin to be\ntracked after the first time your system calls this function.\n:::\n\n:::info\nCalling this function from your system creates storage internally for your system. Then, changes meeting your\ncriteria are pushed into your storage. Calling `queryChanged` again each frame drains this storage.\n\nIf you do not call `queryChanged` each frame, or your system isn&#x27;t called every frame, the storage will continually\nfill up and does not empty unless you drain it. It is assumed that you will call `queryChanged` unconditionally,\nevery frame, **until the end of time**.\n:::\n\n### Arguments\n\nThe first argument to `queryChanged` is the component for which you want to track changes.\nFurther arguments are optional, and if passed, are an additional filter on what entities will be returned.\n\n:::caution\nAdditional query arguments are checked against *at the time of iteration*, not when the change ocurred.\nThis has the additional implication that entities that have been despawned will never be returned from\n`queryChanged` if additional query arguments are passed, because the entity will have no components, so cannot\npossibly pass any additional query.\n:::\n\nIf no additional query arguments are passed, all changes (including despawns) will be tracked and returned.\n\n### Returns\n`queryChanged` returns an iterator function, so you call it in a for loop just like `World:query`.\n\nThe iterator returns the entity ID, followed by a [`ChangeRecord`](#ChangeRecord), followed by the component\ninstance values of any additional query arguments that were passed (as discussed above).\n\nThe ChangeRecord type is a table that contains two fields, `new` and `old`, respectively containing the new\ncomponent instance, and the old component instance. `new` and `old` will never be the same value.\n\n`new` will be nil if the component was removed (or the entity was despawned), and `old` will be nil if the\ncomponent was just added.\n\nThe ChangeRecord table is given to all systems tracking changes for this component, and cannot be modified.\n\n```lua\nfor id, modelRecord, enemy in world:queryChanged(Model, Enemy) do\n\tif modelRecord.new == nil then\n\t\t-- Model was removed\n\n\t\tif enemy.type == \&quot;this is a made up example\&quot; then\n\t\t\tworld:remove(id, Enemy)\n\t\tend\n\tend\nend\n```\n\n&amp;nbsp;\n\n:::info\nIt&#x27;s conventional to end the name you assign the record with \&quot;-Record\&quot;, to make clear it is a different shape than\na regular component instance. The ChangeValue is a table with `new` and `old` fields, but additional returns for the\nadditional query arguments are regular component instances.\n:::&quot;,
+            &quot;desc&quot;: &quot;:::info Topologically-aware function\nThis function is only usable if called within the context of [`Loop:begin`](/api/Loop#begin).\n:::\n\nQueries for components that have changed **since the last time your system ran `queryChanged`**.\n\nOnly one changed record is returned per entity, even if the same entity changed multiple times. The order\nin which changed records are returned is not guaranteed to be the order that the changes occurred in.\n\nIt should be noted that `queryChanged` does not have the same iterator invalidation limitations as `World:query`.\n\n:::caution\nThe first time your system runs (i.e., on the first frame), no results are returned. Results only begin to be\ntracked after the first time your system calls this function.\n:::\n\n:::info\nCalling this function from your system creates storage internally for your system. Then, changes meeting your\ncriteria are pushed into your storage. Calling `queryChanged` again each frame drains this storage.\n\nIf you do not call `queryChanged` each frame, or your system isn&#x27;t called every frame, the storage will continually\nfill up and does not empty unless you drain it. It is assumed that you will call `queryChanged` unconditionally,\nevery frame, **until the end of time**.\n:::\n\n### Arguments\n\nThe first argument to `queryChanged` is the component for which you want to track changes.\nFurther arguments are optional, and if passed, are an additional filter on what entities will be returned.\n\n:::caution\nAdditional query arguments are checked against *at the time of iteration*, not when the change ocurred.\nThis has the additional implication that entities that have been despawned will never be returned from\n`queryChanged` if additional query arguments are passed, because the entity will have no components, so cannot\npossibly pass any additional query.\n:::\n\nIf no additional query arguments are passed, all changes (including despawns) will be tracked and returned.\n\n### Returns\n`queryChanged` returns an iterator function, so you call it in a for loop just like `World:query`.\n\nThe iterator returns the entity ID, followed by a [`ChangeRecord`](#ChangeRecord), followed by the component\ninstance values of any additional query arguments that were passed (as discussed above).\n\nThe ChangeRecord type is a table that contains two fields, `new` and `old`, respectively containing the new\ncomponent instance, and the old component instance. `new` and `old` will never be the same value.\n\n`new` will be nil if the component was removed (or the entity was despawned), and `old` will be nil if the\ncomponent was just added.\n\nThe ChangeRecord table is given to all systems tracking changes for this component, and cannot be modified.\n\n```lua\nfor id, modelRecord, enemy in world:queryChanged(Model, Enemy) do\n\tif modelRecord.new == nil then\n\t\t-- Model was removed\n\n\t\tif enemy.type == \&quot;this is a made up example\&quot; then\n\t\t\tworld:remove(id, Enemy)\n\t\tend\n\tend\nend\n```\n\n&amp;nbsp;\n\n:::info\nIt&#x27;s conventional to end the name you assign the record with \&quot;-Record\&quot;, to make clear it is a different shape than\na regular component instance. The ChangeValue is a table with `new` and `old` fields, but additional returns for the\nadditional query arguments are regular component instances.\n:::&quot;,
             &quot;params&quot;: [
                 {
                     &quot;name&quot;: &quot;componentToTrack&quot;,
@@ -444,7 +441,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 519,
+                &quot;line&quot;: 525,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -466,7 +463,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 611,
+                &quot;line&quot;: 621,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -493,7 +490,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 632,
+                &quot;line&quot;: 664,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -504,7 +501,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 660,
+                &quot;line&quot;: 703,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         }
@@ -527,7 +524,7 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
                 }
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 443,
+                &quot;line&quot;: 446,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         }
@@ -535,11 +532,11 @@ Entities are simply ever-increasing integers."><meta data-react-helmet="true" pr
     &quot;name&quot;: &quot;World&quot;,
     &quot;desc&quot;: &quot;A World contains entities which have components.\nThe World is queryable and can be used to get entities with a specific set of components.\nEntities are simply ever-increasing integers.&quot;,
     &quot;source&quot;: {
-        &quot;line&quot;: 46,
+        &quot;line&quot;: 17,
         &quot;path&quot;: &quot;lib/World.lua&quot;
     }
-}</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#ChangeRecord" class="table-of-contents__link toc-highlight">ChangeRecord</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#clear" class="table-of-contents__link toc-highlight">:clear</a></li><li><a href="#contains" class="table-of-contents__link toc-highlight">:contains</a></li><li><a href="#despawn" class="table-of-contents__link toc-highlight">:despawn</a></li><li><a href="#get" class="table-of-contents__link toc-highlight">:get</a></li><li><a href="#insert" class="table-of-contents__link toc-highlight">:insert</a></li><li><a href="#query" class="table-of-contents__link toc-highlight">:query</a></li><li><a href="#queryChanged" class="table-of-contents__link toc-highlight">:queryChanged</a></li><li><a href="#remove" class="table-of-contents__link toc-highlight">:remove</a></li><li><a href="#replace" class="table-of-contents__link toc-highlight">:replace</a></li><li><a href="#size" class="table-of-contents__link toc-highlight">:size</a></li><li><a href="#spawn" class="table-of-contents__link toc-highlight">:spawn</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2021 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/matter/assets/js/runtime~main.b2bcbd47.js"></script>
-<script src="/matter/assets/js/main.ac60c9a6.js"></script>
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#ChangeRecord" class="table-of-contents__link toc-highlight">ChangeRecord</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#clear" class="table-of-contents__link toc-highlight">:clear</a></li><li><a href="#contains" class="table-of-contents__link toc-highlight">:contains</a></li><li><a href="#despawn" class="table-of-contents__link toc-highlight">:despawn</a></li><li><a href="#get" class="table-of-contents__link toc-highlight">:get</a></li><li><a href="#insert" class="table-of-contents__link toc-highlight">:insert</a></li><li><a href="#query" class="table-of-contents__link toc-highlight">:query</a></li><li><a href="#queryChanged" class="table-of-contents__link toc-highlight">:queryChanged</a></li><li><a href="#remove" class="table-of-contents__link toc-highlight">:remove</a></li><li><a href="#replace" class="table-of-contents__link toc-highlight">:replace</a></li><li><a href="#size" class="table-of-contents__link toc-highlight">:size</a></li><li><a href="#spawn" class="table-of-contents__link toc-highlight">:spawn</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/matter/assets/js/runtime~main.c02efbee.js"></script>
+<script src="/matter/assets/js/main.a8b90b93.js"></script>
 </body>
 </html>

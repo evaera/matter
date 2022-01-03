@@ -69,8 +69,9 @@ return function()
 
 			local Player = component()
 			local Health = component()
+			local Poison = component()
 
-			local id = world:spawn(Player())
+			local id = world:spawn(Player(), Poison())
 
 			expect(world:query(Player):next()).to.be.ok()
 			expect(world:query(Health):next()).to.never.be.ok()
@@ -81,7 +82,10 @@ return function()
 			expect(world:query(Health):next()).to.be.ok()
 			expect(world:size()).to.equal(1)
 
-			world:remove(id, Player)
+			local player, poison = world:remove(id, Player, Poison)
+
+			expect(getmetatable(player)).to.equal(Player)
+			expect(getmetatable(poison)).to.equal(Poison)
 
 			expect(world:query(Player):next()).to.never.be.ok()
 			expect(world:query(Health):next()).to.be.ok()

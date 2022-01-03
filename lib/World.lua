@@ -1,4 +1,3 @@
-local Llama = require(script.Parent.Parent.Llama)
 local Archetype = require(script.Parent.Archetype)
 local TopoRuntime = require(script.Parent.TopoRuntime)
 
@@ -676,7 +675,7 @@ function World:remove(id, ...)
 
 		local oldComponent = existingComponents[metatable]
 
-		removed[metatable] = oldComponent
+		removed[i] = oldComponent
 
 		self:_trackChanged(metatable, id, oldComponent, nil)
 
@@ -694,7 +693,7 @@ function World:remove(id, ...)
 
 	self:_transitionArchetype(id, existingComponents)
 
-	return removed
+	return unpack(removed, 1, length)
 end
 
 --[=[

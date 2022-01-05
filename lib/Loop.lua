@@ -28,6 +28,11 @@ end
 	@class Loop
 
 	The Loop class handles scheduling and *looping* (who would have guessed) over all of your game systems.
+
+	:::caution Yielding
+	Yielding is not allowed in systems. Doing so will result in the system thread being closed early, but it will not
+	affect other systems.
+	:::
 ]=]
 local Loop = {}
 Loop.__index = Loop
@@ -255,7 +260,6 @@ function Loop:begin(events)
 
 		local lastTime = os.clock()
 		local generation = false
-		local lastSystem = nil
 
 		local function stepSystems()
 			local currentTime = os.clock()
@@ -272,12 +276,24 @@ function Loop:begin(events)
 						deltaTime = deltaTime,
 					},
 				}, function()
-					lastSystem = system
-
 					local fn = systemFn(system)
 					debug.profilebegin("system: " .. systemName(system))
 
-					local success, errorValue = xpcall(fn, debug.traceback, unpack(self._state, 1, self._stateLength))
+					local thread = coroutine.create(fn)
+
+					local success, errorValue = coroutine.resume(thread, unpack(self._state, 1, self._stateLength))
+
+					if coroutine.status(thread) ~= "dead" then
+						coroutine.close(thread)
+
+						task.spawn(
+							error,
+							(
+								"Matter: System %s yielded! Its thread has been closed. "
+								.. "Yielding in systems is not allowed."
+							):format(systemName(system))
+						)
+					end
 
 					if not success then
 						if os.clock() - recentErrorLastTime > 10 then
@@ -298,35 +314,6 @@ function Loop:begin(events)
 				end)
 			end
 		end
-
-		local runningThread = nil
-
-		local function coroutineMiddleware(nextFn)
-			return function()
-				if runningThread then
-					coroutine.close(runningThread)
-
-					task.spawn(
-						error,
-						(
-							"Matter: System %s yielded last frame and prevented systems after it from running. "
-							.. "The thread has now been closed. Please do not yield in your systems."
-						):format(systemName(lastSystem[eventName]))
-					)
-				end
-
-				runningThread = coroutine.create(function()
-					nextFn()
-
-					lastSystem = nil
-					runningThread = nil
-				end)
-
-				task.spawn(runningThread)
-			end
-		end
-
-		stepSystems = coroutineMiddleware(stepSystems)
 
 		for _, middleware in ipairs(self._middlewares) do
 			stepSystems = middleware(stepSystems)

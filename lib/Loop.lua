@@ -138,7 +138,14 @@ end
 
 local function orderSystemsByDependencies(unscheduledSystems: { System })
 	table.sort(unscheduledSystems, function(a, b)
-		return systemPriority(a) < systemPriority(b) or systemName(a) < systemName(b)
+		local priorityA = systemPriority(a)
+		local priorityB = systemPriority(b)
+
+		if priorityA == priorityB then
+			return systemName(a) < systemName(b)
+		end
+
+		return priorityA < priorityB
 	end)
 
 	local scheduledSystemsSet = {}

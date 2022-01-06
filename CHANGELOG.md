@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Fix Loop sort by priority to sort properly
+
 ## [0.1.1] - 2022-01-05
 ### Fixed
 - Fix accidental system yield error message in Loop

@@ -72,28 +72,45 @@ return function()
 			local loop = Loop.new()
 
 			local order = {}
-			local systemA = {
-				system = function()
-					table.insert(order, "a")
-				end,
-			}
-			local systemB = {
-				system = function()
-					table.insert(order, "b")
-				end,
-				priority = -1,
-			}
-			local systemC = {
-				system = function()
-					table.insert(order, "c")
-				end,
-				priority = 1,
-			}
+
+			local function cleanupStartReplication()
+				table.insert(order, "e")
+			end
+
+			local function replicateEnemies()
+				table.insert(order, "d")
+			end
+
+			local function spawnSwords()
+				table.insert(order, "c")
+			end
+
+			local function spawnEnemies()
+				table.insert(order, "b")
+			end
+
+			local function neutral()
+				table.insert(order, "a")
+			end
 
 			loop:scheduleSystems({
-				systemC,
-				systemB,
-				systemA,
+				{
+					system = spawnEnemies,
+					priority = 0,
+				},
+				neutral,
+				{
+					system = replicateEnemies,
+					priority = 100,
+				},
+				{
+					system = spawnSwords,
+					priority = 1,
+				},
+				{
+					system = cleanupStartReplication,
+					priority = 5000,
+				},
 			})
 
 			local connection = loop:begin({ default = bindable.Event })
@@ -102,10 +119,12 @@ return function()
 
 			bindable:Fire()
 
-			expect(#order).to.equal(3)
-			expect(order[1]).to.equal("b")
-			expect(order[2]).to.equal("a")
+			expect(#order).to.equal(5)
+			expect(order[1]).to.equal("a")
+			expect(order[2]).to.equal("b")
 			expect(order[3]).to.equal("c")
+			expect(order[4]).to.equal("d")
+			expect(order[5]).to.equal("e")
 
 			connection.default:Disconnect()
 		end)

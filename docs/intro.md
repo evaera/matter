@@ -33,3 +33,7 @@ Matter currently achieves an average frame time of 0.65ms spent inside Matter co
 - 300 unique component types
 - 200 systems
 - Each system queries between 1 and 10 components
+
+## Prior art
+
+Matter is inspired by [hecs by Railith](https://github.com/Ralith/hecs) from the Rust ecosystem!

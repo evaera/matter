@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.1.2]- 2022-01-06
 ### Fixed
 - Fix Loop sort by priority to sort properly
 

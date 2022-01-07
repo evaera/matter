@@ -12,7 +12,7 @@ When making a game on Roblox, whether a conscious decision or not, the source of
 
 As an example, the Humanoid object has a `Health` field. Most games on Roblox use the Humanoid's `Health` field as the source of truth for players. Thus, the source of truth for player health lives in the Data Model.
 
-On the other hand, imagine in your game players can earn points bay completing objectives. You create a table which maps players to the number of points they have (e.g., `{[Player]: number}`). To display the points to the player, you update some text in the game every time the points change. This is an example of the source of truth living in your own code: the `points` map is the source of truth, and you update the DataModel to reflect this.
+On the other hand, imagine in your game players can earn points by completing objectives. You create a table which maps players to the number of points they have (e.g., `{[Player]: number}`). To display the points to the player, you update some text in the game every time the points change. This is an example of the source of truth living in your own code: the `points` map is the source of truth, and you update the DataModel to reflect this.
 
 Many games use a mix of these two ideas for different pieces of state. While this *can* work, it can lead to problems down the line. Largely, these problems are caused by the instances and properties available in the DataModel being unable to adequately represent complex game state in a convenient way. Developers are forced to contort their game state around what's available in the DataModel, which makes code difficult to reason about. [Attributes](https://developer.roblox.com/en-us/articles/instance-attributes) are an attempt to help solve this problem, but ultimately fall short due to design limitations. You cannot create an attribute with a complex data structure, only primitive values are allowed. And, attributes must be placed on existing instance types, which hamstrings the developer's ability to have control over the state of their own game.
 
@@ -128,12 +128,12 @@ for _id, modelRecord, transform in world:queryChanged(Model, Transform) do
 end
 
 -- Update Transform on unanchored Models
-for id, model in world:query(Model, Transform) do
+for id, model, transform in world:query(Model, Transform) do
 	if model.instance.PrimaryPart.Anchored then
 		continue
 	end
 
-	local existingCFrame = world:get(id, Components.Transform)
+	local existingCFrame = transform.cframe
 	local currentCFrame = model.instance.PrimaryPart.CFrame
 
 	-- Only insert if actual position is different from the Transform component

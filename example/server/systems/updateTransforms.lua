@@ -19,12 +19,12 @@ local function updateTransforms(world)
 	end
 
 	-- Update Transform on unanchored Models
-	for id, model in world:query(Components.Model, Components.Transform) do
+	for id, model, transform in world:query(Components.Model, Components.Transform) do
 		if model.model.PrimaryPart.Anchored then
 			continue
 		end
 
-		local existingCFrame = world:get(id, Components.Transform)
+		local existingCFrame = transform.cframe
 		local currentCFrame = model.model.PrimaryPart.CFrame
 
 		if currentCFrame ~= existingCFrame then

@@ -27,7 +27,6 @@ local function spawnMotherships(world)
 
 	for id, transform in world:query(Components.Transform, Components.Mothership):without(Components.Model) do
 		local model = ReplicatedStorage.Assets.Mothership:Clone()
-		model:SetPrimaryPartCFrame(transform.cframe)
 		model.Parent = workspace
 		model.PrimaryPart:SetNetworkOwner(nil)
 

@@ -3,6 +3,6 @@ Matter's official example game.
 
 To build, clone the repo, and run:
 
-`rojo build example.default.json --output example.rbxl`
+`rojo build example.project.json --output example.rbxl`
 
 Then, open `example.rbxl` and play. Enjoy.

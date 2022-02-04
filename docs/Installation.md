@@ -32,6 +32,6 @@ matter = "evaera/matter@X.X.X" # Don't copy this. This won't work.
 
 ## Manual
 
-1. Download `matter.rbxm` from the [latest release](https://github.com/UpliftGames/moonwave/releases/latest).
+1. Download `matter.rbxm` from the [latest release](https://github.com/evaera/matter/releases/latest).
 2. Sync in with [Rojo](https://rojo.space) or import into Roblox Studio manually.
 

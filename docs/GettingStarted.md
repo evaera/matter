@@ -63,7 +63,7 @@ return {
 Let's make a system that removes 0.1 health every frame from things that are poisoned.
 
 ```lua title="systems/poisonHurts.lua"
-local Components = require(script.Parent.Components)
+local Components = require(script.Parent.components)
 local Health = Components.Health
 local Poison = Components.Poison
 

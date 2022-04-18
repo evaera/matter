@@ -47,6 +47,9 @@ local World = require(script.World)
 local Loop = require(script.Loop)
 local newComponent = require(script.Component).newComponent
 
+export type World = typeof(World.new())
+export type Loop = typeof(Loop.new())
+
 return {
 	World = World,
 	Loop = Loop,

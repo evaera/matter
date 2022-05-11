@@ -309,6 +309,7 @@ function Loop:begin(events)
 						end
 
 						local errorString = systemName(system) .. ": " .. tostring(errorValue)
+						.. "\n" .. debug.traceback(thread)
 
 						if not recentErrors[errorString] then
 							task.spawn(error, errorString)

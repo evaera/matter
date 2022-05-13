@@ -203,6 +203,7 @@ function World:clear()
 	self._archetypes = {}
 	self._entityMetatablesCache = {}
 	self._size = 0
+	self._changedStorage = {}
 end
 
 --[=[

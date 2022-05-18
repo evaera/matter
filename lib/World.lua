@@ -594,14 +594,7 @@ function World:_trackChanged(metatable, id, old, new)
 	})
 
 	for _, storage in ipairs(self._changedStorage[metatable]) do
-		if (storage[id]) then
-			storage[id] = table.freeze({
-				old = storage[id].old,
-				new = new,
-			})
-		else 
-			storage[id] = record
-		end
+		storage[id] = if storage[id] then table.freeze({ old = storage[id].old, new = new, }) else record 
 	end
 end
 

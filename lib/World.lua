@@ -21,10 +21,10 @@ World.__index = World
 ]=]
 function World.new()
 	return setmetatable({
-		-- Map from entity ID -> archetype string
+		-- Map from archetype string --> entity ID --> entity data
 		_archetypes = {},
 
-		-- Map from archetype string --> entity ID --> entity data
+		-- Map from entity ID -> archetype string
 		_entityArchetypes = {},
 
 		-- Cache of the component metatables on each entity. Used for generating archetype.

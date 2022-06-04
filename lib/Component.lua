@@ -40,6 +40,11 @@ local Llama = require(script.Parent.Parent.Llama)
 	```
 ]=]
 
+-- This is a special value we set inside the component's metatable that will allow us to detect when
+-- a Component is accidentally inserted as a Component Instance.
+-- It should not be accessible through indexing into a component instance directly.
+local DIAGNOSTIC_COMPONENT_MARKER = {}
+
 local function newComponent(name)
 	name = name or debug.info(2, "s") .. "@" .. debug.info(2, "l")
 
@@ -93,11 +98,41 @@ local function newComponent(name)
 		__tostring = function()
 			return name
 		end,
+		[DIAGNOSTIC_COMPONENT_MARKER] = true,
 	})
 
 	return component
 end
 
+local function assertValidComponent(value, position)
+	if typeof(value) ~= "table" then
+		error(string.format("Component #%d is invalid: not a table", position), 3)
+	end
+
+	local metatable = getmetatable(value)
+
+	if metatable == nil then
+		error(string.format("Component #%d is invalid: has no metatable", position), 3)
+	end
+end
+
+local function assertValidComponentInstance(value, position)
+	assertValidComponent(value, position)
+
+	if getmetatable(value)[DIAGNOSTIC_COMPONENT_MARKER] ~= nil then
+		error(
+			string.format(
+				"Component #%d is invalid: passed a Component instead of a Component instance; "
+					.. "did you forget to call it as a function?",
+				position
+			),
+			3
+		)
+	end
+end
+
 return {
 	newComponent = newComponent,
+	assertValidComponentInstance = assertValidComponentInstance,
+	assertValidComponent = assertValidComponent,
 }

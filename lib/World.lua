@@ -1,6 +1,9 @@
 local Archetype = require(script.Parent.Archetype)
 local TopoRuntime = require(script.Parent.TopoRuntime)
+local Component = require(script.Parent.Component)
 
+local assertValidComponentInstance = Component.assertValidComponentInstance
+local assertValidComponent = Component.assertValidComponent
 local archetypeOf = Archetype.archetypeOf
 local areArchetypesCompatible = Archetype.areArchetypesCompatible
 
@@ -61,6 +64,9 @@ function World:spawn(...)
 
 	for i = 1, select("#", ...) do
 		local newComponent = select(i, ...)
+
+		assertValidComponentInstance(newComponent, i)
+
 		local metatable = getmetatable(newComponent)
 
 		if components[metatable] then
@@ -150,6 +156,9 @@ function World:replace(id, ...)
 
 	for i = 1, select("#", ...) do
 		local newComponent = select(i, ...)
+
+		assertValidComponentInstance(newComponent, i)
+
 		local metatable = getmetatable(newComponent)
 
 		if components[metatable] then
@@ -234,12 +243,15 @@ function World:get(id, ...)
 	local length = select("#", ...)
 
 	if length == 1 then
+		assertValidComponent((...), 1)
 		return entity[...]
 	end
 
 	local components = {}
 	for i = 1, length do
-		components[i] = entity[select(i, ...)]
+		local metatable = select(i, ...)
+		assertValidComponent(metatable, i)
+		components[i] = entity[metatable]
 	end
 
 	return unpack(components, 1, length)
@@ -383,6 +395,8 @@ end
 ]=]
 function World:query(...)
 	debug.profilebegin("World:query")
+	assertValidComponent((...), 1)
+
 	local metatables = { ... }
 	local queryLength = select("#", ...)
 
@@ -642,7 +656,11 @@ function World:insert(id, ...)
 	local wasNew = false
 	for i = 1, select("#", ...) do
 		local newComponent = select(i, ...)
+
+		assertValidComponentInstance(newComponent, i)
+
 		local metatable = getmetatable(newComponent)
+
 		local oldComponent = existingComponents[metatable]
 
 		if not oldComponent then
@@ -686,6 +704,8 @@ function World:remove(id, ...)
 
 	for i = 1, length do
 		local metatable = select(i, ...)
+
+		assertValidComponent(metatable, i)
 
 		local oldComponent = existingComponents[metatable]
 

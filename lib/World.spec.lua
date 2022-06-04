@@ -110,8 +110,8 @@ return function()
 			)
 
 			world:spawn( -- Spawn something we don't want to get back
-				component(),
-				component()
+				component()(),
+				component()()
 			)
 
 			local two = world:spawn(
@@ -341,6 +341,27 @@ return function()
 			defaultBindable:Fire()
 
 			infrequentBindable:Fire()
+		end)
+
+		it("should error when passing nil to query", function()
+			expect(function()
+				World.new():query(nil)
+			end).to.throw()
+		end)
+
+		it("should error when passing an invalid table", function()
+			local world = World.new()
+			local id = world:spawn()
+
+			expect(function()
+				world:insert(id, {})
+			end).to.throw()
+		end)
+
+		it("should error when passing a Component instead of Component instance", function()
+			expect(function()
+				World.new():spawn(component())
+			end).to.throw()
 		end)
 	end)
 end

@@ -1,6 +1,7 @@
 local Component = require(script.Parent.Component)
 local None = require(script.Parent.Parent.Llama).None
 local component = Component.newComponent
+local assertValidComponentInstance = Component.assertValidComponentInstance
 
 return function()
 	describe("Component", function()
@@ -37,6 +38,26 @@ return function()
 			expect(a2.foo).to.equal("bar")
 			expect(a2.unset).to.equal(nil)
 			expect(a2.baz).to.equal("qux")
+		end)
+	end)
+
+	describe("assertValidComponentInstance", function()
+		it("should throw on invalid components", function()
+			expect(function()
+				assertValidComponentInstance({})
+			end).to.throw()
+
+			expect(function()
+				assertValidComponentInstance(55)
+			end).to.throw()
+
+			expect(function()
+				assertValidComponentInstance(component())
+			end).to.throw()
+
+			expect(function()
+				assertValidComponentInstance(component().new())
+			end).never.to.throw()
 		end)
 	end)
 end

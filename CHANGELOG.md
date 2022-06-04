@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.2.0] - 2022-06-04
 ### Added
 - Added a second parameter to `Matter.component`, which allows specifying default component data.
 - Add `QueryResult:snapshot` to convert a `QueryResult` into an immutable list

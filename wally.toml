@@ -1,6 +1,6 @@
 [package]
 name = "evaera/matter"
-version = "0.1.2"
+version = "0.2.0"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 exclude = ["example", "docs", "Packages", ".moonwave", "build", "pages", "tests"]

@@ -15,8 +15,8 @@ affect other systems.
 Yielding is not allowed in systems. Doing so will result in the system thread being closed early, but it will not
 affect other systems.
 :::"><meta data-react-helmet="true" property="og:url" content="https://eryn.io/matter/api/Loop"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="canonical" href="https://eryn.io/matter/api/Loop"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/Loop" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/Loop" hreflang="x-default"><link rel="stylesheet" href="/matter/assets/css/styles.e62b45be.css">
-<link rel="preload" href="/matter/assets/js/runtime~main.dacc1a47.js" as="script">
-<link rel="preload" href="/matter/assets/js/main.f5985a66.js" as="script">
+<link rel="preload" href="/matter/assets/js/runtime~main.01271292.js" as="script">
+<link rel="preload" href="/matter/assets/js/main.3c1f21bb.js" as="script">
 </head>
 <body>
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -154,7 +154,7 @@ affect other systems.
   Returns a table similar to the one you passed in, but the values are <code>RBXScriptConnection</code> values (or whatever is
   returned by <code>:Connect</code> if you passed in a synthetic event).
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="addMiddleware"><code style="text-decoration:none">addMiddleware</code><a aria-hidden="true" class="hash-link" href="#addMiddleware" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/Loop.lua#L368"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Loop<!-- -->:</code><code class="green_3LnD">addMiddleware</code><code>(</code><code>middleware<!-- -->: </code><code class="purple__nFc">(</code><code>nextFn<!-- -->: </code><code class="green_3LnD">(</code><code class="green_3LnD">)</code><code class="green_3LnD"> → </code><code class="green_3LnD">(</code><code class="green_3LnD">)</code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="purple__nFc">(</code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="purple__nFc">(</code><code class="purple__nFc">)</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="addMiddleware"><code style="text-decoration:none">addMiddleware</code><a aria-hidden="true" class="hash-link" href="#addMiddleware" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/Loop.lua#L372"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Loop<!-- -->:</code><code class="green_3LnD">addMiddleware</code><code>(</code><code>middleware<!-- -->: </code><code class="purple__nFc">(</code><code>nextFn<!-- -->: </code><code class="green_3LnD">(</code><code class="green_3LnD">)</code><code class="green_3LnD"> → </code><code class="green_3LnD">(</code><code class="green_3LnD">)</code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="purple__nFc">(</code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="purple__nFc">(</code><code class="purple__nFc">)</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Adds a user-defined middleware function that is called during each frame.</p>
 <p>This allows you to run code before and after each frame, to perform initialization and cleanup work.</p>
 <pre class="language-lua"><code class="language-lua">loop<span class="token punctuation">:</span><span class="token function">addMiddleware</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>nextFn<span class="token punctuation">)</span>
@@ -254,7 +254,7 @@ affect other systems.
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 368,
+                &quot;line&quot;: 372,
                 &quot;path&quot;: &quot;lib/Loop.lua&quot;
             }
         }
@@ -308,7 +308,7 @@ affect other systems.
         &quot;path&quot;: &quot;lib/Loop.lua&quot;
     }
 }</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#System" class="table-of-contents__link toc-highlight">System</a></li><li><a href="#SystemTable" class="table-of-contents__link toc-highlight">SystemTable</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#addMiddleware" class="table-of-contents__link toc-highlight">:addMiddleware</a></li><li><a href="#begin" class="table-of-contents__link toc-highlight">:begin</a></li><li><a href="#scheduleSystems" class="table-of-contents__link toc-highlight">:scheduleSystems</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/matter/assets/js/runtime~main.dacc1a47.js"></script>
-<script src="/matter/assets/js/main.f5985a66.js"></script>
+<script src="/matter/assets/js/runtime~main.01271292.js"></script>
+<script src="/matter/assets/js/main.3c1f21bb.js"></script>
 </body>
 </html>

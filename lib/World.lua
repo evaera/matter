@@ -594,7 +594,14 @@ function World:_trackChanged(metatable, id, old, new)
 	})
 
 	for _, storage in ipairs(self._changedStorage[metatable]) do
-		storage[id] = record
+		-- If this entity has changed since the last time this system read it,
+		-- we ensure that the "old" value is whatever the system saw it as last, instead of the
+		-- "old" value we have here.
+		if storage[id] then
+			storage[id] = table.freeze({ old = storage[id].old, new = new })
+		else
+			storage[id] = record
+		end
 	end
 end
 

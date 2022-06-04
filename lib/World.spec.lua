@@ -369,5 +369,51 @@ return function()
 				World.new():spawn(component())
 			end).to.throw()
 		end)
+
+		it("should allow snapshotting a query", function()
+			local world = World.new()
+
+			local Player = component()
+			local Health = component()
+			local Poison = component()
+
+			local one = world:spawn(
+				Player({
+					name = "alice",
+				}),
+				Health({
+					value = 100,
+				}),
+				Poison()
+			)
+
+			world:spawn( -- Spawn something we don't want to get back
+				component()(),
+				component()()
+			)
+
+			local two = world:spawn(
+				Player({
+					name = "bob",
+				}),
+				Health({
+					value = 99,
+				})
+			)
+
+			local snapshot = world:query(Health, Player):snapshot()
+
+			for entityId, health, player in world:query(Health, Player):snapshot() do
+				expect(type(entityId)).to.equal("number")
+				expect(type(player.name)).to.equal("string")
+				expect(type(health.value)).to.equal("number")
+			end
+
+			world:remove(two, Health)
+			world:despawn(one)
+
+			expect(snapshot[1][1]).to.equal(0)
+			expect(snapshot[2][1]).to.equal(2)
+		end)
 	end)
 end

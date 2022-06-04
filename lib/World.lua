@@ -314,6 +314,63 @@ function QueryResult:next()
 	return self._expand(self._next())
 end
 
+local snapshot = {
+	__iter = function(self)
+		local i = 0
+		return function()
+			i += 1
+
+			local data = self[i]
+
+			if data then
+				return unpack(data, 1, data.n)
+			end
+		end
+	end,
+}
+
+--[=[
+	Creates a "snapshot" of this query, draining this QueryResult and returning a list containing all of its results.
+
+	By default, iterating over a QueryResult happens in "real time": it iterates over the actual data in the ECS, so
+	changes that occur during the iteration will affect future results.
+
+	By contrast, `QueryResult:snapshot()` creates a list of all of the results of this query at the moment it is called,
+	so changes made while iterating over the result of `QueryResult:snapshot` do not affect future results of the
+	iteration.
+
+	Of course, this comes with a cost: we must allocate a new list and iterate over everything returned from the
+	QueryResult in advance, so using this method is slower than iterating over a QueryResult directly.
+
+	The table returned from this method has a custom `__iter` method, which lets you use it as you would use QueryResult
+	directly:
+
+	```lua
+		for entityId, health, player in world:query(Health, Player):snapshot() do
+
+		end
+	```
+
+	However, the table itself is just a list of sub-tables structured like `{entityId, component1, component2, ...etc}`.
+
+	@return {{entityId: number, component: ComponentInstance, component: ComponentInstance, component: ComponentInstance, ...}}
+]=]
+function QueryResult:snapshot()
+	local list = setmetatable({}, snapshot)
+
+	local function iter()
+		return self._next()
+	end
+
+	for entityId, entityData in iter do
+		if entityId then
+			table.insert(list, table.pack(self._expand(entityId, entityData)))
+		end
+	end
+
+	return list
+end
+
 --[=[
 	Returns an iterator that will skip any entities that also have the given components.
 
@@ -530,7 +587,7 @@ end
 	@param componentToTrack Component -- The component you want to listen to changes for.
 	@return () -> (id, ChangeRecord, ...ComponentInstance) -- Iterator of entity ID followed by the requested component values, in order
 ]=]
-function World:queryChanged(componentToTrack, ...)
+function World:queryChanged(componentToTrack, ...: nil)
 	if ... then
 		error("World:queryChanged does not take any additional parameters", 2)
 	end

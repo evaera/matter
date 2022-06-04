@@ -270,11 +270,20 @@ return function()
 					if count == 0 then
 						expect(infrequentCount).to.equal(1)
 					else
-						expect(infrequentCount).to.equal(2)
-						expect(count).to.equal(2)
+						if infrequentCount == 2 then
+							expect(count).to.equal(2)
 
-						expect(results[0].old.generation).to.equal(2)
-						expect(results[1].old.generation).to.equal(1)
+							expect(results[0].old).to.equal(nil)
+							expect(results[0].new.generation).to.equal(2)
+							expect(results[1].old).to.equal(nil)
+							expect(results[1].new).to.equal(nil)
+						elseif infrequentCount == 3 then
+							expect(results[0].old.generation).to.equal(2)
+							expect(results[0].new).to.equal(nil)
+							expect(count).to.equal(1)
+						else
+							error("infrequentCount too high")
+						end
 					end
 				end,
 				event = "infrequent",
@@ -324,6 +333,8 @@ return function()
 			defaultBindable:Fire()
 
 			world:replace(secondEntityId, B())
+
+			infrequentBindable:Fire()
 
 			world:despawn(entityId)
 

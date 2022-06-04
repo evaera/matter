@@ -47,7 +47,7 @@
 	```
 ]=]
 
-local Llama = require(script.Parent.Llama)
+local immutable = require(script.immutable)
 local World = require(script.World)
 local Loop = require(script.Loop)
 local newComponent = require(script.component).newComponent
@@ -66,6 +66,6 @@ return {
 	useThrottle = require(script.hooks.useThrottle),
 	useHookState = require(script.topoRuntime).useHookState,
 
-	merge = Llama.Dictionary.merge,
-	None = Llama.None,
+	merge = immutable.merge,
+	None = immutable.None,
 }

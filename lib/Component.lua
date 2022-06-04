@@ -1,4 +1,4 @@
-local Llama = require(script.Parent.Parent.Llama)
+local merge = require(script.Parent.immutable).merge
 
 --[=[
 	@class Component
@@ -60,7 +60,7 @@ local function newComponent(name, defaultData)
 		data = data or {}
 
 		if defaultData then
-			data = Llama.Dictionary.merge(defaultData, data)
+			data = merge(defaultData, data)
 		end
 
 		return table.freeze(setmetatable(data, component))
@@ -97,7 +97,7 @@ local function newComponent(name, defaultData)
 	]=]
 	function component:patch(partialNewData)
 		debug.profilebegin("patch")
-		local patch = getmetatable(self).new(Llama.Dictionary.merge(self, partialNewData))
+		local patch = getmetatable(self).new(merge(self, partialNewData))
 		debug.profileend()
 		return patch
 	end

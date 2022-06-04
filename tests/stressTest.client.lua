@@ -1,7 +1,7 @@
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Matter = require(ReplicatedStorage.Matter)
-local Llama = require(ReplicatedStorage.Llama)
+local immutable = require(ReplicatedStorage.Matter.immutable)
 
 -- 500 entities
 -- 2-30 components on each entity
@@ -42,10 +42,10 @@ for _ = 1, 1000 do -- 1000 entities in the world
 		})
 	end
 
-	world:spawn(unpack(Llama.Dictionary.values(componentsToAdd)))
+	world:spawn(unpack(immutable.values(componentsToAdd)))
 end
 
-local contiguousComponents = Llama.Dictionary.values(components)
+local contiguousComponents = immutable.values(components)
 local systemComponentsToQuery = {}
 
 for _ = 1, 200 do -- 200 systems

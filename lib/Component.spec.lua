@@ -1,5 +1,5 @@
 local Component = require(script.Parent.component)
-local None = require(script.Parent.Parent.Llama).None
+local None = require(script.Parent.immutable).None
 local component = Component.newComponent
 local assertValidComponentInstance = Component.assertValidComponentInstance
 

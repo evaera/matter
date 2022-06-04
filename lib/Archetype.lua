@@ -1,4 +1,4 @@
-local Llama = require(script.Parent.Parent.Llama)
+local toSet = require(script.Parent.immutable).toSet
 
 local valueIds = {}
 local nextValueId = 0
@@ -64,7 +64,7 @@ function areArchetypesCompatible(queryArchetype, targetArchetype)
 	debug.profilebegin("areArchetypesCompatible")
 
 	local queryIds = string.split(queryArchetype, "_")
-	local targetIds = Llama.List.toSet(string.split(targetArchetype, "_"))
+	local targetIds = toSet(string.split(targetArchetype, "_"))
 
 	for _, queryId in ipairs(queryIds) do
 		if targetIds[queryId] == nil then

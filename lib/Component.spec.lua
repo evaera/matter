@@ -39,6 +39,31 @@ return function()
 			expect(a2.unset).to.equal(nil)
 			expect(a2.baz).to.equal("qux")
 		end)
+
+		it("should allow specifying default data", function()
+			local Foo = component("Foo", {
+				a = 53,
+			})
+
+			local foo = Foo()
+
+			expect(foo.a).to.equal(53)
+
+			local bar = Foo({
+				a = 42,
+				b = 54,
+			})
+
+			expect(bar.a).to.equal(42)
+			expect(bar.b).to.equal(54)
+
+			local baz = Foo({
+				b = 100,
+			})
+
+			expect(baz.a).to.equal(53)
+			expect(baz.b).to.equal(100)
+		end)
 	end)
 
 	describe("assertValidComponentInstance", function()

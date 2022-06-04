@@ -45,14 +45,25 @@ local Llama = require(script.Parent.Parent.Llama)
 -- It should not be accessible through indexing into a component instance directly.
 local DIAGNOSTIC_COMPONENT_MARKER = {}
 
-local function newComponent(name)
+local function newComponent(name, defaultData)
 	name = name or debug.info(2, "s") .. "@" .. debug.info(2, "l")
+
+	assert(
+		defaultData == nil or type(defaultData) == "table",
+		"if component default data is specified, it must be a table"
+	)
 
 	local component = {}
 	component.__index = component
 
 	function component.new(data)
-		return table.freeze(setmetatable(data or {}, component))
+		data = data or {}
+
+		if defaultData then
+			data = Llama.Dictionary.merge(defaultData, data)
+		end
+
+		return table.freeze(setmetatable(data, component))
 	end
 
 	--[=[

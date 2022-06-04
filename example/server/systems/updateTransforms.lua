@@ -5,14 +5,34 @@ local removeMissingModels = require(script.Parent.removeMissingModels)
 
 local function updateTransforms(world)
 	-- Handle Transform added/changed to existing entity with Model
-	for _id, transformRecord, model in world:queryChanged(Components.Transform, Components.Model) do
+	for id, transformRecord in world:queryChanged(Components.Transform) do
+		if not world:contains(id) then
+			continue
+		end
+
+		local model = world:get(id, Components.Model)
+
+		if not model then
+			continue
+		end
+
 		if transformRecord.new and not transformRecord.new.doNotReconcile then
 			model.model:SetPrimaryPartCFrame(transformRecord.new.cframe)
 		end
 	end
 
 	-- Handle Model added/changed on existing entity with Transform
-	for _id, modelRecord, transform in world:queryChanged(Components.Model, Components.Transform) do
+	for id, modelRecord in world:queryChanged(Components.Model) do
+		if not world:contains(id) then
+			continue
+		end
+
+		local transform = world:get(id, Components.Transform)
+
+		if not transform then
+			continue
+		end
+
 		if modelRecord.new then
 			modelRecord.new.model:SetPrimaryPartCFrame(transform.cframe)
 		end

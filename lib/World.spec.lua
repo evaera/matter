@@ -240,7 +240,13 @@ return function()
 			local additionalQuery = C
 			loop:scheduleSystem(function(w)
 				local ran = false
-				for entityId, record in w:queryChanged(A, additionalQuery) do
+				for entityId, record in w:queryChanged(A) do
+					if additionalQuery then
+						if w:get(entityId, additionalQuery) == nil then
+							continue
+						end
+					end
+
 					ran = true
 					resultIndex += 1
 

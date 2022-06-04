@@ -13,6 +13,9 @@
 - System error stack traces are now displayed properly (#12)
 - `World:clear()` now correctly resets internal changed storage used by `queryChanged` (#13)
 
+### Removed
+- Additional query parameters to `queryChanged` have been removed. `queryChanged` now only takes one argument. If your code used these additional parameters, you can use `World:get(entityId, ComponentName)` to get a component, and use `continue` to skip iteration if it is not present.
+
 ## [0.1.2]- 2022-01-06
 ### Fixed
 - Fix Loop sort by priority to sort properly

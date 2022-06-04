@@ -1,4 +1,4 @@
-local TopoRuntime = require(script.Parent.Parent.TopoRuntime)
+local topoRuntime = require(script.Parent.Parent.topoRuntime)
 local Queue = require(script.Parent.Parent.Queue)
 
 local function cleanup(storage)
@@ -75,7 +75,7 @@ local function useEvent(instance, event): () -> (number, ...any)
 	assert(instance ~= nil, "Instance is nil")
 	assert(event ~= nil, "Event is nil")
 
-	local storage = TopoRuntime.useHookState(instance, cleanup)
+	local storage = topoRuntime.useHookState(instance, cleanup)
 
 	if type(event) == "string" then
 		event = instance[event]

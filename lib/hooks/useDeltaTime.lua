@@ -1,4 +1,4 @@
-local TopoRuntime = require(script.Parent.Parent.TopoRuntime)
+local topoRuntime = require(script.Parent.Parent.topoRuntime)
 
 --[=[
 	@within Matter
@@ -10,7 +10,7 @@ local TopoRuntime = require(script.Parent.Parent.TopoRuntime)
 	Returns the `os.clock()` time delta between the start of this and last frame.
 ]=]
 local function useDeltaTime(): number
-	local state = TopoRuntime.useFrameState()
+	local state = topoRuntime.useFrameState()
 
 	return state.deltaTime
 end

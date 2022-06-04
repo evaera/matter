@@ -1,10 +1,10 @@
-local TopoRuntime = require(script.Parent.TopoRuntime)
+local topoRuntime = require(script.Parent.topoRuntime)
 
 return function()
 	describe("TopoRuntime", function()
 		it("should restore state", function()
 			local function useHook()
-				local storage = TopoRuntime.useHookState()
+				local storage = topoRuntime.useHookState()
 
 				storage.counter = (storage.counter or 0) + 1
 
@@ -21,9 +21,9 @@ return function()
 				expect(useHook()).to.equal(ranCount)
 			end
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			expect(ranCount).to.equal(2)
 		end)
@@ -32,7 +32,7 @@ return function()
 			local shouldCleanup = false
 			local cleanedUpCount = 0
 			local function useHook()
-				local storage = TopoRuntime.useHookState(nil, function()
+				local storage = topoRuntime.useHookState(nil, function()
 					if shouldCleanup then
 						cleanedUpCount += 1
 					else
@@ -56,32 +56,32 @@ return function()
 				end
 			end
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			expect(cleanedUpCount).to.equal(0)
 
 			shouldRunHook = false
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			expect(cleanedUpCount).to.equal(0)
 
 			shouldCleanup = true
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			expect(cleanedUpCount).to.equal(1)
 
 			shouldRunHook = true
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			expect(cleanedUpCount).to.equal(1)
 		end)
 
 		it("should allow keying by unique values", function()
 			local function useHook(unique)
-				local storage = TopoRuntime.useHookState(unique)
+				local storage = topoRuntime.useHookState(unique)
 
 				storage.counter = (storage.counter or 0) + 1
 
@@ -98,13 +98,13 @@ return function()
 				expect(useHook("a value")).to.equal(ranCount)
 			end
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			expect(ranCount).to.equal(2)
 
-			TopoRuntime.start(node, function()
+			topoRuntime.start(node, function()
 				fn()
 				fn()
 			end)

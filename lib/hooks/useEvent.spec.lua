@@ -1,4 +1,4 @@
-local TopoRuntime = require(script.Parent.Parent.TopoRuntime)
+local topoRuntime = require(script.Parent.Parent.topoRuntime)
 local useEvent = require(script.Parent.useEvent)
 
 return function()
@@ -27,12 +27,12 @@ return function()
 				end
 			end
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			event:Fire(3, 4, 5)
 
 			shouldCount = 1
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			expect(a).to.equal(3)
 			expect(b).to.equal(4)
@@ -44,23 +44,23 @@ return function()
 			event:Fire()
 			event:Fire()
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			shouldCount = 0
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			event:Fire()
 			event:Fire()
 
 			shouldCall = false
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			shouldCall = true
 
 			-- Count should still be 0 as last frame didn't call useEvent
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 		end)
 
 		it("should cleanup if the event changes", function()
@@ -81,25 +81,25 @@ return function()
 				expect(count).to.equal(shouldCount)
 			end
 
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			event1:Fire()
 			event1:Fire()
 
 			shouldCount = 2
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			event1:Fire()
 			event1:Fire()
 			event = event2
 
 			shouldCount = 0
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 
 			event2:Fire()
 
 			shouldCount = 1
-			TopoRuntime.start(node, fn)
+			topoRuntime.start(node, fn)
 		end)
 	end)
 end

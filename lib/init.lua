@@ -50,7 +50,7 @@
 local Llama = require(script.Parent.Llama)
 local World = require(script.World)
 local Loop = require(script.Loop)
-local newComponent = require(script.Component).newComponent
+local newComponent = require(script.component).newComponent
 
 export type World = typeof(World.new())
 export type Loop = typeof(Loop.new())
@@ -64,7 +64,7 @@ return {
 	useEvent = require(script.hooks.useEvent),
 	useDeltaTime = require(script.hooks.useDeltaTime),
 	useThrottle = require(script.hooks.useThrottle),
-	useHookState = require(script.TopoRuntime).useHookState,
+	useHookState = require(script.topoRuntime).useHookState,
 
 	merge = Llama.Dictionary.merge,
 	None = Llama.None,

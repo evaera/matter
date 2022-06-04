@@ -1,4 +1,4 @@
-local TopoRuntime = require(script.Parent.TopoRuntime)
+local topoRuntime = require(script.Parent.topoRuntime)
 
 local recentErrors = {}
 local recentErrorLastTime = 0
@@ -276,7 +276,7 @@ function Loop:begin(events)
 			generation = not generation
 
 			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
-				TopoRuntime.start({
+				topoRuntime.start({
 					system = self._systemState[system],
 					frame = {
 						generation = generation,
@@ -308,8 +308,11 @@ function Loop:begin(events)
 							recentErrors = {}
 						end
 
-						local errorString = systemName(system) .. ": " .. tostring(errorValue)
-						.. "\n" .. debug.traceback(thread)
+						local errorString = systemName(system)
+							.. ": "
+							.. tostring(errorValue)
+							.. "\n"
+							.. debug.traceback(thread)
 
 						if not recentErrors[errorString] then
 							task.spawn(error, errorString)

@@ -1,11 +1,11 @@
-local Archetype = require(script.Parent.Archetype)
-local TopoRuntime = require(script.Parent.TopoRuntime)
-local Component = require(script.Parent.Component)
+local archetype = require(script.Parent.archetype)
+local topoRuntime = require(script.Parent.topoRuntime)
+local Component = require(script.Parent.component)
 
 local assertValidComponentInstance = Component.assertValidComponentInstance
 local assertValidComponent = Component.assertValidComponent
-local archetypeOf = Archetype.archetypeOf
-local areArchetypesCompatible = Archetype.areArchetypesCompatible
+local archetypeOf = archetype.archetypeOf
+local areArchetypesCompatible = archetype.areArchetypesCompatible
 
 local ERROR_NO_ENTITY = "Entity doesn't exist, use world:contains to check if needed"
 
@@ -535,7 +535,7 @@ function World:queryChanged(componentToTrack, ...)
 		error("World:queryChanged does not take any additional parameters", 2)
 	end
 
-	local hookState = TopoRuntime.useHookState(componentToTrack)
+	local hookState = topoRuntime.useHookState(componentToTrack)
 
 	if not hookState.storage then
 		if not self._changedStorage[componentToTrack] then

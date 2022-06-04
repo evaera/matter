@@ -266,6 +266,12 @@ function QueryResult:__call()
 	return self._expand(self._next())
 end
 
+function QueryResult:__iter()
+	return function()
+		return self._expand(self._next())
+	end
+end
+
 --[=[
 	Returns the next set of values from the query result. Once all results have been returned, the
 	QueryResult is exhausted and is no longer useful.

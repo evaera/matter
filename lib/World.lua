@@ -38,7 +38,7 @@ function World.new()
 		_queryCache = {},
 
 		-- The next ID that will be assigned with World:spawn
-		_nextId = 0,
+		_nextId = 1,
 
 		-- The total number of active entities in the world
 		_size = 0,
@@ -48,6 +48,34 @@ function World.new()
 	}, World)
 end
 
+function World:_next(last)
+	local entityId, archetype = next(self._entityArchetypes, last)
+
+	if entityId == nil then
+		return nil
+	end
+
+	return entityId, self._archetypes[archetype][entityId]
+end
+
+--[=[
+	Iterates over all entities in this World. Iteration returns entity ID followed by a dictionary mapping
+	Component to Component Instance.
+
+	**Usage:**
+
+	```lua
+	for entityId, entityData in world do
+		print(entityId, entityData[Components.Example])
+	end
+	```
+
+	@return () -> (number, {[Component]: ComponentInstance})
+]=]
+function World:__iter()
+	return World._next, self
+end
+
 --[=[
 	Spawns a new entity in the world with the given components.
 
@@ -55,9 +83,24 @@ end
 	@return number -- The new entity ID.
 ]=]
 function World:spawn(...)
-	local id = self._nextId
-	self._nextId += 1
+	return self:spawnAt(self._nextId, ...)
+end
+
+--[=[
+	Spawns a new entity in the world with a specific entity ID and given components.
+
+	The next ID generated from [World:spawn] will be increased as needed to never collide with a manually specified ID.
+
+	@param id number -- The entity ID to spawn with
+	@param ... ComponentInstance -- The component values to spawn the entity with.
+	@return number -- The same entity ID that was passed in
+]=]
+function World:spawnAt(id, ...)
 	self._size += 1
+
+	if id >= self._nextId then
+		self._nextId = id + 1
+	end
 
 	local components = {}
 	local metatables = {}
@@ -203,7 +246,7 @@ end
 --[=[
 	Removes all entities from the world.
 
-	:::warning
+	:::caution
 	Removing entities in this way is not reported by `queryChanged`.
 	:::
 ]=]
@@ -422,6 +465,8 @@ end
 	Performs a query against the entities in this World. Returns a [QueryResult](/api/QueryResult), which iterates over
 	the results of the query.
 
+	Order of iteration is not guaranteed.
+
 	```lua
 	for id, enemy, charge, model in world:query(Enemy, Charge, Model) do
 		-- Do something
@@ -585,7 +630,7 @@ end
 	:::
 
 	@param componentToTrack Component -- The component you want to listen to changes for.
-	@return () -> (id, ChangeRecord, ...ComponentInstance) -- Iterator of entity ID followed by the requested component values, in order
+	@return () -> (id, ChangeRecord) -- Iterator of entity ID and change record
 ]=]
 function World:queryChanged(componentToTrack, ...: nil)
 	if ... then

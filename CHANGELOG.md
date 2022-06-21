@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+### Added
+- Added `World:spawnAt` to spawn a new entity with a specified ID.
+- Added `World:__iter` to allow iteration over all entities in the world the world from a for loop.
+### Changed
+- The first entity ID is now `1` instead of `0`
+
 ## [0.2.0] - 2022-06-04
 ### Added
 - Added a second parameter to `Matter.component`, which allows specifying default component data.

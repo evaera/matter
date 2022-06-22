@@ -16,19 +16,34 @@
       "$className": "ServerScriptService",
       "Game": {
         "$path": "example/server"
-      },
-      "ExamplePackages": {
-        "$path": "example/Packages"
       }
     },
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
-      "$path": "Packages",
+
       "Assets": {
         "$path": "example/assets.rbxm"
       },
-      "Matter": {
-        "$path": "lib"
+      "Packages": {
+        "$path": "Packages",
+        "Matter": {
+          "$path": "lib"
+        }
+      },
+      "ExamplePackages": {
+        "$path": "example/Packages"
+      },
+      "Game": {
+        "$path": "example/shared"
+      }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "Game": {
+          "$path": "example/client"
+        }
       }
     }
   }

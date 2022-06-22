@@ -1,10 +1,12 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Components = require(script.Parent.Parent.components)
-local Matter = require(ReplicatedStorage.Matter)
+local Components = require(ReplicatedStorage.Game.components)
+local Matter = require(ReplicatedStorage.Packages.Matter)
 
 local function mothershipsSpawnRoombas(world)
-	for id, model, lasering, transform in world:query(Components.Model, Components.Lasering, Components.Transform, Components.Mothership) do
+	for id, model, lasering, transform in
+		world:query(Components.Model, Components.Lasering, Components.Transform, Components.Mothership)
+	do
 		model.model.Beam.Transparency = 1 - lasering.remainingTime
 
 		lasering = lasering:patch({

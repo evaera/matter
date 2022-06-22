@@ -1,11 +1,10 @@
 local RunService = game:GetService("RunService")
 local CollectionService = game:GetService("CollectionService")
-local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Packages = ServerScriptService.ExamplePackages
-local Matter = require(ReplicatedStorage.Matter)
+local Packages = ReplicatedStorage.ExamplePackages
+local Matter = require(ReplicatedStorage.Packages.Matter)
 local Plasma = require(Packages.plasma)
-local Components = require(script.components)
+local Components = require(ReplicatedStorage.Game.components)
 
 local world = Matter.World.new()
 local state = {}

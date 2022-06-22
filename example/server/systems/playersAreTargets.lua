@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Components = require(script.Parent.Parent.components)
-local Matter = require(ReplicatedStorage.Matter)
+local Components = require(ReplicatedStorage.Game.components)
+local Matter = require(ReplicatedStorage.Packages.Matter)
 
 local function playersAreTargets(world)
 	for _, player in ipairs(Players:GetPlayers()) do

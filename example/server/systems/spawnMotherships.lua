@@ -1,8 +1,7 @@
 local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Components = require(script.Parent.Parent.components)
-local Matter = require(ReplicatedStorage.Matter)
-local Plasma = require(ServerScriptService.ExamplePackages.plasma)
+local Components = require(ReplicatedStorage.Game.components)
+local Matter = require(ReplicatedStorage.Packages.Matter)
 
 local function spawnMotherships(world)
 	if Matter.useThrottle(10) then
@@ -38,7 +37,9 @@ local function spawnMotherships(world)
 		)
 	end
 
-	for id, mothership, transform in world:query(Components.Mothership, Components.Transform):without(Components.Lasering) do
+	for id, mothership, transform in
+		world:query(Components.Mothership, Components.Transform):without(Components.Lasering)
+	do
 		if (transform.cframe.p - mothership.goal).magnitude < 10 then
 			if mothership.lasered then
 				world:despawn(id)

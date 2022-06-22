@@ -1,6 +1,6 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Components = require(script.Parent.Parent.components)
-local Matter = require(ReplicatedStorage.Matter)
+local Components = require(ReplicatedStorage.Game.components)
+local Matter = require(ReplicatedStorage.Packages.Matter)
 
 local function roombasHurt(world)
 	for id, roomba, model in world:query(Components.Roomba, Components.Model) do

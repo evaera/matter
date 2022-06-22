@@ -143,13 +143,17 @@ function Loop:scheduleSystem(system: System)
 end
 
 --[=[
-	removes a previously-scheduled system from the Loop. Evicting a system also cleans up any storage from hooks.
+	Removes a previously-scheduled system from the Loop. Evicting a system also cleans up any storage from hooks.
 	This is intended to be used for hot reloading. Dynamically loading and unloading systems for gameplay logic
 	is not recommended.
 
 	@param system System
 ]=]
 function Loop:evictSystem(system: System)
+	if self._systems[system] == nil then
+		error("Can't evict system because it doesn't exist")
+	end
+
 	self._systems[system] = nil
 
 	topoRuntime.start({
@@ -157,6 +161,26 @@ function Loop:evictSystem(system: System)
 	}, function() end)
 
 	self._systemState[system] = nil
+
+	self:_sortSystems()
+end
+
+--[=[
+	Replaces an older version of a system with a newer version of the system. Internal system storage (which is used
+	by hooks) will be moved to be associated with the new system. This is intended to be used for hot reloading.
+
+	@param before System
+	@param after System
+]=]
+function Loop:replaceSystem(before: System, after: System)
+	if not self._systems[before] then
+		error("Before system does not exist!")
+	end
+
+	self._systems[after] = after
+	self._systems[before] = nil
+	self._systemState[after] = self._systemState[before] or {}
+	self._systemState[before] = nil
 
 	self:_sortSystems()
 end

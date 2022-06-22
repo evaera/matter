@@ -5,7 +5,7 @@ registry = "test"
 [[package]]
 name = "evaera/matter-example"
 version = "0.1.0"
-dependencies = [["import", "vocksel/import@2.0.0"], ["plasma", "evaera/plasma@0.1.0"]]
+dependencies = [["plasma", "evaera/plasma@0.1.0"], ["rewire", "sayhisam1/rewire@0.1.1"]]
 
 [[package]]
 name = "evaera/plasma"
@@ -18,6 +18,6 @@ version = "0.4.1"
 dependencies = []
 
 [[package]]
-name = "vocksel/import"
-version = "2.0.0"
+name = "sayhisam1/rewire"
+version = "0.1.1"
 dependencies = []

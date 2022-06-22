@@ -6,6 +6,9 @@
       "$className": "Workspace",
       "Terrain": {
         "$path": "example/terrain.rbxm"
+      },
+      "Level": {
+        "$path": "example/level.rbxm"
       }
     },
     "Lighting": {

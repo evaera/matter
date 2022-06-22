@@ -4,8 +4,10 @@
 ### Added
 - Added `World:spawnAt` to spawn a new entity with a specified ID.
 - Added `World:__iter` to allow iteration over all entities in the world the world from a for loop.
+- Added `Loop:evictSystem(system)`, which removes a previously-scheduled system from the Loop. Evicting a system also cleans up any storage from hooks. This is intended to be used for hot reloading. Dynamically loading and unloading systems for gameplay logic is not recommended.
 ### Changed
 - The first entity ID is now `1` instead of `0`
+- Events that have no systems scheduled to run on them are no longer skipped upon calling `Loop:begin`.
 
 ## [0.2.0] - 2022-06-04
 ### Added

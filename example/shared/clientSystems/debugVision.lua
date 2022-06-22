@@ -1,9 +1,27 @@
-local HttpService = game:GetService("HttpService")
+local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Components = require(ReplicatedStorage.Game.components)
 local template = ReplicatedStorage.Assets.BillboardGui
+local Matter = require(ReplicatedStorage.Packages.Matter)
 
-local function rainbowRoombas(world)
+warn("Press F to toggle debug overlay")
+
+local function debugVision(world, state)
+	for _, input in Matter.useEvent(UserInputService, "InputBegan") do
+		if input.KeyCode == Enum.KeyCode.F then
+			state.debugEnabled = not state.debugEnabled
+		end
+	end
+
+	if not state.debugEnabled then
+		for id, debugLabel in world:query(Components.DebugLabel) do
+			debugLabel.label:Destroy()
+			world:remove(id, Components.DebugLabel)
+		end
+
+		return
+	end
+
 	for id, model in world:query(Components.Model) do
 		local debugLabel = world:get(id, Components.DebugLabel)
 
@@ -42,4 +60,4 @@ local function rainbowRoombas(world)
 	end
 end
 
-return rainbowRoombas
+return debugVision

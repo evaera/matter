@@ -7,13 +7,20 @@ local RemoteEvent = Instance.new("RemoteEvent")
 RemoteEvent.Name = "MatterRemote"
 RemoteEvent.Parent = ReplicatedStorage
 
-local replicatedComponents = {
-	Components.Roomba,
-	Components.Model,
-	Components.Health,
-	Components.Target,
-	Components.Mothership,
+local REPLICATED_COMPONENTS = {
+	"Roomba",
+	"Model",
+	"Health",
+	"Target",
+	"Mothership",
+	"Spinner",
 }
+
+local replicatedComponents = {}
+
+for _, name in REPLICATED_COMPONENTS do
+	replicatedComponents[Components[name]] = true
+end
 
 local function replication(world)
 	for _, player in useEvent(Players, "PlayerAdded") do
@@ -24,7 +31,9 @@ local function replication(world)
 			payload[tostring(entityId)] = entityPayload
 
 			for component, componentData in entityData do
-				entityPayload[tostring(component)] = { data = componentData }
+				if replicatedComponents[component] then
+					entityPayload[tostring(component)] = { data = componentData }
+				end
 			end
 		end
 
@@ -34,7 +43,7 @@ local function replication(world)
 
 	local changes = {}
 
-	for _, component in replicatedComponents do
+	for component in replicatedComponents do
 		for entityId, record in world:queryChanged(component) do
 			local key = tostring(entityId)
 			local name = tostring(component)

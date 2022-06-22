@@ -11,6 +11,7 @@ local COMPONENTS = {
 	"Mothership",
 	"Lasering",
 	"DebugLabel",
+	"Spinner",
 }
 
 local components = {}

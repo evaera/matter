@@ -93,6 +93,18 @@ return function()
 			expect(world:contains(1234124124124124124124)).to.equal(false)
 		end)
 
+		it("should allow spawning entities at a specific ID", function()
+			local world = World.new()
+
+			local A = component()
+			local id = world:spawnAt(5, A())
+
+			expect(id).to.equal(5)
+
+			local nextId = world:spawn(A())
+			expect(nextId).to.equal(6)
+		end)
+
 		it("should allow inserting and removing components from existing entities", function()
 			local world = World.new()
 

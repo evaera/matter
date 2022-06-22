@@ -82,8 +82,9 @@ local function useEvent(instance, event): () -> (number, ...any)
 	end
 
 	if storage.event ~= event then
-		if storage.cleanup then
-			storage.cleanup()
+		if storage.event then
+			storage.connection:Disconnect()
+			warn("useEvent event changed:", storage.event, "->", event)
 			table.clear(storage)
 		end
 

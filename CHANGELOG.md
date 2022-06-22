@@ -9,6 +9,8 @@
 ### Changed
 - The first entity ID is now `1` instead of `0`
 - Events that have no systems scheduled to run on them are no longer skipped upon calling `Loop:begin`.
+### Fixed
+- Old event listeners created by `useEvent` were not properly disconnected when the passed event changed after having been already created. The event parameter passed to useEvent is not intended to be dynamically changed, so an warning has been added when this happens.
 
 ## [0.2.0] - 2022-06-04
 ### Added

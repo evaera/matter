@@ -27,13 +27,13 @@
       "Assets": {
         "$path": "example/assets.rbxm"
       },
-      "Packages": {
+      "Lib": {
         "$path": "Packages",
         "Matter": {
           "$path": "lib"
         }
       },
-      "ExamplePackages": {
+      "Packages": {
         "$path": "example/Packages"
       },
       "Game": {

@@ -2,7 +2,7 @@ local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Components = require(ReplicatedStorage.Game.components)
 local template = ReplicatedStorage.Assets.BillboardGui
-local Matter = require(ReplicatedStorage.Packages.Matter)
+local Matter = require(ReplicatedStorage.Lib.Matter)
 
 warn("Press F to toggle debug overlay")
 

@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Components = require(ReplicatedStorage.Game.components)
-local useEvent = require(ReplicatedStorage.Packages.Matter).useEvent
+local useEvent = require(ReplicatedStorage.Lib.Matter).useEvent
 
 local RemoteEvent = Instance.new("RemoteEvent")
 RemoteEvent.Name = "MatterRemote"

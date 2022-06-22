@@ -1,5 +1,5 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Matter = require(ReplicatedStorage.Packages.Matter)
+local Matter = require(ReplicatedStorage.Lib.Matter)
 
 local COMPONENTS = {
 	"Roomba",

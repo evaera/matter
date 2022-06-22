@@ -1,7 +1,7 @@
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Packages = ReplicatedStorage.ExamplePackages
-local Matter = require(ReplicatedStorage.Packages.Matter)
+local Packages = ReplicatedStorage.Packages
+local Matter = require(ReplicatedStorage.Lib.Matter)
 local Plasma = require(Packages.plasma)
 local HotReloader = require(Packages.rewire).HotReloader
 

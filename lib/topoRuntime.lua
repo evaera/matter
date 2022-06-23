@@ -115,6 +115,10 @@ local function useHookState(discriminator, cleanupCallback): {}
 
 	local currentFrame = stack[#stack]
 
+	if currentFrame == nil then
+		error("Attempt to access topologically-aware storage outside of a Loop-system context.", 3)
+	end
+
 	if not currentFrame.accessedKeys[baseKey] then
 		currentFrame.accessedKeys[baseKey] = {}
 	end

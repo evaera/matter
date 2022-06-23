@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.3.0] - 2022-06-22
 ### Added
 - Added `World:spawnAt` to spawn a new entity with a specified ID.
 - Added `World:__iter` to allow iteration over all entities in the world the world from a for loop.

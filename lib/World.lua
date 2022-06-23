@@ -479,18 +479,55 @@ end
 
 	&nbsp;
 
-	:::danger Modifying the World while iterating
-	- **Do not insert new components or spawn entities that would then match the query while iterating.** The iteration
-	behavior is undefined if the World is changed while iterating so that additional results would be returned.
+	:::danger Modifying the World inside query
+	Adding or removing components to entities that match the query you are currently iterating through isn't safe.
 
-	- **Removing components during iteration may cause the iterator to return the same entity multiple times**,
-	*if* the component would still meet the requirements of the query. It is safe to remove components
-	during iteration *if and only if* the entity would no longer meet the query requirements.
+
+	#### **Unsafe operations** while iterating over a query:
+	- Inserting new components or spawning new entities that match the query
+	- Removing components if the resulting entity would still match the query
+
 	:::
 
-	To mitigate against these limitations, simply build up a queue of actions to take after iteration, and then do them
-	after your iteration loop. **Inserting existing components** and **despawning entities** during iteration is safe,
-	however.
+
+	#### **Safe operations** while iterating over a query:
+	- Inserting new components or spawning new entities that **don't** match the query
+	- Removing components if the resulting entity **would not** match the query
+	- Updating components that already existed on an entity with new data
+	- Despawning entities that match the query
+
+	If you need to perform an unsafe operation while iterating over a query, consider using [QueryResult:snapshot]:
+
+	```lua
+	for id, enemy in world:query(Enemy):snapshot()
+		-- This is normally unsafe, because an entity with Enemy,Dead would still match our query.
+		-- However, when using `snapshot`, it's okay.
+		world:insert(id, Dead())
+	end
+	```
+
+	[QueryResult:snapshot] creates a list of all of the results of this query at the moment it is called,
+	so changes made while iterating over the result of `QueryResult:snapshot` do not affect future results of the
+	iteration.
+
+	Of course, this comes with a cost: we must allocate a new list and iterate over everything returned from the
+	QueryResult in advance, so using this method is slower than iterating over a QueryResult directly.
+
+	:::caution What's the worst that could happen?
+	Performing the *unsafe operations* listed above could result in the following:
+
+	- Entities being returned multiple times from the query
+	- Other entities being skipped altogether
+
+	As always when writing Lua, the iteration behavior when inserting new elements into a new table you are in the middle of iterating over
+	is undefined. This isn't only a concern with Matter.
+
+	Querying over the World iterates through Matter's archetypical storage directly. Because of the way the World works
+	internally, changing the unique set of components an entity has causes it to be moved to another storage location.
+	Because we are iterating over all storage locations that match our query, it's possible modifying an entity will
+	move it to a storage location that the query hasn't yet reached. If this happens, you will end up seeing the same
+	entity multiple times from a query.
+	:::
 
 	@param ... Component -- The component types to query. Only entities with *all* of these components will be returned.
 	@return QueryResult -- See [QueryResult](/api/QueryResult) docs.

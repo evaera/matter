@@ -647,8 +647,8 @@ end
 	cannot be modified.
 
 	```lua
-	for id, modelRecord, enemy in world:queryChanged(Model, Enemy) do
-		if modelRecord.new == nil then
+	for id, record in world:queryChanged(Model) do
+		if record.new == nil then
 			-- Model was removed
 
 			if enemy.type == "this is a made up example" then
@@ -658,14 +658,6 @@ end
 	end
 	```
 
-	&nbsp;
-
-	:::info
-	It's conventional to end the name you assign the record with "-Record", to make clear it is a different shape than
-	a regular component instance. The ChangeValue is a table with `new` and `old` fields, but additional returns for the
-	additional query arguments are regular component instances.
-	:::
-
 	@param componentToTrack Component -- The component you want to listen to changes for.
 	@return () -> (id, ChangeRecord) -- Iterator of entity ID and change record
 ]=]
@@ -674,7 +666,7 @@ function World:queryChanged(componentToTrack, ...: nil)
 		error("World:queryChanged does not take any additional parameters", 2)
 	end
 
-	local hookState = topoRuntime.useHookState(componentToTrack)
+	local hookState = topoRuntime.useHookState(componentToTrack) -- todo: cleanup!!
 
 	if not hookState.storage then
 		if not self._changedStorage[componentToTrack] then

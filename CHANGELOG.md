@@ -6,6 +6,7 @@
 - Added `World:__iter` to allow iteration over all entities in the world the world from a for loop.
 - Added `Loop:evictSystem(system)`, which removes a previously-scheduled system from the Loop. Evicting a system also cleans up any storage from hooks. This is intended to be used for hot reloading. Dynamically loading and unloading systems for gameplay logic is not recommended.
 - Added `Loop:replaceSystem(before, after)`, which replaces an older version of a system with a newer version of the system. Internal system storage (which is used by hooks) will be moved to be associated with the new system. This is intended to be used for hot reloading.
+- The Matter example game has been updated and adds support for both replication and hot reloading.
 ### Changed
 - The first entity ID is now `1` instead of `0`
 - Events that have no systems scheduled to run on them are no longer skipped upon calling `Loop:begin`.

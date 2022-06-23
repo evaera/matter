@@ -519,8 +519,8 @@ end
 	- Entities being returned multiple times from the query
 	- Other entities being skipped altogether
 
-	As always when writing Lua, the iteration behavior when inserting new elements into a new table you are in the middle of iterating over
-	is undefined. This isn't only a concern with Matter.
+	As always when writing Lua, the iteration behavior when inserting new elements into a table you are in the middle of
+	iterating over is undefined. This isn't only a concern with Matter.
 
 	Querying over the World iterates through Matter's archetypical storage directly. Because of the way the World works
 	internally, changing the unique set of components an entity has causes it to be moved to another storage location.

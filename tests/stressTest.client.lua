@@ -83,14 +83,14 @@ RunService.Heartbeat:Connect(function()
 	end
 	debug.profileend()
 
-	if os.clock() - startTime < 2 then
-		-- discard first 2 seconds
+	if os.clock() - startTime < 4 then
+		-- discard first 4 seconds
 		return
 	end
 
 	if results == nil then
 		return
-	elseif #results < 100 then
+	elseif #results < 1000 then
 		table.insert(results, os.clock() - systemStartTime)
 	else
 		print("added", added)

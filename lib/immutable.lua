@@ -1,20 +1,13 @@
 local None = {}
 
--- https://github.com/freddylist/llama/blob/master/src/Dictionary/merge.lua
-local function merge(...)
-	local new = {}
+local function merge(one, two)
+	local new = table.clone(one)
 
-	for dictionaryIndex = 1, select("#", ...) do
-		local dictionary = select(dictionaryIndex, ...)
-
-		if dictionary ~= nil then
-			for key, value in pairs(dictionary) do
-				if value == None then
-					new[key] = nil
-				else
-					new[key] = value
-				end
-			end
+	for key, value in two do
+		if value == None then
+			new[key] = nil
+		else
+			new[key] = value
 		end
 	end
 

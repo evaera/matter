@@ -319,12 +319,15 @@ function Loop:begin(events)
 
 			generation = not generation
 
+			local dirtyWorlds = {}
+
 			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
 				topoRuntime.start({
 					system = self._systemState[system],
 					frame = {
 						generation = generation,
 						deltaTime = deltaTime,
+						dirtyWorlds = dirtyWorlds,
 					},
 				}, function()
 					local fn = systemFn(system)
@@ -345,6 +348,11 @@ function Loop:begin(events)
 							):format(systemName(system))
 						)
 					end
+
+					for world in dirtyWorlds do
+						world:optimizeQueries()
+					end
+					table.clear(dirtyWorlds)
 
 					if not success then
 						if os.clock() - recentErrorLastTime > 10 then

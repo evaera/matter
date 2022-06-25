@@ -78,6 +78,7 @@ RunService.Heartbeat:Connect(function()
 			)
 			added += 1
 		end
+		world:optimizeQueries()
 		debug.profileend()
 	end
 	debug.profileend()
@@ -104,7 +105,7 @@ RunService.Heartbeat:Connect(function()
 
 		local n = 0
 
-		for _ in pairs(world._archetypes) do
+		for _ in pairs(world._entityArchetypeCache) do
 			n += 1
 		end
 

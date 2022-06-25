@@ -36,6 +36,10 @@ local function start(node, fn)
 	table.remove(stack, #stack)
 end
 
+local function withinTopoContext()
+	return #stack ~= 0
+end
+
 local function useFrameState()
 	return stack[#stack].node.frame
 end
@@ -157,4 +161,5 @@ return {
 	start = start,
 	useHookState = useHookState,
 	useFrameState = useFrameState,
+	withinTopoContext = withinTopoContext,
 }

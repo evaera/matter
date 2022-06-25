@@ -1,6 +1,7 @@
 local World = require(script.Parent.World)
 local Loop = require(script.Parent.Loop)
 local component = require(script.Parent).component
+local BindableEvent = require(script.Parent.mock.BindableEvent)
 
 local function deepEquals(a, b)
 	if type(a) ~= "table" or type(b) ~= "table" then
@@ -341,8 +342,8 @@ return function()
 				event = "infrequent",
 			})
 
-			local defaultBindable = Instance.new("BindableEvent")
-			local infrequentBindable = Instance.new("BindableEvent")
+			local defaultBindable = BindableEvent.new()
+			local infrequentBindable = BindableEvent.new()
 
 			loop:begin({ default = defaultBindable.Event, infrequent = infrequentBindable.Event })
 

@@ -2,8 +2,9 @@ local Loop = require(script.Parent.Loop)
 local useHookState = require(script.Parent.topoRuntime).useHookState
 local World = require(script.Parent.World)
 local component = require(script.Parent).component
+local BindableEvent = require(script.Parent.mock.BindableEvent)
 
-local bindable = Instance.new("BindableEvent")
+local bindable = BindableEvent.new()
 
 return function()
 	describe("Loop", function()
@@ -50,7 +51,7 @@ return function()
 
 			loop:scheduleSystems({ system1, system2 })
 
-			local bindable = Instance.new("BindableEvent")
+			local bindable = BindableEvent.new()
 
 			loop:begin({
 				default = bindable.Event,
@@ -104,7 +105,7 @@ return function()
 
 			loop:scheduleSystem(system1)
 
-			local bindable = Instance.new("BindableEvent")
+			local bindable = BindableEvent.new()
 
 			loop:begin({
 				default = bindable.Event,
@@ -268,7 +269,7 @@ return function()
 				world:query(A)
 			end)
 
-			local bindable = Instance.new("BindableEvent")
+			local bindable = BindableEvent.new()
 			loop:begin({
 				default = bindable.Event,
 			})

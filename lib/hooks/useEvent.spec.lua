@@ -1,5 +1,6 @@
 local topoRuntime = require(script.Parent.Parent.topoRuntime)
 local useEvent = require(script.Parent.useEvent)
+local BindableEvent = require(script.Parent.Parent.mock.BindableEvent)
 
 return function()
 	describe("useEvent", function()
@@ -8,7 +9,7 @@ return function()
 				system = {},
 			}
 
-			local event = Instance.new("BindableEvent")
+			local event = BindableEvent.new()
 
 			local a, b, c
 			local shouldCall = true
@@ -68,8 +69,8 @@ return function()
 				system = {},
 			}
 
-			local event1 = Instance.new("BindableEvent")
-			local event2 = Instance.new("BindableEvent")
+			local event1 = BindableEvent.new()
+			local event2 = BindableEvent.new()
 
 			local event = event1
 			local shouldCount = 0

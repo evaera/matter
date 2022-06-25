@@ -137,7 +137,17 @@ end
 	@param ... ComponentInstance -- The component values to spawn the entity with.
 	@return number -- The same entity ID that was passed in
 ]=]
-function World:spawnAt(id, ...) -- todo: error when entity ID already exists, recommend replace
+function World:spawnAt(id, ...)
+	if self:contains(id) then
+		error(
+			string.format(
+				"The world already contains an entity with ID %d. Use World:replace instead if this is intentional.",
+				id
+			),
+			2
+		)
+	end
+
 	self._size += 1
 
 	if id >= self._nextId then

@@ -99,6 +99,10 @@ return function()
 			local A = component()
 			local id = world:spawnAt(5, A())
 
+			expect(function()
+				world:spawnAt(5, A())
+			end).to.throw()
+
 			expect(id).to.equal(5)
 
 			local nextId = world:spawn(A())

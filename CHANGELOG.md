@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Changed
+- Modifying the World while inside `World:query` can no longer cause iterator invalidation. All operations to World while inside a query are now safe. 🎉
+
 ## [0.3.0] - 2022-06-22
 ### Added
 - Added `World:spawnAt` to spawn a new entity with a specified ID.

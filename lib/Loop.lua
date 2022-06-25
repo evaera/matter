@@ -169,8 +169,8 @@ end
 	Replaces an older version of a system with a newer version of the system. Internal system storage (which is used
 	by hooks) will be moved to be associated with the new system. This is intended to be used for hot reloading.
 
-	@param before System
-	@param after System
+	@param old System
+	@param new System
 ]=]
 function Loop:replaceSystem(old: System, new: System)
 	if not self._systems[old] then

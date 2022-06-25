@@ -1,8 +1,9 @@
 # Changelog
 
-## [Unreleased]
+## [0.4.0] - 2022-06-25
 ### Changed
 - Modifying the World while inside `World:query` can no longer cause iterator invalidation. All operations to World while inside a query are now safe. 🎉
+  - If you aren't using `Loop`, you must call `World:optimizeQueries` periodically (e.g., every frame)
 - If a system stops calling `queryChanged`, its internal storage will now be cleaned up. It is no longer a requirement that a system calls `queryChanged` forever.
 - `Matter.merge` (an undocumented function) now only accepts two parameters.
 ### Fixed

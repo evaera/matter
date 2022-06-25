@@ -644,6 +644,22 @@ function World:query(...)
 	}, QueryResult)
 end
 
+local function cleanupQueryChanged(hookState)
+	local world = hookState.world
+	local componentToTrack = hookState.componentToTrack
+
+	for index, object in world._changedStorage[componentToTrack] do
+		if object == hookState.storage then
+			table.remove(world._changedStorage[componentToTrack], index)
+			break
+		end
+	end
+
+	if next(world._changedStorage[componentToTrack]) == nil then
+		world._changedStorage[componentToTrack] = nil
+	end
+end
+
 --[=[
 	@interface ChangeRecord
 	@within World
@@ -672,9 +688,10 @@ end
 	Calling this function from your system creates storage internally for your system. Then, changes meeting your
 	criteria are pushed into your storage. Calling `queryChanged` again each frame drains this storage.
 
-	If you do not call `queryChanged` each frame, or your system isn't called every frame, the storage will continually
-	fill up and does not empty unless you drain it. It is assumed that you will call `queryChanged` unconditionally,
-	every frame, **until the end of time**.
+	If your system isn't called every frame, the storage will continually fill up and does not empty unless you drain
+	it.
+
+	If you stop calling `queryChanged` in your system, changes will stop being tracked.
 	:::
 
 	### Returns
@@ -714,7 +731,7 @@ function World:queryChanged(componentToTrack, ...: nil)
 		error("World:queryChanged does not take any additional parameters", 2)
 	end
 
-	local hookState = topoRuntime.useHookState(componentToTrack) -- todo: cleanup!!
+	local hookState = topoRuntime.useHookState(componentToTrack, cleanupQueryChanged)
 
 	if not hookState.storage then
 		if not self._changedStorage[componentToTrack] then
@@ -723,6 +740,8 @@ function World:queryChanged(componentToTrack, ...: nil)
 
 		local storage = {}
 		hookState.storage = storage
+		hookState.world = self
+		hookState.componentToTrack = componentToTrack
 
 		table.insert(self._changedStorage[componentToTrack], storage)
 	end

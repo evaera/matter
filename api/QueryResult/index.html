@@ -23,8 +23,8 @@ for id, enemy, charge, model in world:query(Enemy, Charge, Model) do
 	-- Do something
 end
 ```"><meta data-react-helmet="true" property="og:url" content="https://eryn.io/matter/api/QueryResult"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="canonical" href="https://eryn.io/matter/api/QueryResult"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/QueryResult" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/QueryResult" hreflang="x-default"><link rel="stylesheet" href="/matter/assets/css/styles.e62b45be.css">
-<link rel="preload" href="/matter/assets/js/runtime~main.96aa963a.js" as="script">
-<link rel="preload" href="/matter/assets/js/main.7677e921.js" as="script">
+<link rel="preload" href="/matter/assets/js/runtime~main.9a7abc11.js" as="script">
+<link rel="preload" href="/matter/assets/js/main.96ebb0c9.js" as="script">
 </head>
 <body>
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -38,7 +38,7 @@ end
 	<span class="token comment">-- Do something</span>
 <span class="token keyword">end</span>
 </code></pre>
-</div></header><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="next"><code style="text-decoration:none">next</code><a aria-hidden="true" class="hash-link" href="#next" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L356"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>QueryResult<!-- -->:</code><code class="green_3LnD">next</code><code>(</code><code>) → </code><code>(</code><div class="inset_2cJr"><div><code class="blue_2Afy">id</code><code>,</code><span class="inlineDescription_17uy">-- <span>
+</div></header><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="next"><code style="text-decoration:none">next</code><a aria-hidden="true" class="hash-link" href="#next" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L424"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>QueryResult<!-- -->:</code><code class="green_3LnD">next</code><code>(</code><code>) → </code><code>(</code><div class="inset_2cJr"><div><code class="blue_2Afy">id</code><code>,</code><span class="inlineDescription_17uy">-- <span>
 <p>Entity ID</p>
 </span></span></div><div><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">...ComponentInstance</a></code><span class="inlineDescription_17uy">-- <span>
 <p>The requested component values</p>
@@ -72,7 +72,7 @@ end
 <pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> id<span class="token punctuation">,</span> enemy<span class="token punctuation">,</span> charge<span class="token punctuation">,</span> model <span class="token operator">=</span> world<span class="token punctuation">:</span><span class="token function">query</span><span class="token punctuation">(</span>Enemy<span class="token punctuation">,</span> Charge<span class="token punctuation">,</span> Model<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">local</span> id<span class="token punctuation">,</span> enemy<span class="token punctuation">,</span> charge<span class="token punctuation">,</span> model <span class="token operator">=</span> world<span class="token punctuation">:</span><span class="token function">query</span><span class="token punctuation">(</span>Enemy<span class="token punctuation">,</span> Charge<span class="token punctuation">,</span> Model<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">-- Possible, but unconventional</span>
 </code></pre>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="snapshot"><code style="text-decoration:none">snapshot</code><a aria-hidden="true" class="hash-link" href="#snapshot" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L401"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>QueryResult<!-- -->:</code><code class="green_3LnD">snapshot</code><code>(</code><code>) → </code><code class="purple__nFc">{</code><code class="green_3LnD">{</code><div class="inset_2cJr"><code>entityId<!-- -->: </code><code class="blue_2Afy">number</code><code class="green_3LnD">,</code></div><div class="inset_2cJr"><code>component<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><code class="green_3LnD">,</code></div><div class="inset_2cJr"><code>component<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><code class="green_3LnD">,</code></div><div class="inset_2cJr"><code>component<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><code class="green_3LnD">,</code></div><div class="inset_2cJr"><code class="blue_2Afy">...</code></div><code class="green_3LnD">}</code><code class="purple__nFc">}</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="snapshot"><code style="text-decoration:none">snapshot</code><a aria-hidden="true" class="hash-link" href="#snapshot" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L469"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>QueryResult<!-- -->:</code><code class="green_3LnD">snapshot</code><code>(</code><code>) → </code><code class="purple__nFc">{</code><code class="green_3LnD">{</code><div class="inset_2cJr"><code>entityId<!-- -->: </code><code class="blue_2Afy">number</code><code class="green_3LnD">,</code></div><div class="inset_2cJr"><code>component<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><code class="green_3LnD">,</code></div><div class="inset_2cJr"><code>component<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><code class="green_3LnD">,</code></div><div class="inset_2cJr"><code>component<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><code class="green_3LnD">,</code></div><div class="inset_2cJr"><code class="blue_2Afy">...</code></div><code class="green_3LnD">}</code><code class="purple__nFc">}</code></div><div>
 <p>Creates a "snapshot" of this query, draining this QueryResult and returning a list containing all of its results.</p>
 <p>
   By default, iterating over a QueryResult happens in "real time": it iterates over the actual data in the ECS, so
@@ -96,7 +96,7 @@ end
 	<span class="token keyword">end</span>
 </code></pre>
 <p>However, the table itself is just a list of sub-tables structured like <code>{entityId, component1, component2, ...etc}</code>.</p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="without"><code style="text-decoration:none">without</code><a aria-hidden="true" class="hash-link" href="#without" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L437"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>QueryResult<!-- -->:</code><code class="green_3LnD">without</code><code>(</code><div class="inset_2cJr"><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="without"><code style="text-decoration:none">without</code><a aria-hidden="true" class="hash-link" href="#without" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L505"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>QueryResult<!-- -->:</code><code class="green_3LnD">without</code><code>(</code><div class="inset_2cJr"><div><code>...<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_17uy">-- <span>
 <p>The component types to filter against.</p>
 </span></span></div></div><code>) → </code><code class="purple__nFc">(</code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="purple__nFc">(</code><div class="inset_2cJr"><code class="blue_2Afy">id</code><code class="purple__nFc">,</code></div><div class="inset_2cJr"><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">...ComponentInstance</a></code></div><code class="purple__nFc">)</code><span class="inlineDescription_17uy">-- <span>
 <p>Iterator of entity ID followed by the requested component values</p>
@@ -141,7 +141,7 @@ end
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 356,
+                &quot;line&quot;: 424,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -157,7 +157,7 @@ end
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 401,
+                &quot;line&quot;: 469,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -179,7 +179,7 @@ end
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 437,
+                &quot;line&quot;: 505,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         }
@@ -189,11 +189,11 @@ end
     &quot;name&quot;: &quot;QueryResult&quot;,
     &quot;desc&quot;: &quot;A result from the [`World:query`](/api/World#query) function.\n\nCalling the table or the `next` method allows iteration over the results. Once all results have been returned, the\nQueryResult is exhausted and is no longer useful.\n\n```lua\nfor id, enemy, charge, model in world:query(Enemy, Charge, Model) do\n\t-- Do something\nend\n```&quot;,
     &quot;source&quot;: {
-        &quot;line&quot;: 317,
+        &quot;line&quot;: 385,
         &quot;path&quot;: &quot;lib/World.lua&quot;
     }
 }</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#next" class="table-of-contents__link toc-highlight">:next</a></li><li><a href="#snapshot" class="table-of-contents__link toc-highlight">:snapshot</a></li><li><a href="#without" class="table-of-contents__link toc-highlight">:without</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/matter/assets/js/runtime~main.96aa963a.js"></script>
-<script src="/matter/assets/js/main.7677e921.js"></script>
+<script src="/matter/assets/js/runtime~main.9a7abc11.js"></script>
+<script src="/matter/assets/js/main.96ebb0c9.js"></script>
 </body>
 </html>

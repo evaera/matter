@@ -15,8 +15,8 @@ affect other systems.
 Yielding is not allowed in systems. Doing so will result in the system thread being closed early, but it will not
 affect other systems.
 :::"><meta data-react-helmet="true" property="og:url" content="https://eryn.io/matter/api/Loop"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="canonical" href="https://eryn.io/matter/api/Loop"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/Loop" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://eryn.io/matter/api/Loop" hreflang="x-default"><link rel="stylesheet" href="/matter/assets/css/styles.e62b45be.css">
-<link rel="preload" href="/matter/assets/js/runtime~main.96aa963a.js" as="script">
-<link rel="preload" href="/matter/assets/js/main.7677e921.js" as="script">
+<link rel="preload" href="/matter/assets/js/runtime~main.9a7abc11.js" as="script">
+<link rel="preload" href="/matter/assets/js/main.96ebb0c9.js" as="script">
 </head>
 <body>
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -129,12 +129,12 @@ affect other systems.
   This is intended to be used for hot reloading. Dynamically loading and unloading systems for gameplay logic
   is not recommended.
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="replaceSystem"><code style="text-decoration:none">replaceSystem</code><a aria-hidden="true" class="hash-link" href="#replaceSystem" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/Loop.lua#L175"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Loop<!-- -->:</code><code class="green_3LnD">replaceSystem</code><code>(</code><div class="inset_2cJr"><div><code>before<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop#System">System</a></code><code>,</code></div><div><code>after<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop#System">System</a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="replaceSystem"><code style="text-decoration:none">replaceSystem</code><a aria-hidden="true" class="hash-link" href="#replaceSystem" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/Loop.lua#L175"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Loop<!-- -->:</code><code class="green_3LnD">replaceSystem</code><code>(</code><div class="inset_2cJr"><div><code>old<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop#System">System</a></code><code>,</code></div><div><code>new<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop#System">System</a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>
   Replaces an older version of a system with a newer version of the system. Internal system storage (which is used
   by hooks) will be moved to be associated with the new system. This is intended to be used for hot reloading.
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="begin"><code style="text-decoration:none">begin</code><a aria-hidden="true" class="hash-link" href="#begin" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/Loop.lua#L303"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Loop<!-- -->:</code><code class="green_3LnD">begin</code><code>(</code><div class="inset_2cJr"><div><code>events<!-- -->: </code><code class="purple__nFc">{</code><span><code>[</code><code class="blue_2Afy">string</code><code>]</code></span><code>: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptSignal" target="_blank" rel="noopener noreferrer">RBXScriptSignal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">}</code><span class="inlineDescription_17uy">-- <span>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="begin"><code style="text-decoration:none">begin</code><a aria-hidden="true" class="hash-link" href="#begin" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/Loop.lua#L313"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Loop<!-- -->:</code><code class="green_3LnD">begin</code><code>(</code><div class="inset_2cJr"><div><code>events<!-- -->: </code><code class="purple__nFc">{</code><span><code>[</code><code class="blue_2Afy">string</code><code>]</code></span><code>: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptSignal" target="_blank" rel="noopener noreferrer">RBXScriptSignal<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">}</code><span class="inlineDescription_17uy">-- <span>
 <p>A map from event name to event objects.</p>
 </span></span></div></div><code>) → </code><code class="purple__nFc">{</code><span><code>[</code><code class="blue_2Afy">string</code><code>]</code></span><code>: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/RBXScriptConnection" target="_blank" rel="noopener noreferrer">RBXScriptConnection<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple__nFc">}</code><span class="inlineDescription_17uy">-- <span>
 <p>A map from your event names to connection objects.</p>
@@ -157,7 +157,7 @@ affect other systems.
   Returns a table similar to the one you passed in, but the values are <code>RBXScriptConnection</code> values (or whatever is
   returned by <code>:Connect</code> if you passed in a synthetic event).
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="addMiddleware"><code style="text-decoration:none">addMiddleware</code><a aria-hidden="true" class="hash-link" href="#addMiddleware" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/Loop.lua#L416"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Loop<!-- -->:</code><code class="green_3LnD">addMiddleware</code><code>(</code><code>middleware<!-- -->: </code><code class="purple__nFc">(</code><code>nextFn<!-- -->: </code><code class="green_3LnD">(</code><code class="green_3LnD">)</code><code class="green_3LnD"> → </code><code class="green_3LnD">(</code><code class="green_3LnD">)</code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="purple__nFc">(</code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="purple__nFc">(</code><code class="purple__nFc">)</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="addMiddleware"><code style="text-decoration:none">addMiddleware</code><a aria-hidden="true" class="hash-link" href="#addMiddleware" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/evaera/matter/blob/main/lib/Loop.lua#L434"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>Loop<!-- -->:</code><code class="green_3LnD">addMiddleware</code><code>(</code><code>middleware<!-- -->: </code><code class="purple__nFc">(</code><code>nextFn<!-- -->: </code><code class="green_3LnD">(</code><code class="green_3LnD">)</code><code class="green_3LnD"> → </code><code class="green_3LnD">(</code><code class="green_3LnD">)</code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="purple__nFc">(</code><code class="purple__nFc">)</code><code class="purple__nFc"> → </code><code class="purple__nFc">(</code><code class="purple__nFc">)</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Adds a user-defined middleware function that is called during each frame.</p>
 <p>This allows you to run code before and after each frame, to perform initialization and cleanup work.</p>
 <pre class="language-lua"><code class="language-lua">loop<span class="token punctuation">:</span><span class="token function">addMiddleware</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>nextFn<span class="token punctuation">)</span>
@@ -261,12 +261,12 @@ affect other systems.
             &quot;desc&quot;: &quot;Replaces an older version of a system with a newer version of the system. Internal system storage (which is used\nby hooks) will be moved to be associated with the new system. This is intended to be used for hot reloading.&quot;,
             &quot;params&quot;: [
                 {
-                    &quot;name&quot;: &quot;before&quot;,
+                    &quot;name&quot;: &quot;old&quot;,
                     &quot;desc&quot;: &quot;&quot;,
                     &quot;lua_type&quot;: &quot;System&quot;
                 },
                 {
-                    &quot;name&quot;: &quot;after&quot;,
+                    &quot;name&quot;: &quot;new&quot;,
                     &quot;desc&quot;: &quot;&quot;,
                     &quot;lua_type&quot;: &quot;System&quot;
                 }
@@ -296,7 +296,7 @@ affect other systems.
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 303,
+                &quot;line&quot;: 313,
                 &quot;path&quot;: &quot;lib/Loop.lua&quot;
             }
         },
@@ -313,7 +313,7 @@ affect other systems.
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 416,
+                &quot;line&quot;: 434,
                 &quot;path&quot;: &quot;lib/Loop.lua&quot;
             }
         }
@@ -367,7 +367,7 @@ affect other systems.
         &quot;path&quot;: &quot;lib/Loop.lua&quot;
     }
 }</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#System" class="table-of-contents__link toc-highlight">System</a></li><li><a href="#SystemTable" class="table-of-contents__link toc-highlight">SystemTable</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#addMiddleware" class="table-of-contents__link toc-highlight">:addMiddleware</a></li><li><a href="#begin" class="table-of-contents__link toc-highlight">:begin</a></li><li><a href="#evictSystem" class="table-of-contents__link toc-highlight">:evictSystem</a></li><li><a href="#replaceSystem" class="table-of-contents__link toc-highlight">:replaceSystem</a></li><li><a href="#scheduleSystem" class="table-of-contents__link toc-highlight">:scheduleSystem</a></li><li><a href="#scheduleSystems" class="table-of-contents__link toc-highlight">:scheduleSystems</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/matter/assets/js/runtime~main.96aa963a.js"></script>
-<script src="/matter/assets/js/main.7677e921.js"></script>
+<script src="/matter/assets/js/runtime~main.9a7abc11.js"></script>
+<script src="/matter/assets/js/main.96ebb0c9.js"></script>
 </body>
 </html>

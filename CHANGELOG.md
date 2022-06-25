@@ -4,6 +4,7 @@
 ### Changed
 - Modifying the World while inside `World:query` can no longer cause iterator invalidation. All operations to World while inside a query are now safe. 🎉
 - If a system stops calling `queryChanged`, its internal storage will now be cleaned up. It is no longer a requirement that a system calls `queryChanged` forever.
+- `Matter.merge` (an undocumented function) now only accepts two parameters.
 ### Fixed
 - `replaceSystem` now correctly works when other systems reference a system being reloaded in their `after` table
 - If `spawnAt` is called with an entity ID that already exists, it now errors as expected.

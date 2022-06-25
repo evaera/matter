@@ -172,15 +172,25 @@ end
 	@param before System
 	@param after System
 ]=]
-function Loop:replaceSystem(before: System, after: System)
-	if not self._systems[before] then
+function Loop:replaceSystem(old: System, new: System)
+	if not self._systems[old] then
 		error("Before system does not exist!")
 	end
 
-	self._systems[after] = after
-	self._systems[before] = nil
-	self._systemState[after] = self._systemState[before] or {}
-	self._systemState[before] = nil
+	self._systems[new] = new
+	self._systems[old] = nil
+	self._systemState[new] = self._systemState[old] or {}
+	self._systemState[old] = nil
+
+	for system in self._systems do
+		if type(system) == "table" and system.after then
+			local index = table.find(system.after, old)
+
+			if index then
+				system.after[index] = new
+			end
+		end
+	end
 
 	self:_sortSystems()
 end

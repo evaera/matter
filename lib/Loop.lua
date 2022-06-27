@@ -55,6 +55,7 @@ Loop.__index = Loop
 function Loop.new(...)
 	return setmetatable({
 		_systems = {},
+		_skipSystems = {},
 		_orderedSystemsByEvent = {},
 		_state = { ... },
 		_stateLength = select("#", ...),
@@ -339,7 +340,12 @@ function Loop:begin(events)
 						deltaTime = deltaTime,
 						dirtyWorlds = dirtyWorlds,
 					},
+					currentSystem = system,
 				}, function()
+					if self._skipSystems[system] then
+						return
+					end
+
 					local fn = systemFn(system)
 					debug.profilebegin("system: " .. systemName(system))
 

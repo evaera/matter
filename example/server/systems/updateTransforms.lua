@@ -47,6 +47,12 @@ local function updateTransforms(world)
 		local existingCFrame = transform.cframe
 		local currentCFrame = model.model.PrimaryPart.CFrame
 
+		-- Despawn models that fall into the void
+		if currentCFrame.Y < -400 then
+			world:despawn(id)
+			return
+		end
+
 		if currentCFrame ~= existingCFrame then
 			world:insert(
 				id,

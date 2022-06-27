@@ -51,6 +51,7 @@ local immutable = require(script.immutable)
 local World = require(script.World)
 local Loop = require(script.Loop)
 local newComponent = require(script.component).newComponent
+local topoRuntime = require(script.topoRuntime)
 
 export type World = typeof(World.new())
 export type Loop = typeof(Loop.new())
@@ -64,7 +65,8 @@ return {
 	useEvent = require(script.hooks.useEvent),
 	useDeltaTime = require(script.hooks.useDeltaTime),
 	useThrottle = require(script.hooks.useThrottle),
-	useHookState = require(script.topoRuntime).useHookState,
+	useHookState = topoRuntime.useHookState,
+	useCurrentSystem = topoRuntime.useCurrentSystem,
 
 	merge = immutable.merge,
 	None = immutable.None,

@@ -1,16 +1,24 @@
 local RunService = game:GetService("RunService")
 local CollectionService = game:GetService("CollectionService")
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Packages = ReplicatedStorage.Packages
 local Matter = require(ReplicatedStorage.Lib.Matter)
 local Plasma = require(Packages.plasma)
 local HotReloader = require(script.Parent.HotReloader)
+local hookWidgets = require(script.Parent.hookWidgets)
+local debugUI = require(script.Parent.debugUI)
 
 local function start(container)
 	local world = Matter.World.new()
 	local state = {}
 
-	local loop = Matter.Loop.new(world, state)
+	local debugState = {}
+	local debugWidgets = hookWidgets(debugState)
+
+	local loop = Matter.Loop.new(world, state, debugWidgets)
+
+	debugState.loop = loop
 
 	local hotReloader = HotReloader.new()
 
@@ -30,6 +38,10 @@ local function start(container)
 				table.insert(firstRunSystems, system)
 			elseif systemsByModule[child] then
 				loop:replaceSystem(systemsByModule[child], system)
+
+				if debugState.debugSystem == systemsByModule[child] then
+					debugState.debugSystem = system
+				end
 			else
 				loop:scheduleSystem(system)
 			end
@@ -74,17 +86,29 @@ local function start(container)
 	loop:scheduleSystems(firstRunSystems)
 	firstRunSystems = nil
 
-	local plasmaNode = Plasma.new(workspace)
+	local parent = workspace
+
+	if RunService:IsClient() then
+		parent = Instance.new("ScreenGui")
+		parent.Name = "Plasma"
+		parent.ResetOnSpawn = false
+		parent.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
+	end
+
+	local plasmaNode = Plasma.new(parent)
 
 	loop:addMiddleware(function(nextFn)
 		return function()
-			Plasma.start(plasmaNode, nextFn)
+			Plasma.start(plasmaNode, function()
+				debugUI(debugState)
+
+				nextFn()
+			end)
 		end
 	end)
 
 	loop:begin({
 		default = RunService.Heartbeat,
-		RenderStepped = if RunService:IsClient() then RunService.RenderStepped else nil,
 	})
 
 	return world, state

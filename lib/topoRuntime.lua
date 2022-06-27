@@ -44,6 +44,10 @@ local function useFrameState()
 	return stack[#stack].node.frame
 end
 
+local function useCurrentSystem()
+	return stack[#stack].node.currentSystem
+end
+
 --[=[
 	@within Matter
 
@@ -161,5 +165,6 @@ return {
 	start = start,
 	useHookState = useHookState,
 	useFrameState = useFrameState,
+	useCurrentSystem = useCurrentSystem,
 	withinTopoContext = withinTopoContext,
 }

@@ -25,61 +25,38 @@ local function start(container)
 	local firstRunSystems = {}
 	local systemsByModule = {}
 
-	local function addSystemModule(child)
-		hotReloader:listen(child, function(module)
-			local ok, system = pcall(require, module)
+	hotReloader:scan(container, function(module, context)
+		local originalModule = context.originalModule
 
-			if not ok then
-				warn("Error when hot-reloading system", module.name, system)
-				return
-			end
+		local ok, system = pcall(require, module)
 
-			if firstRunSystems then
-				table.insert(firstRunSystems, system)
-			elseif systemsByModule[child] then
-				loop:replaceSystem(systemsByModule[child], system)
-
-				if debugState.debugSystem == systemsByModule[child] then
-					debugState.debugSystem = system
-				end
-			else
-				loop:scheduleSystem(system)
-			end
-
-			systemsByModule[child] = system
-		end, function() end)
-	end
-
-	local function removeSystemModule(child)
-		if systemsByModule[child] then
-			loop:evictSystem(systemsByModule[child])
-			systemsByModule[child] = nil
-		end
-	end
-
-	for _, child in ipairs(container:GetChildren()) do
-		if child:IsA("ModuleScript") then
-			addSystemModule(child)
-		end
-	end
-
-	container.ChildAdded:Connect(function(child)
-		if CollectionService:HasTag(child, "RewireClonedModule") then
+		if not ok then
+			warn("Error when hot-reloading system", module.name, system)
 			return
 		end
 
-		if child:IsA("ModuleScript") then
-			addSystemModule(child)
-		end
-	end)
+		if firstRunSystems then
+			table.insert(firstRunSystems, system)
+		elseif systemsByModule[originalModule] then
+			loop:replaceSystem(systemsByModule[originalModule], system)
 
-	container.ChildRemoved:Connect(function(child)
-		if CollectionService:HasTag(child, "RewireClonedModule") then
+			if debugState.debugSystem == systemsByModule[originalModule] then
+				debugState.debugSystem = system
+			end
+		else
+			loop:scheduleSystem(system)
+		end
+
+		systemsByModule[originalModule] = system
+	end, function(_, context)
+		if context.isReloading then
 			return
 		end
 
-		if child:IsA("ModuleScript") then
-			removeSystemModule(child)
+		local originalModule = context.originalModule
+		if systemsByModule[originalModule] then
+			loop:evictSystem(systemsByModule[originalModule])
+			systemsByModule[originalModule] = nil
 		end
 	end)
 

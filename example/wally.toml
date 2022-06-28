@@ -6,4 +6,4 @@ realm = "shared"
 
 [dependencies]
 # plasma = "evaera/plasma@0.1.0"
-rewire = "sayhisam1/rewire@0.1.0"
+rewire = "sayhisam1/rewire@0.3.0"

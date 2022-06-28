@@ -3,7 +3,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Packages = ReplicatedStorage.Packages
 local Matter = require(ReplicatedStorage.Lib.Matter)
 local Plasma = require(Packages.plasma)
-local HotReloader = require(script.Parent.HotReloader)
+local HotReloader = require(Packages.rewire).HotReloader
 
 local function start(container)
 	local world = Matter.World.new()

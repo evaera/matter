@@ -395,7 +395,7 @@ function Loop:begin(events)
 		end
 
 		for _, middleware in ipairs(self._middlewares) do
-			stepSystems = middleware(stepSystems)
+			stepSystems = middleware(stepSystems, eventName)
 
 			if type(stepSystems) ~= "function" then
 				error(
@@ -435,7 +435,7 @@ end
 	Middleware added later "wraps" middleware that was added earlier. The innermost middleware function is the internal
 	function that actually calls your systems.
 	:::
-	@param middleware (nextFn: () -> ()) -> () -> ()
+	@param middleware (nextFn: () -> (), eventName: string) -> () -> ()
 ]=]
 function Loop:addMiddleware(middleware: (nextFn: () -> ()) -> () -> ())
 	table.insert(self._middlewares, middleware)

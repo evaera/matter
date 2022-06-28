@@ -18,8 +18,10 @@ Debugger.__index = Debugger
 
 function Debugger.new(plasma)
 	local self = setmetatable({
-		windowCount = 0,
 		plasma = plasma,
+		_windowCount = 0,
+		_seenEvents = {},
+		_eventOrder = {},
 	}, Debugger)
 
 	return self
@@ -32,17 +34,30 @@ function Debugger:autoInitialize(loop)
 
 	if RunService:IsClient() then
 		parent.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
+	else
+		parent.Parent = workspace
 	end
 
 	local plasmaNode = self.plasma.new(parent)
 
-	loop:addMiddleware(function(nextFn)
+	loop:addMiddleware(function(nextFn, eventName)
 		return function()
-			self.plasma.start(plasmaNode, function()
-				self:update(loop)
+			if not self._seenEvents[eventName] then
+				self._seenEvents[eventName] = true
+				table.insert(self._eventOrder, eventName)
+			end
 
-				nextFn()
-			end)
+			if eventName == self._eventOrder[1] then
+				self._continueHandle = self.plasma.start(plasmaNode, function()
+					self:update(loop)
+
+					nextFn()
+				end)
+			elseif self._continueHandle then
+				self.plasma.continue(self._continueHandle, function()
+					nextFn()
+				end)
+			end
 		end
 	end)
 end
@@ -61,10 +76,17 @@ function Debugger:update(loop)
 			plasma.heading("SYSTEMS", 1)
 			plasma.space(30)
 
-			for event, systems in loop._orderedSystemsByEvent do
-				plasma.heading(tostring(event))
+			for _, eventName in self._eventOrder do
+				local systems = loop._orderedSystemsByEvent[eventName]
+
+				if not systems then
+					continue
+				end
+
+				plasma.heading(eventName)
 				plasma.space(10)
 				local items = {}
+
 				for _, system in systems do
 					table.insert(items, {
 						text = systemName(system),

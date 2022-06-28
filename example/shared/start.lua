@@ -61,6 +61,7 @@ local function start(container)
 
 	loop:begin({
 		default = RunService.Heartbeat,
+		Stepped = RunService.Stepped,
 	})
 
 	return world, state

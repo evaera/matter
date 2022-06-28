@@ -45,7 +45,7 @@ local function hookWidgets(debugger)
 				return dummyHandles[name]
 			end
 
-			if debugger.windowCount > 0 then
+			if debugger._windowCount > 0 then
 				return widget(...)
 			end
 
@@ -65,9 +65,9 @@ local function hookWidgets(debugger)
 	local window = hookedWidgets.window
 	hookedWidgets.window = function(title, fn)
 		return window(title, function()
-			debugger.windowCount += 1
+			debugger._windowCount += 1
 			fn()
-			debugger.windowCount -= 1
+			debugger._windowCount -= 1
 		end)
 	end
 

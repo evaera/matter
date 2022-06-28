@@ -20,4 +20,7 @@ local function spinSpinners(world, _, ui)
 	end
 end
 
-return spinSpinners
+return {
+	system = spinSpinners,
+	event = "Stepped",
+}

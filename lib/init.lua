@@ -70,4 +70,6 @@ return {
 
 	merge = immutable.merge,
 	None = immutable.None,
+
+	debugger = require(script.debugger.debugger),
 }

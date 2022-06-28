@@ -34,7 +34,11 @@
         }
       },
       "Packages": {
-        "$path": "example/Packages"
+        "$path": "example/Packages",
+
+        "plasma": {
+          "$path": "../plasma/plasma.rbxm"
+        }
       },
       "Game": {
         "$path": "example/shared"

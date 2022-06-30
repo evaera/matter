@@ -70,6 +70,8 @@ local function start(container)
 		UserInputService.InputBegan:Connect(function(input)
 			if input.KeyCode == Enum.KeyCode.F4 then
 				debugger:toggle()
+
+				state.debugEnabled = debugger.enabled
 			end
 		end)
 	end

@@ -1,18 +1,8 @@
-local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Components = require(ReplicatedStorage.Game.components)
 local template = ReplicatedStorage.Assets.BillboardGui
-local Matter = require(ReplicatedStorage.Lib.Matter)
-
-warn("Press F to toggle debug overlay")
 
 local function debugVision(world, state)
-	for _, input in Matter.useEvent(UserInputService, "InputBegan") do
-		if input.KeyCode == Enum.KeyCode.F then
-			state.debugEnabled = not state.debugEnabled
-		end
-	end
-
 	if not state.debugEnabled then
 		for id, debugLabel in world:query(Components.DebugLabel) do
 			debugLabel.label:Destroy()

@@ -2,12 +2,15 @@ local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 
-local panel = require(script.Parent.widgets.panel)
-local selectionList = require(script.Parent.widgets.selectionList)
-local container = require(script.Parent.widgets.container)
-local frame = require(script.Parent.widgets.frame)
 local hookWidgets = require(script.Parent.hookWidgets)
 local EventBridge = require(script.Parent.EventBridge)
+
+local customWidgetConstructors = {
+	panel = require(script.Parent.widgets.panel),
+	selectionList = require(script.Parent.widgets.selectionList),
+	container = require(script.Parent.widgets.container),
+	frame = require(script.Parent.widgets.frame),
+}
 
 local remoteEvent
 
@@ -96,7 +99,12 @@ function Debugger.new(plasma)
 		_eventBridge = EventBridge.new(function(...)
 			remoteEvent:FireClient(...)
 		end),
+		_customWidgets = {},
 	}, Debugger)
+
+	for name, create in customWidgetConstructors do
+		self._customWidgets[name] = create(plasma)
+	end
 
 	if RunService:IsServer() then
 		remoteEvent.OnServerEvent:Connect(function(player, action, instance, event, ...)
@@ -334,10 +342,11 @@ end
 ]=]
 function Debugger:draw(loop)
 	local plasma = self.plasma
+	local ui = self._customWidgets
 
-	container(function()
+	ui.container(function()
 		if self:_isServerView() then
-			panel(function()
+			ui.panel(function()
 				if plasma.button("switch to client"):clicked() then
 					self:switchToClientView()
 				end
@@ -347,7 +356,7 @@ function Debugger:draw(loop)
 			return
 		end
 
-		panel(function()
+		ui.panel(function()
 			if RunService:IsClient() then
 				if plasma.button("switch to server"):clicked() then
 					self:switchToServerView()
@@ -378,7 +387,7 @@ function Debugger:draw(loop)
 					})
 				end
 
-				local selected = selectionList(items):selected()
+				local selected = ui.selectionList(items):selected()
 
 				if selected then
 					if selected.system == self.debugSystem then
@@ -408,8 +417,8 @@ function Debugger:draw(loop)
 			end)
 		end
 
-		self.parent = container(function()
-			self.frame = frame()
+		self.parent = ui.container(function()
+			self.frame = ui.frame()
 		end)
 	end, {
 		direction = Enum.FillDirection.Horizontal,

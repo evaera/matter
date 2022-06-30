@@ -1,48 +1,47 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Plasma = require(ReplicatedStorage.Packages.plasma)
+return function(Plasma)
+	return Plasma.widget(function()
+		local instance = Plasma.useInstance(function()
+			local style = Plasma.useStyle()
 
-return Plasma.widget(function()
-	local instance = Plasma.useInstance(function()
-		local style = Plasma.useStyle()
+			local Frame = Instance.new("Frame")
+			Frame.BackgroundColor3 = style.bg2
+			Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+			Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+			Frame.Size = UDim2.new(0, 50, 0, 40)
+			Frame.Visible = false
 
-		local Frame = Instance.new("Frame")
-		Frame.BackgroundColor3 = style.bg2
-		Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
-		Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-		Frame.Size = UDim2.new(0, 50, 0, 40)
-		Frame.Visible = false
+			local UICorner = Instance.new("UICorner")
+			UICorner.Parent = Frame
 
-		local UICorner = Instance.new("UICorner")
-		UICorner.Parent = Frame
+			local UIPadding = Instance.new("UIPadding")
+			UIPadding.PaddingBottom = UDim.new(0, 20)
+			UIPadding.PaddingLeft = UDim.new(0, 20)
+			UIPadding.PaddingRight = UDim.new(0, 20)
+			UIPadding.PaddingTop = UDim.new(0, 20)
+			UIPadding.Parent = Frame
 
-		local UIPadding = Instance.new("UIPadding")
-		UIPadding.PaddingBottom = UDim.new(0, 20)
-		UIPadding.PaddingLeft = UDim.new(0, 20)
-		UIPadding.PaddingRight = UDim.new(0, 20)
-		UIPadding.PaddingTop = UDim.new(0, 20)
-		UIPadding.Parent = Frame
+			local UIStroke = Instance.new("UIStroke")
+			UIStroke.Parent = Frame
 
-		local UIStroke = Instance.new("UIStroke")
-		UIStroke.Parent = Frame
+			local UIListLayout = Instance.new("UIListLayout")
+			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+			UIListLayout.Padding = UDim.new(0, 10)
+			UIListLayout.Parent = Frame
 
-		local UIListLayout = Instance.new("UIListLayout")
-		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-		UIListLayout.Padding = UDim.new(0, 10)
-		UIListLayout.Parent = Frame
+			local numChildren = #Frame:GetChildren()
 
-		local numChildren = #Frame:GetChildren()
+			Plasma.automaticSize(Frame)
 
-		Plasma.automaticSize(Frame)
+			local function updateVisibility()
+				Frame.Visible = #Frame:GetChildren() > numChildren
+			end
 
-		local function updateVisibility()
-			Frame.Visible = #Frame:GetChildren() > numChildren
-		end
+			Frame.ChildAdded:Connect(updateVisibility)
+			Frame.ChildRemoved:Connect(updateVisibility)
 
-		Frame.ChildAdded:Connect(updateVisibility)
-		Frame.ChildRemoved:Connect(updateVisibility)
+			return Frame
+		end)
 
-		return Frame
+		return instance
 	end)
-
-	return instance
-end)
+end

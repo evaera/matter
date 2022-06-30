@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.5.1] - 2022-06030
+### Fixed
+- Fix custom debugger widgets not using the Plasma instance the user passed in.
+
 ## [0.5.0] - 2022-06-30
 ### Added
 - Added Matter debugger.

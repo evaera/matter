@@ -1,3 +1,6 @@
+---
+sidebar_position: 4
+---
 # Why ECS
 
 - Behavior is declarative. Systems run every frame, and declare what the state of the world should be right now. This makes code self-healing and more resilient to game-breaking bugs than in an event-driven model where reacting to something happening only happens once.

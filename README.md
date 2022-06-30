@@ -7,6 +7,3 @@
 
   Made by [@lpghatguy](https://github.com/lpghatguy) and [@evaera](https://github.com/evaera) ❤️
 </div>
-
-<br><br>
-⚠️ Not quite ready for production yet. There might be bugs and missing features!

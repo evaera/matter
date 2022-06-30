@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+### Added
+- Added Matter debugger.
+### Changed
+- Middleware now receive event name as a second parameter
+
 ## [0.4.0] - 2022-06-25
 ### Changed
 - Modifying the World while inside `World:query` can no longer cause iterator invalidation. All operations to World while inside a query are now safe. 🎉

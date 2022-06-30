@@ -10,7 +10,8 @@ return Plasma.widget(function(fn, options)
 	local frame = Plasma.useInstance(function()
 		return create("Frame", {
 			BackgroundTransparency = 1,
-			Size = UDim2.new(1, 0, 1, 0),
+			Position = UDim2.new(0, 0, 0, options.marginTop or 0),
+			Size = UDim2.new(1, 0, 1, -(options.marginTop or 0)),
 
 			create("UIListLayout", {
 				SortOrder = Enum.SortOrder.LayoutOrder,

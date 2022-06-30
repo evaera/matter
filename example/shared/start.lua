@@ -1,4 +1,6 @@
 local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Packages = ReplicatedStorage.Packages
 local Matter = require(ReplicatedStorage.Lib.Matter)
@@ -63,6 +65,14 @@ local function start(container)
 		default = RunService.Heartbeat,
 		Stepped = RunService.Stepped,
 	})
+
+	if RunService:IsClient() then
+		UserInputService.InputBegan:Connect(function(input)
+			if input.KeyCode == Enum.KeyCode.F4 then
+				debugger:toggle()
+			end
+		end)
+	end
 
 	return world, state
 end

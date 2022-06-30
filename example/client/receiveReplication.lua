@@ -17,6 +17,7 @@ local function setupReplication(world, state)
 
 			if clientEntityId and next(componentMap) == nil then
 				world:despawn(clientEntityId)
+				entityIdMap[serverEntityId] = nil
 				debugPrint(string.format("Despawn %ds%d", clientEntityId, serverEntityId))
 				continue
 			end

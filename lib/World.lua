@@ -112,7 +112,8 @@ end
 	end
 	```
 
-	@return () -> (number, {[Component]: ComponentInstance})
+	@return number
+	@return {[Component]: ComponentInstance}
 ]=]
 function World:__iter()
 	return World._next, self

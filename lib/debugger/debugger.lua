@@ -179,6 +179,7 @@ function Debugger:disconnectPlayer(player)
 
 	if #self._eventBridge.players == 0 then
 		self.enabled = false
+		self.debugSystem = nil
 		print("Matter server debugger stopped")
 	end
 end
@@ -223,7 +224,7 @@ function Debugger:autoInitialize(loop)
 			end
 
 			if eventName == self._eventOrder[1] then
-				self._continueHandle = self.plasma.start(plasmaNode, function()
+				self._continueHandle = self.plasma.beginFrame(plasmaNode, function()
 					self.plasma.setEventCallback(function(...)
 						self._eventBridge:connect(...)
 					end)
@@ -233,13 +234,17 @@ function Debugger:autoInitialize(loop)
 					nextFn()
 				end)
 			elseif self._continueHandle then
-				self.plasma.continue(self._continueHandle, function()
+				self.plasma.continueFrame(self._continueHandle, function()
 					self.plasma.setEventCallback(function(...)
 						self._eventBridge:connect(...)
 					end)
 
 					nextFn()
 				end)
+			end
+
+			if eventName == self._eventOrder[#self._eventOrder] then
+				self.plasma.finishFrame(plasmaNode)
 			end
 		end
 	end)

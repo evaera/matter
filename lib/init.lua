@@ -16,6 +16,11 @@
 
 --[=[
 	@within Matter
+	@prop Debugger Debugger
+]=]
+
+--[=[
+	@within Matter
 	@prop None None
 
 	A value should be interpreted as nil when merging dictionaries.

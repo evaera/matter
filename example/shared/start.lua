@@ -11,7 +11,7 @@ local function start(container)
 	local world = Matter.World.new()
 	local state = {}
 
-	local debugger = Matter.debugger.new(Plasma)
+	local debugger = Matter.Debugger.new(Plasma)
 
 	local loop = Matter.Loop.new(world, state, debugger:getWidgets())
 

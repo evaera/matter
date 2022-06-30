@@ -17,9 +17,37 @@ local function systemName(system)
 	return debug.info(systemFn, "n")
 end
 
+--[=[
+	@class Debugger
+
+	Attaches a Debugger to the Matter instance, allowing you to create debug widgets in your systems.
+
+	```lua
+	local debugger = Matter.Debugger.new(Plasma)
+
+	local widgets = debugger:getWidgets()
+	local loop = Matter.Loop.new(world, widgets) -- pass the widgets to your systems
+
+	debugger:autoInitialize(loop)
+
+	if RunService:IsClient() then
+		debugger:show()
+	end
+	```
+
+	When the debugger is not open, the widgets do not render.
+]=]
 local Debugger = {}
 Debugger.__index = Debugger
 
+--[=[
+	Creates a new Debugger.
+
+	You need to depend on [Plasma](https://eryn.io/plasma/) in your project and pass a handle to it here.
+
+	@param plasma Plasma -- The instance of Plasma used in your game.
+	@return Debugger
+]=]
 function Debugger.new(plasma)
 	if not remoteEvent then
 		if RunService:IsServer() then
@@ -77,6 +105,11 @@ function Debugger.new(plasma)
 	return self
 end
 
+--[=[
+	@client
+
+	Shows the debugger panel
+]=]
 function Debugger:show()
 	if not RunService:IsClient() then
 		error("show can only be called from the client")
@@ -85,6 +118,11 @@ function Debugger:show()
 	self.enabled = true
 end
 
+--[=[
+	@client
+
+	Hides the debugger panel
+]=]
 function Debugger:hide()
 	if not RunService:IsClient() then
 		error("hide can only be called from the client")
@@ -102,6 +140,11 @@ function Debugger:hide()
 	end
 end
 
+--[=[
+	@client
+
+	Toggles visibility of the debugger panel
+]=]
 function Debugger:toggle()
 	if not RunService:IsClient() then
 		error("toggle can only be called from the client")
@@ -140,6 +183,18 @@ function Debugger:disconnectPlayer(player)
 	end
 end
 
+--[=[
+	Adds middleware to your Loop to set up the debugger every frame.
+
+	:::tip
+	The debugger must also be shown on a client with [Debugger:show] or [Debugger:toggle] to be used.
+	:::
+
+	If you also want to use Plasma for more than just the debugger, you can opt to not call this function and instead
+	do what it does yourself.
+
+	@param loop Loop
+]=]
 function Debugger:autoInitialize(loop)
 	local parent = Instance.new("ScreenGui")
 	parent.Name = "MatterDebugger"
@@ -190,12 +245,23 @@ function Debugger:autoInitialize(loop)
 	end)
 end
 
+--[=[
+	Alert the debugger when a system is hot reloaded.
+
+	@param old System
+	@param new System
+]=]
 function Debugger:replaceSystem(old, new)
 	if self.debugSystem == old then
 		self.debugSystem = new
 	end
 end
 
+--[=[
+	@client
+
+	Switch the client to server view. This starts the server debugger if it isn't already started.
+]=]
 function Debugger:switchToServerView()
 	if not RunService:IsClient() then
 		error("switchToServerView may only be called from the client.")
@@ -214,6 +280,9 @@ function Debugger:switchToServerView()
 	self.serverGui.Enabled = true
 end
 
+--[=[
+	Switch the client to client view. This stops the server debugger if there are no other players connected.
+]=]
 function Debugger:switchToClientView()
 	if not RunService:IsClient() then
 		error("switchToClientView may only be called from the client.")
@@ -232,6 +301,14 @@ function Debugger:_isServerView()
 	return self.serverGui and self.serverGui.Enabled
 end
 
+--[=[
+	This should be called to draw the debugger UI.
+
+	This is automatically set up when you call [Debugger:autoInitialize], so you don't need to call this yourself unless
+	you didn't call `autoInitialize`.
+
+	@param loop Loop
+]=]
 function Debugger:draw(loop)
 	local plasma = self.plasma
 
@@ -317,6 +394,32 @@ function Debugger:draw(loop)
 	})
 end
 
+--[=[
+	Returns a handle to the debug widgets you can pass to your systems.
+
+	All [plasma widgets](https://eryn.io/plasma/api/Plasma#arrow) are available under this namespace.
+
+	```lua
+	-- ...
+	local debugger = Debugger.new(Plasma)
+
+	local loop = Loop.new(world, state, debugger:getWidgets())
+	```
+
+	When the Debugger is not open, calls to widgets are no-ops.
+
+	If the widget normally returns a handle (e.g., button returns a table with `clicked`), it returns a static dummy
+	handle that always returns a default value:
+
+	- `checkbox`
+		- `clicked`: false
+		- `checked`: false
+	- `button`
+		- `clicked`: false
+	- `slider`: 0
+
+	@return {[string]: Widget}
+]=]
 function Debugger:getWidgets()
 	return hookWidgets(self)
 end

@@ -41,6 +41,24 @@ local Debugger = {}
 Debugger.__index = Debugger
 
 --[=[
+	@prop authorize (player: Player) -> boolean
+	@within Debugger
+
+	Create this property in Debugger to specify a function that will be called to determine if a player should be
+	allowed to connect to the server-side debugger.
+
+	If not specified, the default behavior is to allow anyone in Studio and disallow everyone in a live game.
+
+	```lua
+	debugger.authorize = function(player)
+		if player:GetRankInGroup(372) > 250 then -- etc
+			return true
+		end
+	end
+	```
+]=]
+
+--[=[
 	Creates a new Debugger.
 
 	You need to depend on [Plasma](https://eryn.io/plasma/) in your project and pass a handle to it here.

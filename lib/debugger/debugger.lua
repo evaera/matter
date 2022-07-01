@@ -15,9 +15,15 @@ local customWidgetConstructors = {
 local remoteEvent
 
 local function systemName(system)
-	local systemFn = if type(system) == "table" then system.system else system
+	local isTable = if type(system) == "table" then true else false
+	local systemFn = if isTable then system.system else system
 
-	return debug.info(systemFn, "n")
+	local fnName = debug.info(systemFn, "n")
+	local fnSource = debug.info(systemFn, "s")
+	local sourceSplit = string.split(fnSource, ".")
+	local moduleName = sourceSplit[#sourceSplit]
+
+	return if not fnName or fnName == "" or isTable and fnName == "system" then moduleName else fnName
 end
 
 --[=[

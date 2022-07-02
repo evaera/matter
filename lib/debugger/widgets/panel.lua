@@ -9,6 +9,7 @@ return function(Plasma)
 			local style = Plasma.useStyle()
 
 			local frame = create("Frame", {
+				Name = "Panel",
 				BackgroundColor3 = style.bg2,
 				Position = UDim2.new(0, 0, 0, 0),
 				Size = UDim2.new(0, 250, if options.fullHeight then 1 else 0, 0),
@@ -32,8 +33,7 @@ return function(Plasma)
 					HorizontalScrollBarInset = Enum.ScrollBarInset.ScrollBar,
 					BorderSizePixel = 0,
 					ScrollBarThickness = 6,
-					ClipsDescendants = false,
-					Size = UDim2.new(1, 0, 1, 0),
+					Size = UDim2.new(1, 0, 0, 0),
 
 					create("UIListLayout", {
 						SortOrder = Enum.SortOrder.LayoutOrder,
@@ -43,6 +43,7 @@ return function(Plasma)
 
 			Plasma.automaticSize(frame.Container, {
 				axis = Enum.AutomaticSize.Y,
+				maxSize = UDim2.new(1, 0, 1, 0),
 			})
 
 			return frame, frame.Container

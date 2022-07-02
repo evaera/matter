@@ -22,15 +22,17 @@ local function assertCompatiblePlasma(plasma)
 end
 
 local function systemName(system)
-	local isTable = if type(system) == "table" then true else false
-	local systemFn = if isTable then system.system else system
+	local systemFn = if type(system) == "table" then system.system else system
+	local name = debug.info(systemFn, "n")
 
-	local fnName = debug.info(systemFn, "n")
-	local fnSource = debug.info(systemFn, "s")
-	local sourceSplit = string.split(fnSource, ".")
-	local moduleName = sourceSplit[#sourceSplit]
+	if name ~= "" and name ~= "system" then
+		return name
+	end
 
-	return if not fnName or fnName == "" or isTable and fnName == "system" then moduleName else fnName
+	local source = debug.info(systemFn, "s")
+	local segments = string.split(source, ".")
+
+	return segments[#segments]
 end
 
 --[=[

@@ -934,7 +934,9 @@ function World:optimizeQueries()
 		end
 	end
 
-	self._storages = { firstStorage }
+	table.clear(self._storages)
+
+	self._storages[1] = firstStorage
 	self._pristineStorage = firstStorage
 end
 

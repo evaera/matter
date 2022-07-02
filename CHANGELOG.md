@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Fixed
 - Fixed debugger panel not scrolling.
+- In the debugger panel, the module name is now used when function is not named.
 
 ## [0.5.1] - 2022-06030
 ### Fixed

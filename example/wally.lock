@@ -5,11 +5,11 @@ registry = "test"
 [[package]]
 name = "evaera/matter-example"
 version = "0.1.0"
-dependencies = [["plasma", "evaera/plasma@0.2.0"], ["rewire", "sayhisam1/rewire@0.3.0"]]
+dependencies = [["plasma", "evaera/plasma@0.3.0"], ["rewire", "sayhisam1/rewire@0.3.0"]]
 
 [[package]]
 name = "evaera/plasma"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [["TestEZ", "roblox/testez@0.4.1"]]
 
 [[package]]

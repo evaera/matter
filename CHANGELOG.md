@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Fixed
+- Fixed debugger panel not scrolling.
+
 ## [0.5.1] - 2022-06030
 ### Fixed
 - Fix custom debugger widgets not using the Plasma instance the user passed in.

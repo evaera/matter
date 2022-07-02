@@ -14,6 +14,13 @@ local customWidgetConstructors = {
 
 local remoteEvent
 
+-- Assert plasma is compatible via feature detection
+local function assertCompatiblePlasma(plasma)
+	if not plasma.hydrateAutomaticSize then
+		error("Plasma passed to Matter debugger is out of date, please update it to use the debugger.")
+	end
+end
+
 local function systemName(system)
 	local systemFn = if type(system) == "table" then system.system else system
 
@@ -70,6 +77,8 @@ Debugger.__index = Debugger
 	@return Debugger
 ]=]
 function Debugger.new(plasma)
+	assertCompatiblePlasma(plasma)
+
 	if not remoteEvent then
 		if RunService:IsServer() then
 			remoteEvent = Instance.new("RemoteEvent")
@@ -274,6 +283,10 @@ function Debugger:autoInitialize(loop)
 			end
 		end
 	end)
+
+	if RunService:IsClient() then
+		self.plasma.hydrateAutomaticSize()
+	end
 end
 
 --[=[

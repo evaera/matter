@@ -1,11 +1,11 @@
 # Changelog
 
-## [Unreleased]
+## [0.5.2] - 2022-07-01
 ### Fixed
 - Fixed debugger panel not scrolling.
 - In the debugger panel, the module name is now used when function is not named.
 
-## [0.5.1] - 2022-06030
+## [0.5.1] - 2022-06-30
 ### Fixed
 - Fix custom debugger widgets not using the Plasma instance the user passed in.
 

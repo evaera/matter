@@ -23,8 +23,16 @@ end
 
 local function systemName(system)
 	local systemFn = if type(system) == "table" then system.system else system
+	local name = debug.info(systemFn, "n")
 
-	return debug.info(systemFn, "n")
+	if name ~= "" and name ~= "system" then
+		return name
+	end
+
+	local source = debug.info(systemFn, "s")
+	local segments = string.split(source, ".")
+
+	return segments[#segments]
 end
 
 --[=[

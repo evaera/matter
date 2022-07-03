@@ -16,8 +16,8 @@ return function(Plasma)
 			local button = create("TextButton", {
 				[ref] = "button",
 				BackgroundTransparency = 1,
-				Size = UDim2.new(1, 0, 0, 40),
 				Text = "",
+				Size = UDim2.new(0, 0, 0, 40),
 
 				create("UIPadding", {
 					PaddingBottom = UDim.new(0, 0),
@@ -43,22 +43,29 @@ return function(Plasma)
 				}),
 
 				create("TextLabel", {
+					[ref] = "mainText",
 					Name = "MainText",
 					BackgroundTransparency = 1,
-					AutomaticSize = Enum.AutomaticSize.X,
 					Size = UDim2.new(0, 0, 1, 0),
 					Text = text,
 					TextXAlignment = Enum.TextXAlignment.Left,
-					TextSize = 19,
 					TextColor3 = color,
-					Font = Enum.Font.SourceSans,
+					TextSize = 19,
 				}),
 
 				Activated = function()
+					if options.disabled then
+						return
+					end
+
 					setClicked(true)
 				end,
 
 				MouseEnter = function()
+					if options.disabled then
+						return
+					end
+
 					ref.button.MainText.TextColor3 = colorHover
 				end,
 
@@ -67,14 +74,20 @@ return function(Plasma)
 				end,
 			})
 
+			Plasma.automaticSize(button)
+			Plasma.automaticSize(ref.mainText, {
+				axis = Enum.AutomaticSize.X,
+			})
+
 			return button
 		end)
 
-		Plasma.useEffect(function()
-			refs.button.MainText.Text = text
+		refs.button.MainText.Text = text
 
-			refs.button.Icon.Text = options.icon or ""
-		end, text, options.icon)
+		refs.button.Icon.Text = options.icon or ""
+		refs.button.Icon.Visible = not not options.icon
+
+		refs.mainText.Font = options.font or Enum.Font.SourceSans
 
 		return {
 			clicked = function()

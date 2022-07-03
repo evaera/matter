@@ -2,9 +2,9 @@ local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 
-local World = require(script.Parent.Parent.World)
 local hookWidgets = require(script.Parent.hookWidgets)
 local EventBridge = require(script.Parent.EventBridge)
+local ui = require(script.Parent.ui)
 
 local customWidgetConstructors = {
 	panel = require(script.Parent.widgets.panel),
@@ -21,20 +21,6 @@ local function assertCompatiblePlasma(plasma)
 	if not plasma.hydrateAutomaticSize then
 		error("Plasma passed to Matter debugger is out of date, please update it to use the debugger.")
 	end
-end
-
-local function systemName(system)
-	local systemFn = if type(system) == "table" then system.system else system
-	local name = debug.info(systemFn, "n")
-
-	if name ~= "" and name ~= "system" then
-		return name
-	end
-
-	local source = debug.info(systemFn, "s")
-	local segments = string.split(source, ".")
-
-	return segments[#segments]
 end
 
 --[=[
@@ -364,142 +350,7 @@ end
 	@param loop Loop
 ]=]
 function Debugger:draw(loop)
-	local plasma = self.plasma
-	local ui = self._customWidgets
-
-	self.parent = ui.container(function()
-		if self:_isServerView() then
-			ui.panel(function()
-				if plasma.button("switch to client"):clicked() then
-					self:switchToClientView()
-				end
-			end, {
-				fullHeight = false,
-			})
-			return
-		end
-
-		local inspectIndex, setInspectIndex = plasma.useState()
-
-		ui.panel(function()
-			if RunService:IsClient() then
-				if plasma.button("switch to server"):clicked() then
-					self:switchToServerView()
-				end
-			end
-
-			plasma.space(30)
-
-			plasma.heading("STATE")
-			plasma.space(10)
-
-			local items = {}
-
-			for index, object in loop._state do
-				local isWorld = getmetatable(object) == World
-
-				table.insert(items, {
-					text = (if isWorld then "World" else "table") .. " " .. index,
-					icon = if isWorld then "🌐" else "{}",
-					index = index,
-					selected = index == inspectIndex,
-				})
-			end
-
-			local selectedState = ui.selectionList(items):selected()
-
-			if selectedState then
-				if selectedState.index == inspectIndex then
-					setInspectIndex(nil)
-				else
-					setInspectIndex(selectedState.index)
-				end
-			end
-
-			plasma.space(30)
-			plasma.heading("SYSTEMS")
-			plasma.space(10)
-
-			for _, eventName in self._eventOrder do
-				local systems = loop._orderedSystemsByEvent[eventName]
-
-				if not systems then
-					continue
-				end
-
-				plasma.heading(eventName)
-				plasma.space(10)
-				local items = {}
-
-				for _, system in systems do
-					table.insert(items, {
-						text = systemName(system),
-						selected = self.debugSystem == system,
-						system = system,
-					})
-				end
-
-				local selected = ui.selectionList(items):selected()
-
-				if selected then
-					if selected.system == self.debugSystem then
-						self.debugSystem = nil
-					else
-						self.debugSystem = selected.system
-					end
-				end
-
-				plasma.space(20)
-			end
-		end)
-
-		if inspectIndex then
-			plasma.window({
-				title = "Inspect",
-				movable = true,
-				closable = true,
-			}, function()
-				if plasma.button("print"):clicked() then
-					print(loop._state[inspectIndex])
-				end
-
-				local items = {}
-
-				for key, value in pairs(loop._state[inspectIndex]) do
-					table.insert(items, { tostring(key), tostring(value) })
-				end
-
-				plasma.useKey(inspectIndex)
-
-				if #items == 0 then
-					return plasma.label("(empty table)")
-				end
-
-				plasma.table(items)
-			end)
-		end
-
-		if self.debugSystem then
-			plasma.window("System config", function()
-				plasma.useKey(systemName(self.debugSystem))
-				plasma.heading(systemName(self.debugSystem))
-				plasma.space(0)
-
-				local currentlyDisabled = loop._skipSystems[self.debugSystem]
-
-				if plasma.checkbox("Disable system", {
-					checked = currentlyDisabled,
-				}):clicked() then
-					loop._skipSystems[self.debugSystem] = not currentlyDisabled
-				end
-			end)
-		end
-
-		self.frame = ui.frame()
-	end, {
-		direction = Enum.FillDirection.Horizontal,
-		marginTop = if RunService:IsServer() then 80 else 0,
-	})
+	ui(self, loop)
 end
 
 --[=[

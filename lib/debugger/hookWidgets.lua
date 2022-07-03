@@ -34,6 +34,12 @@ local dummyHandles = {
 	},
 
 	slider = 0,
+
+	window = {
+		closed = function()
+			return false
+		end,
+	},
 }
 
 local function hookWidgets(debugger)

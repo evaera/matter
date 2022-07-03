@@ -11,6 +11,10 @@ local widgets = {
 	"slider",
 	"spinner",
 	"window",
+	"label",
+	"heading",
+	"space",
+	"table",
 }
 
 local dummyHandles = {

@@ -1,7 +1,7 @@
 return function(Plasma)
 	local create = Plasma.create
 
-	local Item = Plasma.widget(function(text, selected)
+	local Item = Plasma.widget(function(text, selected, icon)
 		local clicked, setClicked = Plasma.useState(false)
 		local style = Plasma.useStyle()
 
@@ -27,6 +27,17 @@ return function(Plasma)
 				}),
 
 				create("TextLabel", {
+					Name = "Icon",
+					BackgroundTransparency = 1,
+					Size = UDim2.new(0, 30, 1, 0),
+					Text = icon,
+					TextXAlignment = Enum.TextXAlignment.Left,
+					TextSize = 23,
+					TextColor3 = style.textColor,
+					Font = Enum.Font.GothamBold,
+				}),
+
+				create("TextLabel", {
 					BackgroundTransparency = 1,
 					AutomaticSize = Enum.AutomaticSize.X,
 					Size = UDim2.new(0, 0, 1, 0),
@@ -47,7 +58,8 @@ return function(Plasma)
 
 		Plasma.useEffect(function()
 			button.TextLabel.Text = text
-		end, text)
+			button.Icon.Text = icon or ""
+		end, text, icon)
 
 		Plasma.useEffect(function()
 			button.BackgroundColor3 = if selected then Color3.fromHex("bd515c") else style.bg2
@@ -86,7 +98,7 @@ return function(Plasma)
 		local selected
 
 		for _, item in items do
-			if Item(item.text, item.selected):clicked() then
+			if Item(item.text, item.selected, item.icon):clicked() then
 				selected = item
 			end
 		end

@@ -2,19 +2,79 @@ local RunService = game:GetService("RunService")
 local EventBridge = {}
 EventBridge.__index = EventBridge
 
+local debouncedEvents = {
+	InputChanged = true,
+}
+
+local debounce = {}
+
+local function serialize(...)
+	local first = ...
+
+	if first and typeof(first) == "Instance" and first:IsA("InputObject") then
+		return {
+			Delta = first.Delta,
+			KeyCode = first.KeyCode,
+			Position = first.Position,
+			UserInputState = first.UserInputState,
+			UserInputType = first.UserInputType,
+		}
+	end
+
+	return ...
+end
+
 local clientConnections = {}
 EventBridge.clientActions = {
 	connect = function(fire, instance, event)
+		local instanceFromServer = instance
+
+		if type(instance) == "string" then
+			instance = game:GetService(instance)
+		end
+
 		if clientConnections[instance] == nil then
 			clientConnections[instance] = {}
 		end
 
 		clientConnections[instance][event] = instance[event]:Connect(function(...)
-			fire("event", instance, event, ...)
+			if debouncedEvents[event] and not RunService:IsStudio() then
+				local args = table.pack(serialize(...))
+
+				if debounce[instance] and debounce[instance][event] then
+					debounce[instance][event] = args
+				else
+					if debounce[instance] == nil then
+						debounce[instance] = {}
+					end
+
+					debounce[instance][event] = args
+
+					task.delay(0.25, function()
+						local args = debounce[instance][event]
+
+						fire("event", instanceFromServer, event, unpack(args, 1, args.n))
+
+						debounce[instance][event] = nil
+
+						if next(debounce[instance]) == nil then
+							debounce[instance] = nil
+						end
+					end)
+				end
+
+				return
+			end
+
+			fire("event", instanceFromServer, event, serialize(...))
 		end)
 	end,
 
 	disconnect = function(_fire, instance, event)
+		if type(instance) == "string" then
+			instance = game:GetService(instance)
+		end
+
 		if clientConnections[instance] and clientConnections[instance][event] then
 			clientConnections[instance][event]:Disconnect()
 			clientConnections[instance][event] = nil
@@ -73,10 +133,18 @@ function EventBridge:connect(instance, event, handler)
 end
 
 function EventBridge:_connectPlayerEvent(player, instance, event)
+	if instance.Parent == game then
+		instance = instance.ClassName
+	end
+
 	self._fire(player, "connect", instance, event)
 end
 
 function EventBridge:_disconnectPlayerEvent(player, instance, event)
+	if instance.Parent == game then
+		instance = instance.ClassName
+	end
+
 	self._fire(player, "disconnect", instance, event)
 end
 
@@ -120,8 +188,12 @@ function EventBridge:fireEventFromPlayer(player, instance, event, ...)
 		return
 	end
 
+	if type(instance) == "string" then
+		instance = game:GetService(instance)
+	end
+
 	if not self._storage[instance] or not self._storage[instance][event] then
-		warn(player, "fired a debugger event but the instance has no connections")
+		-- warn(player, "fired a debugger event but the instance has no connections")
 		return
 	end
 

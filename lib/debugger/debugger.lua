@@ -2,6 +2,7 @@ local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 
+local World = require(script.Parent.Parent.World)
 local hookWidgets = require(script.Parent.hookWidgets)
 local EventBridge = require(script.Parent.EventBridge)
 
@@ -10,6 +11,7 @@ local customWidgetConstructors = {
 	selectionList = require(script.Parent.widgets.selectionList),
 	container = require(script.Parent.widgets.container),
 	frame = require(script.Parent.widgets.frame),
+	link = require(script.Parent.widgets.link),
 }
 
 local remoteEvent
@@ -269,7 +271,7 @@ function Debugger:autoInitialize(loop)
 			if eventName == self._eventOrder[1] then
 				self._continueHandle = self.plasma.beginFrame(plasmaNode, function()
 					self.plasma.setEventCallback(function(...)
-						self._eventBridge:connect(...)
+						return self._eventBridge:connect(...)
 					end)
 
 					self:draw(loop)
@@ -365,7 +367,7 @@ function Debugger:draw(loop)
 	local plasma = self.plasma
 	local ui = self._customWidgets
 
-	ui.container(function()
+	self.parent = ui.container(function()
 		if self:_isServerView() then
 			ui.panel(function()
 				if plasma.button("switch to client"):clicked() then
@@ -377,6 +379,8 @@ function Debugger:draw(loop)
 			return
 		end
 
+		local inspectIndex, setInspectIndex = plasma.useState()
+
 		ui.panel(function()
 			if RunService:IsClient() then
 				if plasma.button("switch to server"):clicked() then
@@ -386,8 +390,35 @@ function Debugger:draw(loop)
 
 			plasma.space(30)
 
-			plasma.heading("SYSTEMS", 1)
+			plasma.heading("STATE")
+			plasma.space(10)
+
+			local items = {}
+
+			for index, object in loop._state do
+				local isWorld = getmetatable(object) == World
+
+				table.insert(items, {
+					text = (if isWorld then "World" else "table") .. " " .. index,
+					icon = if isWorld then "🌐" else "{}",
+					index = index,
+					selected = index == inspectIndex,
+				})
+			end
+
+			local selectedState = ui.selectionList(items):selected()
+
+			if selectedState then
+				if selectedState.index == inspectIndex then
+					setInspectIndex(nil)
+				else
+					setInspectIndex(selectedState.index)
+				end
+			end
+
 			plasma.space(30)
+			plasma.heading("SYSTEMS")
+			plasma.space(10)
 
 			for _, eventName in self._eventOrder do
 				local systems = loop._orderedSystemsByEvent[eventName]
@@ -418,9 +449,35 @@ function Debugger:draw(loop)
 					end
 				end
 
-				plasma.space(50)
+				plasma.space(20)
 			end
 		end)
+
+		if inspectIndex then
+			plasma.window({
+				title = "Inspect",
+				movable = true,
+				closable = true,
+			}, function()
+				if plasma.button("print"):clicked() then
+					print(loop._state[inspectIndex])
+				end
+
+				local items = {}
+
+				for key, value in pairs(loop._state[inspectIndex]) do
+					table.insert(items, { tostring(key), tostring(value) })
+				end
+
+				plasma.useKey(inspectIndex)
+
+				if #items == 0 then
+					return plasma.label("(empty table)")
+				end
+
+				plasma.table(items)
+			end)
+		end
 
 		if self.debugSystem then
 			plasma.window("System config", function()
@@ -438,9 +495,7 @@ function Debugger:draw(loop)
 			end)
 		end
 
-		self.parent = ui.container(function()
-			self.frame = ui.frame()
-		end)
+		self.frame = ui.frame()
 	end, {
 		direction = Enum.FillDirection.Horizontal,
 		marginTop = if RunService:IsServer() then 80 else 0,

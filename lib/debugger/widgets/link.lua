@@ -7,14 +7,14 @@ return function(Plasma)
 		local clicked, setClicked = Plasma.useState(false)
 		local style = Plasma.useStyle()
 
-		local button
-		button = Plasma.useInstance(function()
+		local refs = Plasma.useInstance(function(ref)
 			local colorHover = style.textColor
 
 			local darker = colorHover.R * 255 * 0.8 -- 20% darker
 			local color = Color3.fromRGB(darker, darker, darker)
 
 			local button = create("TextButton", {
+				[ref] = "button",
 				BackgroundTransparency = 1,
 				Size = UDim2.new(1, 0, 0, 40),
 				Text = "",
@@ -59,11 +59,11 @@ return function(Plasma)
 				end,
 
 				MouseEnter = function()
-					button.MainText.TextColor3 = colorHover
+					ref.button.MainText.TextColor3 = colorHover
 				end,
 
 				MouseLeave = function()
-					button.MainText.TextColor3 = color
+					ref.button.MainText.TextColor3 = color
 				end,
 			})
 
@@ -71,9 +71,9 @@ return function(Plasma)
 		end)
 
 		Plasma.useEffect(function()
-			button.MainText.Text = text
+			refs.button.MainText.Text = text
 
-			button.Icon.Text = options.icon or ""
+			refs.button.Icon.Text = options.icon or ""
 		end, text, options.icon)
 
 		return {

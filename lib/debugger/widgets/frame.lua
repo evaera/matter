@@ -1,6 +1,6 @@
 return function(Plasma)
 	return Plasma.widget(function()
-		local instance = Plasma.useInstance(function()
+		local refs = Plasma.useInstance(function(ref)
 			local style = Plasma.useStyle()
 
 			local Frame = Instance.new("Frame")
@@ -39,9 +39,11 @@ return function(Plasma)
 			Frame.ChildAdded:Connect(updateVisibility)
 			Frame.ChildRemoved:Connect(updateVisibility)
 
+			ref.frame = Frame
+
 			return Frame
 		end)
 
-		return instance
+		return refs.frame
 	end)
 end

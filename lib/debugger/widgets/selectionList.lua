@@ -5,8 +5,9 @@ return function(Plasma)
 		local clicked, setClicked = Plasma.useState(false)
 		local style = Plasma.useStyle()
 
-		local button = Plasma.useInstance(function()
+		local refs = Plasma.useInstance(function(ref)
 			local button = create("TextButton", {
+				[ref] = "button",
 				Size = UDim2.new(1, 0, 0, 40),
 				Text = "",
 
@@ -57,12 +58,12 @@ return function(Plasma)
 		end)
 
 		Plasma.useEffect(function()
-			button.TextLabel.Text = text
-			button.Icon.Text = icon or ""
+			refs.button.TextLabel.Text = text
+			refs.button.Icon.Text = icon or ""
 		end, text, icon)
 
 		Plasma.useEffect(function()
-			button.BackgroundColor3 = if selected then Color3.fromHex("bd515c") else style.bg2
+			refs.button.BackgroundColor3 = if selected then Color3.fromHex("bd515c") else style.bg2
 		end, selected)
 
 		return {

@@ -6,8 +6,9 @@ return function(Plasma)
 
 		local padding = options.padding or 10
 
-		local frame = Plasma.useInstance(function()
+		local refs = Plasma.useInstance(function(ref)
 			return create("Frame", {
+				[ref] = "frame",
 				BackgroundTransparency = 1,
 				Position = UDim2.new(0, 0, 0, options.marginTop or 0),
 				Size = UDim2.new(1, 0, 1, -(options.marginTop or 0)),
@@ -22,6 +23,6 @@ return function(Plasma)
 
 		Plasma.scope(fn)
 
-		return frame
+		return refs.frame
 	end)
 end

@@ -31,7 +31,7 @@ local function disconnect(connection)
 	local disconnectMethod 
 
 	for _, method in CONNECTION_DISCONNECT_METHODS do
-		if type(storage.connection[method]) == "function" then
+		if type(connection[method]) == "function" then
 			disconnectMethod = method
 			break
 		end
@@ -134,23 +134,6 @@ local function useEvent(instance, event): () -> (number, ...any)
 		local queue = Queue.new()
 		storage.queue = queue
 		storage.event = event
-
-		-- Get the 'Connect' method through duck typing, since sometimes developers
-		-- may have custom events that they want to connect through this function:
-		local connectMethod 
-
-		if type(event) == "table" then
-			for _, method in EVENT_CONNECT_METHODS do
-				if type(event[method]) == "function" then
-					connectMethod = method
-					break
-				end
-			end							
-		end
-									
-		if connectMethod == nil then
-			error("Couldn't connect to event as no valid connect methods were found! Ensure the passed event has a 'Connect' or an 'on' method!")						
-		end
 									
 		local connection = connect(event, function(...)
 			queue:pushBack(table.pack(...))

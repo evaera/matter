@@ -11,6 +11,8 @@ local function connect(object, callback, event)
 
 	if type(event) == "string" then
 		object = object[event]
+	elseif type(event) == "table" then
+		object = event
 	end
 
 	if type(object) == "function" then
@@ -18,7 +20,7 @@ local function connect(object, callback, event)
 	elseif typeof(object) == "RBXScriptSignal" then
 		return object:Connect(callback)
 	end
-
+	
 	for _, method in EVENT_CONNECT_METHODS do
 		if type(object) ~= "table" or type(object[method]) ~= "function" then
 			continue

@@ -249,10 +249,14 @@ function Debugger:autoInitialize(loop)
 			end
 
 			if not self.enabled then
+				loop.profiling = nil
+
 				nextFn()
 
 				return
 			end
+
+			loop.profiling = loop.profiling or {}
 
 			if eventName == self._eventOrder[1] then
 				self._continueHandle = self.plasma.beginFrame(plasmaNode, function()

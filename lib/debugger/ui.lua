@@ -1,5 +1,6 @@
 local RunService = game:GetService("RunService")
 local World = require(script.Parent.Parent.World)
+local rollingAverage = require(script.Parent.Parent.rollingAverage)
 
 local function systemName(system)
 	local systemFn = if type(system) == "table" then system.system else system
@@ -49,6 +50,8 @@ local function formatTable(object)
 
 	return str
 end
+
+local timeUnits = { "s", "ms", "μs", "ns" }
 
 local function ui(debugger, loop)
 	local plasma = debugger.plasma
@@ -121,10 +124,32 @@ local function ui(debugger, loop)
 				local items = {}
 
 				for _, system in systems do
+					local samples = loop.profiling[system]
+					local averageFrameTime = ""
+					local icon
+
+					if samples then
+						local duration = rollingAverage.getAverage(samples)
+
+						if duration > 0.004 then -- 4ms
+							icon = "⚠️"
+						end
+
+						local unit = 1
+						while duration < 1 and unit < #timeUnits do
+							duration *= 1000
+							unit += 1
+						end
+
+						averageFrameTime = string.format("%.0f%s", duration, timeUnits[unit])
+					end
+
 					table.insert(items, {
 						text = systemName(system),
+						sideText = averageFrameTime,
 						selected = debugger.debugSystem == system,
 						system = system,
+						icon = icon,
 					})
 				end
 

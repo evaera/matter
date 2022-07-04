@@ -1,4 +1,5 @@
 local topoRuntime = require(script.Parent.topoRuntime)
+local rollingAverage = require(script.Parent.rollingAverage)
 
 local recentErrors = {}
 local recentErrorLastTime = 0
@@ -336,6 +337,7 @@ function Loop:begin(events)
 			generation = not generation
 
 			local dirtyWorlds = {}
+			local profiling = self.profiling
 
 			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
 				topoRuntime.start({
@@ -348,6 +350,7 @@ function Loop:begin(events)
 					currentSystem = system,
 				}, function()
 					if self._skipSystems[system] then
+						profiling[system] = nil
 						return
 					end
 
@@ -356,7 +359,18 @@ function Loop:begin(events)
 
 					local thread = coroutine.create(fn)
 
+					local startTime = os.clock()
 					local success, errorValue = coroutine.resume(thread, unpack(self._state, 1, self._stateLength))
+
+					if profiling ~= nil then
+						local duration = os.clock() - startTime
+
+						if profiling[system] == nil then
+							profiling[system] = {}
+						end
+
+						rollingAverage.addSample(profiling[system], duration)
+					end
 
 					if coroutine.status(thread) ~= "dead" then
 						coroutine.close(thread)

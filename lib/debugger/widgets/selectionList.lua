@@ -1,7 +1,7 @@
 return function(Plasma)
 	local create = Plasma.create
 
-	local Item = Plasma.widget(function(text, selected, icon)
+	local Item = Plasma.widget(function(text, selected, icon, sideText)
 		local clicked, setClicked = Plasma.useState(false)
 		local style = Plasma.useStyle()
 
@@ -25,12 +25,13 @@ return function(Plasma)
 				create("UIListLayout", {
 					SortOrder = Enum.SortOrder.LayoutOrder,
 					FillDirection = Enum.FillDirection.Horizontal,
+					Padding = UDim.new(0, 10),
 				}),
 
 				create("TextLabel", {
 					Name = "Icon",
 					BackgroundTransparency = 1,
-					Size = UDim2.new(0, 30, 1, 0),
+					Size = UDim2.new(0, 22, 1, 0),
 					Text = icon,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextSize = 23,
@@ -49,6 +50,18 @@ return function(Plasma)
 					Font = Enum.Font.SourceSans,
 				}),
 
+				create("TextLabel", {
+					[ref] = "sideText",
+					BackgroundTransparency = 1,
+					AutomaticSize = Enum.AutomaticSize.X,
+					Size = UDim2.new(0, 0, 1, 0),
+					Text = "",
+					TextXAlignment = Enum.TextXAlignment.Left,
+					TextSize = 15,
+					TextColor3 = style.mutedTextColor,
+					Font = Enum.Font.SourceSans,
+				}),
+
 				Activated = function()
 					setClicked(true)
 				end,
@@ -60,7 +73,12 @@ return function(Plasma)
 		Plasma.useEffect(function()
 			refs.button.TextLabel.Text = text
 			refs.button.Icon.Text = icon or ""
+			refs.button.Icon.Visible = not not icon
 		end, text, icon)
+
+		refs.sideText.Visible = not not sideText
+		refs.sideText.Text = sideText or ""
+		refs.sideText.TextColor3 = if selected then style.textColor else style.mutedTextColor
 
 		Plasma.useEffect(function()
 			refs.button.BackgroundColor3 = if selected then Color3.fromHex("bd515c") else style.bg2
@@ -99,7 +117,7 @@ return function(Plasma)
 		local selected
 
 		for _, item in items do
-			if Item(item.text, item.selected, item.icon):clicked() then
+			if Item(item.text, item.selected, item.icon, item.sideText):clicked() then
 				selected = item
 			end
 		end

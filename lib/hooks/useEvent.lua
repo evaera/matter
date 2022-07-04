@@ -2,9 +2,65 @@ local topoRuntime = require(script.Parent.Parent.topoRuntime)
 local Queue = require(script.Parent.Parent.Queue)
 
 local EVENT_CONNECT_METHODS = {"Connect", "on", "connect"}
+local CONNECTION_DISCONNECT_METHODS = {"Disconnect", "disconnect", "Destroy", "destroy"}
+
+local function connect(event, callback)
+	-- Get the 'Connect' method through duck typing, since sometimes developers
+	-- may have custom events that they want to connect through this function:
+	local connectMethod 
+
+	if type(event) == "table" then
+		for _, method in EVENT_CONNECT_METHODS do
+			if type(event[method]) == "function" then
+				connectMethod = method
+				break
+			end
+		end							
+	end
+									
+	if connectMethod == nil then
+		error("Couldn't connect to event as no valid connect methods were found! Ensure the passed event has a 'Connect' or an 'on' method!")						
+	end
+	
+	return event[connectMethod](event, callback)
+end
+
+local function disconnect(connection)
+	-- Get a 'Disconnect' method through duck typing, since sometimes developers
+	-- may have custom events which may return custom connection objects..
+	local disconnectMethod 
+
+	for _, method in CONNECTION_DISCONNECT_METHODS do
+		if type(storage.connection[method]) == "function" then
+			disconnectMethod = method
+			break
+		end
+	end							
+									
+	if disconnectMethod == nil then
+		error("Couldn't disconnect event as no valid disconnect methods were found! Ensure the passed event returns a connection object with a 'Disconnect' or a 'Destroy' method at least!")						
+	end
+	
+	connection[disconnectMethod](connection)
+end
 
 local function cleanup(storage)
-	storage.connection:Disconnect()
+	-- Get a 'Disconnect' method through duck typing, since sometimes developers
+	-- may have custom events which may return custom connection objects..
+	local disconnectMethod 
+
+	for _, method in CONNECTION_DISCONNECT_METHODS do
+		if type(storage.connection[method]) == "function" then
+			disconnectMethod = method
+			break
+		end
+	end							
+									
+	if disconnectMethod == nil then
+		error("Couldn't disconnect event as no valid disconnect methods were found! Ensure the passed event returns a connection object with a 'Disconnect' or a 'Destroy' method!")						
+	end
+	
+	disconnect(storage.connection)
 	storage.queue = nil
 end
 
@@ -85,7 +141,7 @@ local function useEvent(instance, event): () -> (number, ...any)
 
 	if storage.event ~= event then
 		if storage.event then
-			storage.connection:Disconnect()
+			disconnect(storage.connection)
 			warn("useEvent event changed:", storage.event, "->", event)
 			table.clear(storage)
 		end
@@ -98,14 +154,20 @@ local function useEvent(instance, event): () -> (number, ...any)
 		-- may have custom events that they want to connect through this function:
 		local connectMethod 
 
-		for _, method in EVENT_CONNECT_METHODS do
-			if type(event[method]) == "function" then
-				connectMethod = method
-				break
-			end
+		if type(event) == "table" then
+			for _, method in EVENT_CONNECT_METHODS do
+				if type(event[method]) == "function" then
+					connectMethod = method
+					break
+				end
+			end							
 		end
 									
-		local connection = event[connectMethod](event, function(...)
+		if connectMethod == nil then
+			error("Couldn't connect to event as no valid connect methods were found! Ensure the passed event has a 'Connect' or an 'on' method!")						
+		end
+									
+		local connection = connect(event, function(...)
 			queue:pushBack(table.pack(...))
 		end)
 

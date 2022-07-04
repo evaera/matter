@@ -45,21 +45,6 @@ local function disconnect(connection)
 end
 
 local function cleanup(storage)
-	-- Get a 'Disconnect' method through duck typing, since sometimes developers
-	-- may have custom events which may return custom connection objects..
-	local disconnectMethod 
-
-	for _, method in CONNECTION_DISCONNECT_METHODS do
-		if type(storage.connection[method]) == "function" then
-			disconnectMethod = method
-			break
-		end
-	end							
-									
-	if disconnectMethod == nil then
-		error("Couldn't disconnect event as no valid disconnect methods were found! Ensure the passed event returns a connection object with a 'Disconnect' or a 'Destroy' method!")						
-	end
-	
 	disconnect(storage.connection)
 	storage.queue = nil
 end

@@ -9,24 +9,26 @@ local function connect(object, callback, event)
 		return event:Connect(callback)
 	end
 
+	local cleanupObject = object
+
 	if type(event) == "string" then
-		object = object[event]
+		cleanupObject = object[event]
 	elseif type(event) == "table" then
-		object = event
+		cleanupObject = event
 	end
 
-	if type(object) == "function" then
-		return object()
-	elseif typeof(object) == "RBXScriptSignal" then
-		return object:Connect(callback)
+	if type(cleanupObject) == "function" then
+		return cleanupObject(object)
+	elseif typeof(cleanupObject) == "RBXScriptSignal" then
+		return cleanupObject:Connect(callback)
 	end
-	
+
 	for _, method in EVENT_CONNECT_METHODS do
-		if type(object) ~= "table" or type(object[method]) ~= "function" then
+		if type(cleanupObject) ~= "table" or type(cleanupObject[method]) ~= "function" then
 			continue
 		end
 
-		return object[method](object, callback)
+		return cleanupObject[method](cleanupObject, callback)
 	end
 
 	error(

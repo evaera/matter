@@ -1,6 +1,8 @@
 local topoRuntime = require(script.Parent.Parent.topoRuntime)
 local Queue = require(script.Parent.Parent.Queue)
 
+local EVENT_CONNECT_METHODS = {"connect", "Connect", "on"}
+
 local function cleanup(storage)
 	storage.connection:Disconnect()
 	storage.queue = nil
@@ -92,7 +94,18 @@ local function useEvent(instance, event): () -> (number, ...any)
 		storage.queue = queue
 		storage.event = event
 
-		local connection = event:Connect(function(...)
+		-- Get the 'Connect' method through duck typing, since sometimes developers
+		-- may have custom events that they want to connect through this function:
+		local connectMethod 
+
+		for _, method in EVENT_CONNECT_METHODS do
+			if type(event[method]) == "function" then
+				connectMethod = method
+				break
+			end
+		end
+									
+		local connection = event[connectMethod](event, function(...)
 			queue:pushBack(table.pack(...))
 		end)
 

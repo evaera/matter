@@ -57,23 +57,23 @@ local function ui(debugger, loop)
 	local plasma = debugger.plasma
 	local custom = debugger._customWidgets
 
-	debugger.parent = custom.container(function()
+	custom.container(function()
 		if debugger:_isServerView() then
-			custom.panel(function()
-				if plasma.button("switch to client"):clicked() then
-					debugger:switchToClientView()
-				end
-			end, {
-				fullHeight = false,
-			})
 			return
 		end
 
 		local objectStack = plasma.useState({})
 
 		custom.panel(function()
-			if RunService:IsClient() then
-				if plasma.button("switch to server"):clicked() then
+			if
+				custom.realmSwitch({
+					left = "client",
+					right = "server",
+					isRight = RunService:IsServer(),
+					tag = if RunService:IsServer() then "MatterDebuggerSwitchToClientView" else nil,
+				}):clicked()
+			then
+				if RunService:IsClient() then
 					debugger:switchToServerView()
 				end
 			end
@@ -119,7 +119,9 @@ local function ui(debugger, loop)
 					continue
 				end
 
-				plasma.heading(eventName)
+				plasma.heading(eventName, {
+					font = Enum.Font.Gotham,
+				})
 				plasma.space(10)
 				local items = {}
 
@@ -167,92 +169,100 @@ local function ui(debugger, loop)
 			end
 		end)
 
-		if #objectStack > 0 then
-			local closed = plasma.window({
-				title = "Inspect",
-				movable = true,
-				closable = true,
-			}, function()
-				plasma.row(function()
-					for i, object in objectStack do
-						if custom.link(object.key, {
-							icon = object.icon or "{}",
-						}):clicked() then
-							local difference = #objectStack - i
-
-							for _ = 1, difference do
-								table.remove(objectStack, #objectStack)
-							end
-						end
-
-						if i < #objectStack then
-							custom.link(">", {
-								disabled = true,
-							})
-						end
-					end
-				end)
-
-				local items = {}
-
-				for key, value in pairs(objectStack[#objectStack].value) do
-					local valueItem
-
-					if type(value) == "table" then
-						valueItem = function()
-							if custom.link(formatTable(value), {
-								font = Enum.Font.Code,
+		debugger.parent = custom.container(function()
+			if #objectStack > 0 then
+				local closed = plasma.window({
+					title = "Inspect",
+					movable = true,
+					closable = true,
+				}, function()
+					plasma.row({ padding = 5 }, function()
+						for i, object in objectStack do
+							if custom.link(object.key, {
+								icon = object.icon or "{}",
 							}):clicked() then
-								table.insert(objectStack, {
-									key = if type(key) == "table" then formatTable(key) else tostring(key),
-									value = value,
+								local difference = #objectStack - i
+
+								for _ = 1, difference do
+									table.remove(objectStack, #objectStack)
+								end
+							end
+
+							if i < #objectStack then
+								custom.link("▶", {
+									disabled = true,
 								})
 							end
 						end
-					else
-						valueItem = tostring(value)
+					end)
+
+					local items = {}
+
+					for key, value in pairs(objectStack[#objectStack].value) do
+						local valueItem
+
+						if type(value) == "table" then
+							valueItem = function()
+								if
+									custom.link(formatTable(value), {
+										font = Enum.Font.Code,
+									}):clicked()
+								then
+									table.insert(objectStack, {
+										key = if type(key) == "table" then formatTable(key) else tostring(key),
+										value = value,
+									})
+								end
+							end
+						else
+							valueItem = tostring(value)
+						end
+
+						table.insert(items, {
+							tostring(key),
+							valueItem,
+						})
 					end
 
-					table.insert(items, {
-						tostring(key),
-						valueItem,
-					})
+					plasma.useKey(tostring(objectStack[#objectStack].key) .. ":" .. #objectStack)
+
+					if #items == 0 then
+						return plasma.label("(empty table)")
+					end
+
+					plasma.table(items)
+				end):closed()
+
+				if closed then
+					table.clear(objectStack)
 				end
-
-				plasma.useKey(tostring(objectStack[#objectStack].key) .. ":" .. #objectStack)
-
-				if #items == 0 then
-					return plasma.label("(empty table)")
-				end
-
-				plasma.table(items)
-			end):closed()
-
-			if closed then
-				table.clear(objectStack)
 			end
-		end
 
-		if debugger.debugSystem then
-			plasma.window("System config", function()
-				plasma.useKey(systemName(debugger.debugSystem))
-				plasma.heading(systemName(debugger.debugSystem))
-				plasma.space(0)
+			if debugger.debugSystem then
+				plasma.window("System config", function()
+					plasma.useKey(systemName(debugger.debugSystem))
+					plasma.heading(systemName(debugger.debugSystem))
+					plasma.space(0)
 
-				local currentlyDisabled = loop._skipSystems[debugger.debugSystem]
+					local currentlyDisabled = loop._skipSystems[debugger.debugSystem]
 
-				if plasma.checkbox("Disable system", {
-					checked = currentlyDisabled,
-				}):clicked() then
-					loop._skipSystems[debugger.debugSystem] = not currentlyDisabled
-				end
-			end)
-		end
+					if plasma.checkbox("Disable system", {
+						checked = currentlyDisabled,
+					}):clicked() then
+						loop._skipSystems[debugger.debugSystem] = not currentlyDisabled
+					end
+				end)
+			end
 
-		debugger.frame = custom.frame()
+			debugger.frame = custom.frame()
+		end, {
+			marginTop = 46,
+			marginLeft = 10,
+			direction = Enum.FillDirection.Horizontal,
+		})
 	end, {
 		direction = Enum.FillDirection.Horizontal,
-		marginTop = if RunService:IsServer() then 80 else 0,
+		padding = 0,
 	})
 end
 

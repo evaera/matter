@@ -10,8 +10,13 @@ return function(Plasma)
 			return create("Frame", {
 				[ref] = "frame",
 				BackgroundTransparency = 1,
-				Position = UDim2.new(0, 0, 0, options.marginTop or 0),
-				Size = UDim2.new(1, 0, 1, -(options.marginTop or 0)),
+				Position = UDim2.new(0, 0, 0, 0),
+				Size = UDim2.new(1, 0, 1, 0),
+
+				create("UIPadding", {
+					PaddingTop = UDim.new(0, options.marginTop or 0),
+					PaddingLeft = UDim.new(0, options.marginLeft or 0),
+				}),
 
 				create("UIListLayout", {
 					SortOrder = Enum.SortOrder.LayoutOrder,

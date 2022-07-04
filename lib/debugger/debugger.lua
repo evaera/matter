@@ -1,5 +1,6 @@
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 
 local hookWidgets = require(script.Parent.hookWidgets)
@@ -12,6 +13,8 @@ local customWidgetConstructors = {
 	container = require(script.Parent.widgets.container),
 	frame = require(script.Parent.widgets.frame),
 	link = require(script.Parent.widgets.link),
+	logo = require(script.Parent.widgets.logo),
+	realmSwitch = require(script.Parent.widgets.realmSwitch),
 }
 
 local remoteEvent
@@ -131,6 +134,12 @@ function Debugger.new(plasma)
 				self:disconnectPlayer(player)
 			end
 		end)
+	else
+		CollectionService:GetInstanceAddedSignal("MatterDebuggerSwitchToClientView"):Connect(function(instance)
+			instance.Activated:Connect(function()
+				self:switchToClientView()
+			end)
+		end)
 	end
 
 	return self
@@ -231,6 +240,7 @@ function Debugger:autoInitialize(loop)
 	local parent = Instance.new("ScreenGui")
 	parent.Name = "MatterDebugger"
 	parent.ResetOnSpawn = false
+	parent.IgnoreGuiInset = true
 
 	if RunService:IsClient() then
 		parent.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")

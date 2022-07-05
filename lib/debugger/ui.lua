@@ -149,6 +149,12 @@ local function ui(debugger, loop)
 			end
 		end)
 
+		if debugger.debugSystem and typeof(debugger.debugSystem) == "table" then
+			if not debugger._lastFrame[debugger.debugSystem.event] then
+				debugger.debugSystem = nil
+			end
+		end
+
 		debugger.parent = custom.container(function()
 			if worldView then
 				local closed = plasma.window({

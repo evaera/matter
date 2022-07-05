@@ -102,8 +102,8 @@ function Debugger.new(plasma)
 		plasma = plasma,
 		enabled = false,
 		_windowCount = 0,
-		_seenEvents = {},
-		_eventOrder = {},
+		_currentFrame = {},
+		_lastFrame = {},
 		_eventBridge = EventBridge.new(function(...)
 			remoteEvent:FireClient(...)
 		end),
@@ -253,11 +253,6 @@ function Debugger:autoInitialize(loop)
 
 	loop:addMiddleware(function(nextFn, eventName)
 		return function()
-			if not self._seenEvents[eventName] then
-				self._seenEvents[eventName] = true
-				table.insert(self._eventOrder, eventName)
-			end
-
 			if not self.enabled then
 				loop.profiling = nil
 
@@ -268,7 +263,15 @@ function Debugger:autoInitialize(loop)
 
 			loop.profiling = loop.profiling or {}
 
-			if eventName == self._eventOrder[1] then
+			if self._currentFrame[eventName] then
+				self.plasma.finishFrame(plasmaNode)
+				self._lastFrame = table.clone(self._currentFrame)
+				self._currentFrame = {}
+				self._continueHandle = nil
+			end
+			self._currentFrame[eventName] = true
+
+			if not self._continueHandle then
 				self._continueHandle = self.plasma.beginFrame(plasmaNode, function()
 					self.plasma.setEventCallback(function(...)
 						return self._eventBridge:connect(...)
@@ -286,10 +289,6 @@ function Debugger:autoInitialize(loop)
 
 					nextFn()
 				end)
-			end
-
-			if eventName == self._eventOrder[#self._eventOrder] then
-				self.plasma.finishFrame(plasmaNode)
 			end
 		end
 	end)

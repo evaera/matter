@@ -150,7 +150,8 @@ local function ui(debugger, loop)
 		end)
 
 		if debugger.debugSystem and typeof(debugger.debugSystem) == "table" then
-			if not debugger._lastFrame[debugger.debugSystem.event] then
+			local eventName = debugger.debugSystem.event
+			if eventName and not debugger._lastFrame[eventName] then
 				debugger.debugSystem = nil
 			end
 		end

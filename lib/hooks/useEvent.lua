@@ -9,26 +9,28 @@ local function connect(object, callback, event)
 		return event:Connect(callback)
 	end
 
-	local cleanupObject = object
+	local eventObject = object
 
 	if type(event) == "string" then
-		cleanupObject = object[event]
+		eventObject = object[event]
 	elseif type(event) == "table" then
-		cleanupObject = event
+		eventObject = event
 	end
 
-	if type(cleanupObject) == "function" then
-		return cleanupObject(object)
-	elseif typeof(cleanupObject) == "RBXScriptSignal" then
-		return cleanupObject:Connect(callback)
+	if type(eventObject) == "function" then
+		return eventObject(object)
+	elseif typeof(eventObject) == "RBXScriptSignal" then
+		return eventObject:Connect(callback)
 	end
 
-	for _, method in EVENT_CONNECT_METHODS do
-		if type(cleanupObject) ~= "table" or type(cleanupObject[method]) ~= "function" then
-			continue
+	if type(eventObject) == "table" then
+		for _, method in EVENT_CONNECT_METHODS do
+			if type(eventObject[method]) ~= "function" then
+				continue
+			end
+
+			return eventObject[method](object, callback)
 		end
-
-		return cleanupObject[method](cleanupObject, callback)
 	end
 
 	error(
@@ -37,8 +39,10 @@ local function connect(object, callback, event)
 end
 
 local function disconnect(connection)
-	if typeof(connection) == "function" then
+	if type(connection) == "function" then
 		connection()
+		return
+	elseif connection == nil then
 		return
 	end
 
@@ -57,20 +61,15 @@ local function validateConnection(connection)
 		return
 	end
 
-	local disconnectMethod
-
 	for _, method in CONNECTION_DISCONNECT_METHODS do
 		if type(connection) ~= "table" or connection[method] == nil then
 			continue
 		end
 
-		disconnectMethod = method
-		break
+		return
 	end
 
-	if disconnectMethod == nil then
-		error("Ensure passed event returns a connection object with a 'Disconnect' or a 'Destroy' method!")
-	end
+	error("Ensure passed event returns a cleanup function, or a table with a 'Disconnect' or a 'Destroy' method!")
 end
 
 local function cleanup(storage)
@@ -124,6 +123,19 @@ end
 	useEvent(instance, instance.Touched)
 	useEvent(instance, instance:GetPropertyChangedSignal("Name"))
 	```
+	Additionally, `useEvent` supports custom events as well (through duck typing), so you can pass in an object with a
+	`Connect`, `connect` or a `on` method:
+
+	```lua
+	local object = {playerDataUpdated = {on = function(...) ... end}}
+	useEvent(object, "playerDataUpdated")
+	```	
+
+	:::note
+	The object returned by any event must either be a cleanup function, or a table with a `Disconnect` or a `Destroy` method, 
+	so that `useEvent` can later clean it up when needed.
+	:::
+
 	@param instance Instance -- The instance that has the event you want to connect to
 	@param event string | RBXScriptSignal -- The name of or actual event that you want to connect to
 ]=]

@@ -96,7 +96,7 @@ local function ui(debugger, loop)
 			plasma.heading("SYSTEMS")
 			plasma.space(10)
 
-			for _, eventName in debugger._eventOrder do
+			for eventName in debugger._lastFrame do
 				local systems = loop._orderedSystemsByEvent[eventName]
 
 				if not systems then

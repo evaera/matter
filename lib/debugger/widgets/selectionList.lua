@@ -1,7 +1,7 @@
 return function(Plasma)
 	local create = Plasma.create
 
-	local Item = Plasma.widget(function(text, selected, icon, sideText)
+	local Item = Plasma.widget(function(text, selected, icon, sideText, width)
 		local clicked, setClicked = Plasma.useState(false)
 		local style = Plasma.useStyle()
 
@@ -68,7 +68,12 @@ return function(Plasma)
 			})
 
 			ref.button.TextLabel:GetPropertyChangedSignal("TextBounds"):Connect(function()
-				ref.button.TextLabel.Size = UDim2.new(0, math.min(ref.button.TextLabel.TextBounds.X, 180), 1, 0)
+				ref.button.TextLabel.Size = UDim2.new(
+					0,
+					math.min(ref.button.TextLabel.TextBounds.X, width or 180),
+					1,
+					0
+				)
 			end)
 
 			return button
@@ -83,6 +88,7 @@ return function(Plasma)
 		refs.sideText.Visible = not not sideText
 		refs.sideText.Text = sideText or ""
 		refs.sideText.TextColor3 = if selected then style.textColor else style.mutedTextColor
+		refs.button.TextLabel.TextTruncate = sideText and Enum.TextTruncate.AtEnd or Enum.TextTruncate.None
 
 		Plasma.useEffect(function()
 			refs.button.BackgroundColor3 = if selected then Color3.fromHex("bd515c") else style.bg2
@@ -100,11 +106,13 @@ return function(Plasma)
 		}
 	end)
 
-	return Plasma.widget(function(items)
+	return Plasma.widget(function(items, options)
+		options = options or {}
+
 		Plasma.useInstance(function()
 			local frame = create("Frame", {
 				BackgroundTransparency = 1,
-				Size = UDim2.new(1, 0, 0, 0),
+				Size = options.width and UDim2.new(0, options.width, 0, 0) or UDim2.new(1, 0, 0, 0),
 
 				create("UIListLayout", {
 					SortOrder = Enum.SortOrder.LayoutOrder,
@@ -121,7 +129,7 @@ return function(Plasma)
 		local selected
 
 		for _, item in items do
-			if Item(item.text, item.selected, item.icon, item.sideText):clicked() then
+			if Item(item.text, item.selected, item.icon, item.sideText, options.width):clicked() then
 				selected = item
 			end
 		end

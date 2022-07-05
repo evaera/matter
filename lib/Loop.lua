@@ -350,7 +350,9 @@ function Loop:begin(events)
 					currentSystem = system,
 				}, function()
 					if self._skipSystems[system] then
-						profiling[system] = nil
+						if profiling then
+							profiling[system] = nil
+						end
 						return
 					end
 

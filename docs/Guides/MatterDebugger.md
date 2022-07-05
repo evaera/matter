@@ -2,7 +2,7 @@
 
 The Matter debugger allows you to view your systems and create debug UI elements right inside your systems.
 
-![Debugger screenshot](https://i.eryn.io/2227/ghc8Wo6Y.png)
+![Debugger screenshot](https://i.eryn.io/2228/89tcYlOq.png)
 
 Inside your system code, you can create UI elements and check user input inline. Here's the code for the above screenshot:
 
@@ -98,6 +98,7 @@ The following Plasma widgets are available:
 - slider
 - space (empty space)
 - spinner (loading spinner)
+- table
 - window
 
 For details on these widgets, check out the [Plasma docs](https://eryn.io/plasma/api/Plasma)

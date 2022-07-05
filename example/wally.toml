@@ -5,5 +5,5 @@ registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
 [dependencies]
-plasma = "evaera/plasma@0.3.0"
+plasma = "evaera/plasma@0.4.0"
 rewire = "sayhisam1/rewire@0.3.0"

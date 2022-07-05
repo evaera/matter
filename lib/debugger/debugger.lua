@@ -21,7 +21,7 @@ local remoteEvent
 
 -- Assert plasma is compatible via feature detection
 local function assertCompatiblePlasma(plasma)
-	if not plasma.hydrateAutomaticSize then
+	if not plasma.table then
 		error("Plasma passed to Matter debugger is out of date, please update it to use the debugger.")
 	end
 end
@@ -281,7 +281,7 @@ function Debugger:autoInitialize(loop)
 			elseif self._continueHandle then
 				self.plasma.continueFrame(self._continueHandle, function()
 					self.plasma.setEventCallback(function(...)
-						self._eventBridge:connect(...)
+						return self._eventBridge:connect(...)
 					end)
 
 					nextFn()

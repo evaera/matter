@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.3] - 2022-07-05
+## Added
+- Added performance information to debugger
+- Add World inspector to debugger
+
+## Fixed
+- Fix confusing error when a system yields inside a plasma context
+
 ## [0.5.2] - 2022-07-01
 ### Fixed
 - Fixed debugger panel not scrolling.

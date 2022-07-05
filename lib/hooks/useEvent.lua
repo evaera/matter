@@ -29,7 +29,7 @@ local function connect(object, callback, event)
 				continue
 			end
 
-			return eventObject[method](object, callback)
+			return eventObject[method](eventObject, callback)
 		end
 	end
 
@@ -125,17 +125,14 @@ end
 	```
 	Additionally, `useEvent` supports custom events as well (through duck typing), so you can pass in an object with a
 	`Connect`, `connect` or a `on` method:
-
 	```lua
 	local object = {playerDataUpdated = {on = function(...) ... end}}
 	useEvent(object, "playerDataUpdated")
 	```	
-
 	:::note
 	The object returned by any event must either be a cleanup function, or a table with a `Disconnect` or a `Destroy` method, 
 	so that `useEvent` can later clean it up when needed.
 	:::
-
 	@param instance Instance -- The instance that has the event you want to connect to
 	@param event string | RBXScriptSignal -- The name of or actual event that you want to connect to
 ]=]

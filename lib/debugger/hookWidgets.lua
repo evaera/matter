@@ -40,6 +40,10 @@ local dummyHandles = {
 			return false
 		end,
 	},
+
+	table = {
+		selected = function() end,
+	},
 }
 
 local function hookWidgets(debugger)

@@ -21,7 +21,7 @@ local remoteEvent
 
 -- Assert plasma is compatible via feature detection
 local function assertCompatiblePlasma(plasma)
-	if not plasma.hydrateAutomaticSize then
+	if not plasma.table then
 		error("Plasma passed to Matter debugger is out of date, please update it to use the debugger.")
 	end
 end

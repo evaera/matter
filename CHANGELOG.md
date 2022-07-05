@@ -2,7 +2,16 @@
 
 ## Unreleased
 ### Changes
-- `Matter.useEvent` now supports events that have a `Connect`, `connect`, or `on` method.
+- `Matter.useEvent` now supports events that have a `Connect`, `connect`, or an `on` method. Additionally, it also supports custom
+connection objects (returned by custom events), which have a `Destroy` or a `Disconnect` method, or are just a cleanup function.
+
+## [0.5.3] - 2022-07-05
+## Added
+- Added performance information to debugger
+- Add World inspector to debugger
+
+## Fixed
+- Fix confusing error when a system yields inside a plasma context
 
 ## [0.5.2] - 2022-07-01
 ### Fixed

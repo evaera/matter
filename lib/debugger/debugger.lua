@@ -281,7 +281,7 @@ function Debugger:autoInitialize(loop)
 			elseif self._continueHandle then
 				self.plasma.continueFrame(self._continueHandle, function()
 					self.plasma.setEventCallback(function(...)
-						self._eventBridge:connect(...)
+						return self._eventBridge:connect(...)
 					end)
 
 					nextFn()

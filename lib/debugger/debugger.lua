@@ -15,6 +15,9 @@ local customWidgetConstructors = {
 	link = require(script.Parent.widgets.link),
 	logo = require(script.Parent.widgets.logo),
 	realmSwitch = require(script.Parent.widgets.realmSwitch),
+	valueInspect = require(script.Parent.widgets.valueInspect),
+	worldInspect = require(script.Parent.widgets.worldInspect),
+	entityInspect = require(script.Parent.widgets.entityInspect),
 }
 
 local remoteEvent

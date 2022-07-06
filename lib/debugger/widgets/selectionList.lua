@@ -40,14 +40,19 @@ return function(Plasma)
 				}),
 
 				create("TextLabel", {
+					AutomaticSize = Enum.AutomaticSize.X,
 					BackgroundTransparency = 1,
-					Size = UDim2.new(1, 0, 1, 0),
+					Size = UDim2.new(0, 0, 1, 0),
 					Text = text,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextSize = 19,
 					TextColor3 = style.textColor,
 					Font = Enum.Font.SourceSans,
 					TextTruncate = Enum.TextTruncate.AtEnd,
+
+					create("UISizeConstraint", {
+						MaxSize = Vector2.new(165, math.huge),
+					}),
 				}),
 
 				create("TextLabel", {
@@ -66,15 +71,6 @@ return function(Plasma)
 					setClicked(true)
 				end,
 			})
-
-			ref.button.TextLabel:GetPropertyChangedSignal("TextBounds"):Connect(function()
-				ref.button.TextLabel.Size = UDim2.new(
-					0,
-					math.min(ref.button.TextLabel.TextBounds.X, width or 180),
-					1,
-					0
-				)
-			end)
 
 			return button
 		end)

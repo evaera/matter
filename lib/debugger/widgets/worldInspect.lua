@@ -2,7 +2,10 @@ local formatTableModule = require(script.Parent.Parent.formatTable)
 local formatTable = formatTableModule.formatTable
 
 return function(plasma)
-	return plasma.widget(function(worldView, setWorld, objectStack, custom)
+	return plasma.widget(function(worldView, setWorld, objectStack, debugger)
+		local custom = debugger._customWidgets
+		local style = plasma.useStyle()
+
 		local closed = plasma.window({
 			title = "World inspect",
 			closable = true,
@@ -113,14 +116,35 @@ return function(plasma)
 
 					plasma.useKey(tostring(worldView.focusComponent))
 
-					local selectedRow = plasma.table(items, {
+					local tableWidget = plasma.table(items, {
 						font = Enum.Font.Code,
 						selectable = true,
 						headings = true,
-					}):selected()
+					})
+
+					local selectedRow = tableWidget:selected()
+					local hovered = tableWidget:hovered()
 
 					if selectedRow then
 						worldView.focusEntity = selectedRow[1]
+					end
+
+					if hovered then
+						local entityId = hovered[1]
+
+						if worldView.focusEntity == entityId or not worldView.world:contains(entityId) then
+							return
+						end
+
+						if debugger.findInstanceFromEntityId then
+							local model = debugger.findInstanceFromEntityId(entityId)
+
+							if model then
+								plasma.highlight(model, {
+									fillColor = style.primaryColor,
+								})
+							end
+						end
 					end
 				end
 			end)

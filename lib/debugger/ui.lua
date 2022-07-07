@@ -31,6 +31,10 @@ local function ui(debugger, loop)
 	local plasma = debugger.plasma
 	local custom = debugger._customWidgets
 
+	plasma.setStyle({
+		primaryColor = Color3.fromHex("bd515c"),
+	})
+
 	custom.container(function()
 		if debugger:_isServerView() then
 			return
@@ -150,11 +154,11 @@ local function ui(debugger, loop)
 
 		debugger.parent = custom.container(function()
 			if worldView then
-				custom.worldInspect(worldView, setWorld, objectStack, custom)
+				custom.worldInspect(worldView, setWorld, objectStack, debugger)
 			end
 
 			if worldView and worldView.focusEntity then
-				custom.entityInspect(worldView)
+				custom.entityInspect(worldView, debugger)
 			end
 
 			if #objectStack > 0 then
@@ -162,7 +166,10 @@ local function ui(debugger, loop)
 			end
 
 			if debugger.debugSystem then
-				plasma.window("System config", function()
+				local closed = plasma.window({
+					title = "System config",
+					closable = true,
+				}, function()
 					plasma.useKey(systemName(debugger.debugSystem))
 					plasma.heading(systemName(debugger.debugSystem))
 					plasma.space(0)
@@ -174,7 +181,11 @@ local function ui(debugger, loop)
 					}):clicked() then
 						loop._skipSystems[debugger.debugSystem] = not currentlyDisabled
 					end
-				end)
+				end):closed()
+
+				if closed then
+					debugger.debugSystem = nil
+				end
 			end
 
 			debugger.frame = custom.frame()

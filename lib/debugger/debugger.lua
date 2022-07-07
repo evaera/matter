@@ -13,7 +13,6 @@ local customWidgetConstructors = {
 	container = require(script.Parent.widgets.container),
 	frame = require(script.Parent.widgets.frame),
 	link = require(script.Parent.widgets.link),
-	logo = require(script.Parent.widgets.logo),
 	realmSwitch = require(script.Parent.widgets.realmSwitch),
 	valueInspect = require(script.Parent.widgets.valueInspect),
 	worldInspect = require(script.Parent.widgets.worldInspect),
@@ -24,7 +23,7 @@ local remoteEvent
 
 -- Assert plasma is compatible via feature detection
 local function assertCompatiblePlasma(plasma)
-	if not plasma.table then
+	if not plasma.highlight then
 		error("Plasma passed to Matter debugger is out of date, please update it to use the debugger.")
 	end
 end
@@ -66,6 +65,28 @@ Debugger.__index = Debugger
 		if player:GetRankInGroup(372) > 250 then -- etc
 			return true
 		end
+	end
+	```
+]=]
+
+--[=[
+	@prop findInstanceFromEntityId (entityId: number) -> Instance?
+	@within Debugger
+
+	Create this property in Debugger to specify a function that will be called to determine what Instance is associated
+	with an entity. This is used for the in-world highlight in the World inspector.
+
+	If not specified, the in-world highlight will not work.
+
+	```lua
+	debugger.findInstanceFromEntityId = function(id)
+		if not world:contains(id) then
+			return
+		end
+
+		local model = world:get(id, components.Model)
+
+		return model and model.model or nil
 	end
 	```
 ]=]

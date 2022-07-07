@@ -3,11 +3,26 @@ local formatTable = formatTableModule.formatTable
 local FormatMode = formatTableModule.FormatMode
 
 return function(plasma)
-	return plasma.widget(function(worldView)
+	return plasma.widget(function(worldView, debugger)
+		local style = plasma.useStyle()
+
 		local closed = plasma.window({
 			title = string.format("Entity %d", worldView.focusEntity),
 			closable = true,
 		}, function()
+			if not worldView.world:contains(worldView.focusEntity) then
+				worldView.focusEntity = nil
+				return
+			end
+
+			if debugger.findInstanceFromEntityId then
+				local model = debugger.findInstanceFromEntityId(worldView.focusEntity)
+
+				if model then
+					plasma.highlight(model)
+				end
+			end
+
 			plasma.row(function()
 				if plasma.button("despawn"):clicked() then
 					worldView.world:despawn(worldView.focusEntity)
@@ -15,11 +30,6 @@ return function(plasma)
 			end)
 
 			local items = { { "Component", "Data" } }
-
-			if not worldView.world:contains(worldView.focusEntity) then
-				worldView.focusEntity = nil
-				return
-			end
 
 			for component, data in worldView.world:_getEntity(worldView.focusEntity) do
 				table.insert(items, {

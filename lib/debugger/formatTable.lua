@@ -17,7 +17,7 @@ local function formatTable(object, mode, _padLength, _depth)
 
 	local values = {}
 
-	for key, value in object do
+	for key, value in pairs(object) do
 		table.insert(values, {
 			key = key,
 			value = value,

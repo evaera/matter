@@ -87,7 +87,7 @@ return function(Plasma)
 		refs.button.TextLabel.TextTruncate = sideText and Enum.TextTruncate.AtEnd or Enum.TextTruncate.None
 
 		Plasma.useEffect(function()
-			refs.button.BackgroundColor3 = if selected then Color3.fromHex("bd515c") else style.bg2
+			refs.button.BackgroundColor3 = if selected then style.primaryColor else style.bg2
 		end, selected)
 
 		return {

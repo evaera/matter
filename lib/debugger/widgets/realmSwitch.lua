@@ -1,12 +1,12 @@
 local RunService = game:GetService("RunService")
 local CollectionService = game:GetService("CollectionService")
-local ACTIVE = Color3.fromHex("bd515c")
-local INACTIVE = Color3.fromRGB(31, 31, 31)
 
 return function(Plasma)
 	local create = Plasma.create
 
 	return Plasma.widget(function(options)
+		local style = Plasma.useStyle()
+
 		options = options or {}
 		local left = options.left
 		local right = options.right
@@ -34,7 +34,7 @@ return function(Plasma)
 					[ref] = "left",
 					Text = left,
 					Size = UDim2.new(0.5, 0, 1, 0),
-					BackgroundColor3 = ACTIVE,
+					BackgroundColor3 = style.primaryColor,
 					TextColor3 = style.textColor,
 					Font = Enum.Font.GothamMedium,
 					TextSize = 15,
@@ -44,7 +44,7 @@ return function(Plasma)
 					[ref] = "right",
 					Text = right,
 					Size = UDim2.new(0.5, 0, 1, 0),
-					BackgroundColor3 = INACTIVE,
+					BackgroundColor3 = style.bg1,
 					TextColor3 = style.textColor,
 					Font = Enum.Font.GothamMedium,
 					TextSize = 15,
@@ -72,8 +72,8 @@ return function(Plasma)
 			return ref.button
 		end)
 
-		refs.left.BackgroundColor3 = isRight and INACTIVE or ACTIVE
-		refs.right.BackgroundColor3 = isRight and ACTIVE or INACTIVE
+		refs.left.BackgroundColor3 = isRight and style.bg1 or style.primaryColor
+		refs.right.BackgroundColor3 = isRight and style.primaryColor or style.bg1
 
 		refs.corner.Parent = isRight and refs.right or refs.left
 

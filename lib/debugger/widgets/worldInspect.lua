@@ -136,8 +136,8 @@ return function(plasma)
 							return
 						end
 
-						if debugger.findInstanceFromEntityId then
-							local model = debugger.findInstanceFromEntityId(entityId)
+						if debugger.findInstanceFromEntity then
+							local model = debugger.findInstanceFromEntity(entityId)
 
 							if model then
 								plasma.highlight(model, {

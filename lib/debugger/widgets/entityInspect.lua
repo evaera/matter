@@ -15,8 +15,8 @@ return function(plasma)
 				return
 			end
 
-			if debugger.findInstanceFromEntityId then
-				local model = debugger.findInstanceFromEntityId(worldView.focusEntity)
+			if debugger.findInstanceFromEntity then
+				local model = debugger.findInstanceFromEntity(worldView.focusEntity)
 
 				if model then
 					plasma.highlight(model)

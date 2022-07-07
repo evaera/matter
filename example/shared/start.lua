@@ -13,7 +13,7 @@ local function start(container)
 
 	local debugger = Matter.Debugger.new(Plasma)
 
-	debugger.findInstanceFromEntityId = function(id)
+	debugger.findInstanceFromEntity = function(id)
 		if not world:contains(id) then
 			return
 		end

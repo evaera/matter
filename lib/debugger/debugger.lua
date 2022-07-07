@@ -70,7 +70,7 @@ Debugger.__index = Debugger
 ]=]
 
 --[=[
-	@prop findInstanceFromEntityId (entityId: number) -> Instance?
+	@prop findInstanceFromEntity (entityId: number) -> Instance?
 	@within Debugger
 
 	Create this property in Debugger to specify a function that will be called to determine what Instance is associated
@@ -79,7 +79,7 @@ Debugger.__index = Debugger
 	If not specified, the in-world highlight will not work.
 
 	```lua
-	debugger.findInstanceFromEntityId = function(id)
+	debugger.findInstanceFromEntity = function(id)
 		if not world:contains(id) then
 			return
 		end

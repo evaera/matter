@@ -2,9 +2,14 @@ local formatTableModule = require(script.Parent.Parent.formatTable)
 local formatTable = formatTableModule.formatTable
 
 return function(plasma)
-	return plasma.widget(function(worldView, setWorld, objectStack, debugger)
+	return plasma.widget(function(debugger, objectStack)
 		local custom = debugger._customWidgets
 		local style = plasma.useStyle()
+
+		local world = debugger.debugWorld
+
+		local cache, setCache = plasma.useState()
+		local debugComponent, setDebugComponent = plasma.useState()
 
 		local closed = plasma.window({
 			title = "World inspect",
@@ -14,7 +19,7 @@ return function(plasma)
 
 			plasma.row(function()
 				plasma.heading("Size")
-				plasma.label(worldView.world:size())
+				plasma.label(world:size())
 
 				plasma.space(30)
 				skipIntersections = plasma.checkbox("Hide intersecting components"):checked()
@@ -22,33 +27,34 @@ return function(plasma)
 				if plasma.button("view raw"):clicked() then
 					table.clear(objectStack)
 					objectStack[1] = {
-						value = worldView.world,
+						value = world,
 						key = "Raw World",
 					}
 				end
 			end)
 
-			if not worldView.cache or os.clock() - worldView.cache.createdTime > 3 then
-				worldView.cache = {
+			if not cache or os.clock() - cache.createdTime > 3 then
+				cache = {
 					createdTime = os.clock(),
 					uniqueComponents = {},
 				}
 
-				for entityId, entityData in worldView.world do
+				setCache(cache)
+
+				for entityId, entityData in world do
 					for component in entityData do
-						worldView.cache.uniqueComponents[component] = (worldView.cache.uniqueComponents[component] or 0)
-							+ 1
+						cache.uniqueComponents[component] = (cache.uniqueComponents[component] or 0) + 1
 					end
 				end
 			end
 
 			local items = {}
-			for component, count in worldView.cache.uniqueComponents do
+			for component, count in cache.uniqueComponents do
 				table.insert(items, {
 					icon = count,
 					text = tostring(component),
 					component = component,
-					selected = worldView.focusComponent == component,
+					selected = debugComponent == component,
 				})
 			end
 
@@ -58,21 +64,21 @@ return function(plasma)
 				}):selected()
 
 				if selectedItem then
-					worldView.focusComponent = selectedItem.component
+					setDebugComponent(selectedItem.component)
 				end
 
-				if worldView.focusComponent then
-					local items = { { "Entity ID", tostring(worldView.focusComponent) } }
+				if debugComponent then
+					local items = { { "Entity ID", tostring(debugComponent) } }
 					local intersectingComponents = {}
 
 					local intersectingData = {}
 
-					for entityId, data in worldView.world:query(worldView.focusComponent) do
+					for entityId, data in world:query(debugComponent) do
 						table.insert(items, {
 							entityId,
 							formatTable(data),
 
-							selected = worldView.focusEntity == entityId,
+							selected = debugger.debugEntity == entityId,
 						})
 
 						intersectingData[entityId] = {}
@@ -81,8 +87,8 @@ return function(plasma)
 							continue
 						end
 
-						for component, value in worldView.world:_getEntity(entityId) do
-							if component == worldView.focusComponent then
+						for component, value in world:_getEntity(entityId) do
+							if component == debugComponent then
 								continue
 							end
 
@@ -114,7 +120,7 @@ return function(plasma)
 						end
 					end
 
-					plasma.useKey(tostring(worldView.focusComponent))
+					plasma.useKey(tostring(debugComponent))
 
 					local tableWidget = plasma.table(items, {
 						font = Enum.Font.Code,
@@ -126,13 +132,13 @@ return function(plasma)
 					local hovered = tableWidget:hovered()
 
 					if selectedRow then
-						worldView.focusEntity = selectedRow[1]
+						debugger.debugEntity = selectedRow[1]
 					end
 
 					if hovered then
 						local entityId = hovered[1]
 
-						if worldView.focusEntity == entityId or not worldView.world:contains(entityId) then
+						if debugger.debugEntity == entityId or not world:contains(entityId) then
 							return
 						end
 
@@ -151,7 +157,7 @@ return function(plasma)
 		end):closed()
 
 		if closed then
-			setWorld(nil)
+			return closed
 		end
 	end)
 end

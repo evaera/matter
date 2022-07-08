@@ -35,13 +35,17 @@ local function ui(debugger, loop)
 		primaryColor = Color3.fromHex("bd515c"),
 	})
 
+	local objectStack = plasma.useState({})
+	local worldViewOpen, setWorldViewOpen = plasma.useState(false)
+
+	if debugger.hoverEntity then
+		custom.hoverInspect(debugger.debugWorld, debugger.hoverEntity, custom)
+	end
+
 	custom.container(function()
 		if debugger:_isServerView() then
 			return
 		end
-
-		local objectStack = plasma.useState({})
-		local worldView, setWorld = plasma.useState()
 
 		custom.panel(function()
 			if
@@ -65,10 +69,14 @@ local function ui(debugger, loop)
 			local items = {}
 
 			for index, object in loop._state do
+				if type(object) ~= "table" then
+					continue
+				end
+
 				local isWorld = getmetatable(object) == World
 
 				local selected = (#objectStack > 0 and object == objectStack[#objectStack].value)
-					or (worldView and worldView.world == object)
+					or (debugger.debugWorld == object and worldViewOpen)
 
 				table.insert(items, {
 					text = (if isWorld then "World" else "table") .. " " .. index,
@@ -83,7 +91,8 @@ local function ui(debugger, loop)
 
 			if selectedState then
 				if selectedState.isWorld then
-					setWorld({ world = selectedState.object })
+					debugger.debugWorld = selectedState.object
+					setWorldViewOpen(true)
 				else
 					table.clear(objectStack)
 
@@ -153,12 +162,20 @@ local function ui(debugger, loop)
 		end)
 
 		debugger.parent = custom.container(function()
-			if worldView then
-				custom.worldInspect(worldView, setWorld, objectStack, debugger)
+			if debugger.debugWorld and worldViewOpen then
+				local closed = custom.worldInspect(debugger, objectStack)
+
+				if closed then
+					if debugger.debugEntity then
+						setWorldViewOpen(false)
+					else
+						debugger.debugWorld = nil
+					end
+				end
 			end
 
-			if worldView and worldView.focusEntity then
-				custom.entityInspect(worldView, debugger)
+			if debugger.debugWorld and debugger.debugEntity then
+				custom.entityInspect(debugger)
 			end
 
 			if #objectStack > 0 then

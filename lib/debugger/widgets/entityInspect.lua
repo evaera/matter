@@ -3,20 +3,18 @@ local formatTable = formatTableModule.formatTable
 local FormatMode = formatTableModule.FormatMode
 
 return function(plasma)
-	return plasma.widget(function(worldView, debugger)
-		local style = plasma.useStyle()
-
+	return plasma.widget(function(debugger)
 		local closed = plasma.window({
-			title = string.format("Entity %d", worldView.focusEntity),
+			title = string.format("Entity %d", debugger.debugEntity),
 			closable = true,
 		}, function()
-			if not worldView.world:contains(worldView.focusEntity) then
-				worldView.focusEntity = nil
+			if not debugger.debugWorld:contains(debugger.debugEntity) then
+				debugger.debugEntity = nil
 				return
 			end
 
 			if debugger.findInstanceFromEntity then
-				local model = debugger.findInstanceFromEntity(worldView.focusEntity)
+				local model = debugger.findInstanceFromEntity(debugger.debugEntity)
 
 				if model then
 					plasma.highlight(model)
@@ -25,20 +23,25 @@ return function(plasma)
 
 			plasma.row(function()
 				if plasma.button("despawn"):clicked() then
-					worldView.world:despawn(worldView.focusEntity)
+					debugger.debugWorld:despawn(debugger.debugEntity)
+					debugger.debugEntity = nil
 				end
 			end)
 
+			if not debugger.debugEntity then
+				return
+			end
+
 			local items = { { "Component", "Data" } }
 
-			for component, data in worldView.world:_getEntity(worldView.focusEntity) do
+			for component, data in debugger.debugWorld:_getEntity(debugger.debugEntity) do
 				table.insert(items, {
 					tostring(component),
 					formatTable(data, FormatMode.Long),
 				})
 			end
 
-			plasma.useKey(worldView.focusEntity)
+			plasma.useKey(debugger.debugEntity)
 			plasma.table(items, {
 				headings = true,
 				font = Enum.Font.Code,
@@ -46,7 +49,7 @@ return function(plasma)
 		end):closed()
 
 		if closed then
-			worldView.focusEntity = nil
+			debugger.debugEntity = nil
 		end
 	end)
 end

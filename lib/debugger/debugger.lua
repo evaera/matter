@@ -1,11 +1,13 @@
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 
 local hookWidgets = require(script.Parent.hookWidgets)
+local World = require(script.Parent.Parent.World)
 local EventBridge = require(script.Parent.EventBridge)
 local ui = require(script.Parent.ui)
+local mouseHighlight = require(script.Parent.mouseHighlight)
+local clientBindings = require(script.Parent.clientBindings)
 
 local customWidgetConstructors = {
 	panel = require(script.Parent.widgets.panel),
@@ -17,9 +19,11 @@ local customWidgetConstructors = {
 	valueInspect = require(script.Parent.widgets.valueInspect),
 	worldInspect = require(script.Parent.widgets.worldInspect),
 	entityInspect = require(script.Parent.widgets.entityInspect),
+	tooltip = require(script.Parent.widgets.tooltip),
+	hoverInspect = require(script.Parent.widgets.hoverInspect),
 }
 
-local remoteEvent
+local remoteEvent, clientBindingConnections
 
 -- Assert plasma is compatible via feature detection
 local function assertCompatiblePlasma(plasma)
@@ -139,34 +143,40 @@ function Debugger.new(plasma)
 	end
 
 	if RunService:IsServer() then
-		remoteEvent.OnServerEvent:Connect(function(player, action, instance, event, ...)
-			if action == "event" then
-				self._eventBridge:fireEventFromPlayer(player, instance, event, ...)
-			elseif action == "start" then
-				if not RunService:IsStudio() then
-					if self.authorize then
-						if not self.authorize(player) then
-							return
-						end
-					else
-						warn("Player attempted to connect to matter debugger but no authorize function is configured.")
-						return
-					end
-				end
-				self:connectPlayer(player)
-			elseif action == "stop" then
-				self:disconnectPlayer(player)
-			end
-		end)
+		self:_connectRemoteEvent()
 	else
-		CollectionService:GetInstanceAddedSignal("MatterDebuggerSwitchToClientView"):Connect(function(instance)
-			instance.Activated:Connect(function()
-				self:switchToClientView()
-			end)
-		end)
+		if not clientBindingConnections then
+			clientBindingConnections = clientBindings(self)
+		end
 	end
 
 	return self
+end
+
+function Debugger:_connectRemoteEvent()
+	remoteEvent.OnServerEvent:Connect(function(player, action, instance, event, ...)
+		if action == "event" then
+			self._eventBridge:fireEventFromPlayer(player, instance, event, ...)
+		elseif action == "start" then
+			if not RunService:IsStudio() then
+				if self.authorize then
+					if not self.authorize(player) then
+						return
+					end
+				else
+					warn("Player attempted to connect to matter debugger but no authorize function is configured.")
+					return
+				end
+			end
+			self:connectPlayer(player)
+		elseif action == "stop" then
+			self:disconnectPlayer(player)
+		elseif action == "inspect" then
+			self.debugEntity = instance
+		elseif action == "hover" then
+			self.hoverEntity = instance
+		end
+	end)
 end
 
 --[=[
@@ -388,7 +398,21 @@ end
 	@param loop Loop
 ]=]
 function Debugger:draw(loop)
+	-- TODO: Find a better way for the user to specify the world.
+	if (self.debugEntity or self.hoverEntity) and not self.debugWorld then
+		for _, object in loop._state do
+			if getmetatable(object) == World then
+				self.debugWorld = object
+				break
+			end
+		end
+	end
+
 	ui(self, loop)
+
+	if RunService:IsClient() then
+		mouseHighlight(self, remoteEvent)
+	end
 end
 
 --[=[

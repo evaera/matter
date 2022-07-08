@@ -18,7 +18,7 @@ local function setupTags(world)
 			})
 		)
 
-		instance:SetAttribute("entityId", id)
+		instance:SetAttribute("serverEntityId", id)
 	end
 
 	for tagName, component in pairs(boundTags) do
@@ -31,7 +31,7 @@ local function setupTags(world)
 		end)
 
 		CollectionService:GetInstanceRemovedSignal(tagName):Connect(function(instance)
-			local id = instance:GetAttribute("entityId")
+			local id = instance:GetAttribute("serverEntityId")
 			if id then
 				world:despawn(id)
 			end

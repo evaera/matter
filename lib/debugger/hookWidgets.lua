@@ -43,6 +43,7 @@ local dummyHandles = {
 
 	table = {
 		selected = function() end,
+		hovered = function() end,
 	},
 }
 

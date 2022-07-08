@@ -58,7 +58,7 @@ return function(Plasma)
 
 			Plasma.automaticSize(frame.Container, {
 				axis = Enum.AutomaticSize.Y,
-				maxSize = UDim2.new(1, 0, 1, 0),
+				maxSize = UDim2.new(1, 0, 1, -46),
 			})
 
 			return frame, frame.Container

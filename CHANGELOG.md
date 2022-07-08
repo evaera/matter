@@ -1,16 +1,22 @@
 # Changelog
 
 ## Unreleased
-### Changes
+### Changed
+- The first time you call `queryChanged`, all existing entities in the world that match the component are now returned as "new" change records. Previously, nothing was returned.
+- Improved Debugger with highlight selections and tooltips.
 - `Matter.useEvent` now supports events that have a `Connect`, `connect`, or an `on` method. Additionally, it also supports custom
 connection objects (returned by custom events), which have a `Destroy` or a `Disconnect` method, or are just a cleanup function.
 
+### Fixed
+- Debugger: Fixed bug with profiling when disabling a system and then closing the debugger
+- Debugger: Fixed bug with system list automatic sizing
+
 ## [0.5.3] - 2022-07-05
-## Added
+### Added
 - Added performance information to debugger
 - Add World inspector to debugger
 
-## Fixed
+### Fixed
 - Fix confusing error when a system yields inside a plasma context
 
 ## [0.5.2] - 2022-07-01

@@ -680,9 +680,9 @@ end
 
 	It should be noted that `queryChanged` does not have the same iterator invalidation concerns as `World:query`.
 
-	:::caution
-	The first time your system runs (i.e., on the first frame), no results are returned. Results only begin to be
-	tracked after the first time your system calls this function.
+	:::tip
+	The first time your system runs (i.e., on the first frame), all existing entities in the world that match your query
+	are returned as "new" change records.
 	:::
 
 	:::info
@@ -734,26 +734,36 @@ function World:queryChanged(componentToTrack, ...: nil)
 
 	local hookState = topoRuntime.useHookState(componentToTrack, cleanupQueryChanged)
 
-	if not hookState.storage then
-		if not self._changedStorage[componentToTrack] then
-			self._changedStorage[componentToTrack] = {}
+	if hookState.storage then
+		return function()
+			local entityId, record = next(hookState.storage)
+
+			if entityId then
+				hookState.storage[entityId] = nil
+
+				return entityId, record
+			end
 		end
-
-		local storage = {}
-		hookState.storage = storage
-		hookState.world = self
-		hookState.componentToTrack = componentToTrack
-
-		table.insert(self._changedStorage[componentToTrack], storage)
 	end
 
+	if not self._changedStorage[componentToTrack] then
+		self._changedStorage[componentToTrack] = {}
+	end
+
+	local storage = {}
+	hookState.storage = storage
+	hookState.world = self
+	hookState.componentToTrack = componentToTrack
+
+	table.insert(self._changedStorage[componentToTrack], storage)
+
+	local queryResult = self:query(componentToTrack)
+
 	return function()
-		local entityId, component = next(hookState.storage)
+		local entityId, component = queryResult:next()
 
 		if entityId then
-			hookState.storage[entityId] = nil
-
-			return entityId, component
+			return entityId, table.freeze({ new = component })
 		end
 	end
 end

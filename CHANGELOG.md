@@ -1,11 +1,15 @@
 # Changelog
 
+## Unreleased
+### Changed
+- The first time you call `queryChanged`, all existing entities in the world that match the component are now returned as "new" change records. Previously, nothing was returned.
+
 ## [0.5.3] - 2022-07-05
-## Added
+### Added
 - Added performance information to debugger
 - Add World inspector to debugger
 
-## Fixed
+### Fixed
 - Fix confusing error when a system yields inside a plasma context
 
 ## [0.5.2] - 2022-07-01

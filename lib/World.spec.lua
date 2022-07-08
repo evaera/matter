@@ -224,6 +224,63 @@ return function()
 			expect(two.b).to.equal(2)
 		end)
 
+		it("should return existing entities when creating queryChanged", function()
+			local world = World.new()
+
+			local loop = Loop.new(world)
+
+			local A = component()
+
+			local initial = {
+				world:spawn(A({
+					a = 1,
+				})),
+				world:spawn(A({
+					b = 2,
+				})),
+			}
+
+			local third
+
+			local runCount = 0
+			loop:scheduleSystem(function(world)
+				runCount += 1
+
+				local map = {}
+				local count = 0
+
+				for entityId, record in world:queryChanged(A) do
+					count += 1
+					map[entityId] = record
+				end
+
+				if runCount == 1 then
+					expect(count).to.equal(2)
+					expect(map[initial[1]].new.a).to.equal(1)
+					expect(map[initial[1]].old).to.equal(nil)
+					expect(map[initial[2]].new.b).to.equal(2)
+				else
+					expect(count).to.equal(1)
+					expect(map[third].new.c).to.equal(3)
+				end
+			end)
+
+			local defaultBindable = BindableEvent.new()
+
+			loop:begin({ default = defaultBindable.Event })
+
+			defaultBindable:Fire()
+
+			expect(runCount).to.equal(1)
+
+			third = world:spawn(A({
+				c = 3,
+			}))
+
+			defaultBindable:Fire()
+			expect(runCount).to.equal(2)
+		end)
+
 		it("should track changes", function()
 			local world = World.new()
 

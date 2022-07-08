@@ -264,6 +264,10 @@ end
 	:::tip
 	The debugger must also be shown on a client with [Debugger:show] or [Debugger:toggle] to be used.
 	:::
+						
+	:::caution
+	[Debugger:autoInitialize] should be called before [Loop:begin] to function as expected.
+	:::
 
 	If you also want to use Plasma for more than just the debugger, you can opt to not call this function and instead
 	do what it does yourself.

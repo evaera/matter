@@ -5,16 +5,12 @@ local EVENT_CONNECT_METHODS = { "Connect", "on", "connect" }
 local CONNECTION_DISCONNECT_METHODS = { "Disconnect", "Destroy", "disconnect", "destroy" }
 
 local function connect(object, callback, event)
-	if typeof(event) == "RBXScriptSignal" then
-		return event:Connect(callback)
-	end
-
 	local eventObject = object
 
-	if type(event) == "string" then
-		eventObject = object[event]
-	elseif type(event) == "table" then
+	if typeof(event) == "RBXScriptSignal" or type(event) == "table" then
 		eventObject = event
+	elseif type(event) == "string" then
+		eventObject = object[event]
 	end
 
 	if type(eventObject) == "function" then
@@ -39,10 +35,12 @@ local function connect(object, callback, event)
 end
 
 local function disconnect(connection)
+	if connection == nil then
+		return
+	end
+
 	if type(connection) == "function" then
 		connection()
-		return
-	elseif connection == nil then
 		return
 	end
 
@@ -99,7 +97,9 @@ end
 	:::info Topologically-aware function
 	This function is only usable if called within the context of [`Loop:begin`](/api/Loop#begin).
 	:::
+
 	Collects events that fire during the frame and allows iteration over event arguments.
+
 	```lua
 	for _, player in ipairs(Players:GetPlayers()) do
 		for i, character in useEvent(player, "CharacterAdded") do
@@ -112,20 +112,26 @@ end
 		end
 	end
 	```
+
 	Returns an iterator function that returns an ever-increasing number, starting at 1, followed by any event arguments
 	from the specified event.
+
 	Events are returned in the order that they were fired.
+
 	:::caution
 	`useEvent` keys storage uniquely identified by **the script and line number** `useEvent` was called from, and the
 	first parameter (instance). If the second parameter, `event`, is not equal to the event passed in for this unique
 	storage last frame, the old event is disconnected from and the new one is connected in its place.
+
 	Tl;dr: on a given line, you should hard-code a single event to connect to. Do not dynamically change the event with
 	a variable. Dynamically changing the first parameter (instance) is fine.
+
 	```lua
 	for _, instance in pairs(someTable) do
 		for i, arg1, arg2 in useEvent(instance, "Touched") do -- This is ok
 		end
 	end
+
 	for _, instance in pairs(someTable) do
 		local event = getEventSomehow()
 		for i, arg1, arg2 in useEvent(instance, event) do -- PANIC! This is NOT OK
@@ -133,23 +139,21 @@ end
 	end
 	```
 	:::
+
 	If `useEvent` ceases to be called on the same line with the same instance and event, the event connection is
 	disconnected from automatically.
+
 	You can also pass the actual event object instead of its name as the second parameter:
+
 	```lua
 	useEvent(instance, instance.Touched)
 	useEvent(instance, instance:GetPropertyChangedSignal("Name"))
 	```
-	Additionally, `useEvent` supports custom events as well, so you can pass in an object with a
-	`Connect`, `connect` or a `on` method:
-	```lua
-	local object = {playerDataUpdated = {on = function(...) ... end}}
-	useEvent(object, "playerDataUpdated")
-	```	
-	:::note
-	The object returned by any event must either be a cleanup function, or a table with a `Disconnect` or a `Destroy` method, 
-	so that `useEvent` can later clean it up when needed. See [ConnectionObject] for more info.
-	:::
+
+	`useEvent` supports custom events as well, so you can pass in an object with a `Connect`, `connect` or `on` method.
+	The object returned by any event must either be a cleanup function, or a table with a `Disconnect` or a `Destroy`
+	method, so that `useEvent` can later clean it up when needed. See [ConnectionObject] for more information.
+
 	@param instance Instance | CustomEvent -- The instance or a custom event that has the event you want to connect to
 	@param event string | RBXScriptSignal -- The name of or actual event that you want to connect to
 ]=]

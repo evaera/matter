@@ -102,5 +102,61 @@ return function()
 			shouldCount = 1
 			topoRuntime.start(node, fn)
 		end)
+
+		it("should support custom events", function()
+			local disconnected = false
+			local eventHandler
+
+			local node = {
+				system = {},
+			}
+
+			local event = {
+				connect = function(self, handler)
+					eventHandler = handler
+
+					return {
+						destroy = function()
+							disconnected = true
+						end,
+					}
+				end,
+			}
+
+			local object = {
+				event = event,
+			}
+
+			local shouldRun = true
+			local count = 0
+			local function run()
+				if shouldRun then
+					for _ in useEvent(object, "event") do
+						count += 1
+					end
+				end
+			end
+
+			topoRuntime.start(node, run)
+
+			expect(count).to.equal(0)
+			expect(eventHandler).to.be.ok()
+			expect(disconnected).to.equal(false)
+
+			eventHandler()
+			eventHandler()
+
+			topoRuntime.start(node, run)
+
+			expect(count).to.equal(2)
+			expect(eventHandler).to.be.ok()
+			expect(disconnected).to.equal(false)
+
+			shouldRun = false
+			topoRuntime.start(node, run)
+
+			expect(count).to.equal(2)
+			expect(disconnected).to.equal(true)
+		end)
 	end)
 end

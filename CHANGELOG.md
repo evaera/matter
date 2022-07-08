@@ -4,6 +4,8 @@
 ### Changed
 - The first time you call `queryChanged`, all existing entities in the world that match the component are now returned as "new" change records. Previously, nothing was returned.
 - Improved Debugger with highlight selections and tooltips.
+- `Matter.useEvent` now supports events that have a `Connect`, `connect`, or an `on` method. Additionally, it also supports custom
+connection objects (returned by custom events), which have a `Destroy` or a `Disconnect` method, or are just a cleanup function.
 
 ### Fixed
 - Debugger: Fixed bug with profiling when disabling a system and then closing the debugger

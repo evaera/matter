@@ -1,14 +1,99 @@
 local topoRuntime = require(script.Parent.Parent.topoRuntime)
 local Queue = require(script.Parent.Parent.Queue)
 
+local EVENT_CONNECT_METHODS = { "Connect", "on", "connect" }
+local CONNECTION_DISCONNECT_METHODS = { "Disconnect", "Destroy", "disconnect", "destroy" }
+
+local function connect(object, callback, event)
+	local eventObject = object
+
+	if typeof(event) == "RBXScriptSignal" or type(event) == "table" then
+		eventObject = event
+	elseif type(event) == "string" then
+		eventObject = object[event]
+	end
+
+	if type(eventObject) == "function" then
+		return eventObject(object)
+	elseif typeof(eventObject) == "RBXScriptSignal" then
+		return eventObject:Connect(callback)
+	end
+
+	if type(eventObject) == "table" then
+		for _, method in EVENT_CONNECT_METHODS do
+			if type(eventObject[method]) ~= "function" then
+				continue
+			end
+
+			return eventObject[method](eventObject, callback)
+		end
+	end
+
+	error(
+		"Couldn't connect to event as no valid connect methods were found! Ensure the passed event has a 'Connect' or an 'on' method!"
+	)
+end
+
+local function disconnect(connection)
+	if connection == nil then
+		return
+	end
+
+	if type(connection) == "function" then
+		connection()
+		return
+	end
+
+	for _, method in CONNECTION_DISCONNECT_METHODS do
+		if type(connection[method]) ~= "function" then
+			continue
+		end
+
+		connection[method](connection)
+		break
+	end
+end
+
+local function validateConnection(connection)
+	if typeof(connection) == "function" or typeof(connection) == "RBXScriptConnection" then
+		return
+	end
+
+	for _, method in CONNECTION_DISCONNECT_METHODS do
+		if type(connection) ~= "table" or connection[method] == nil then
+			continue
+		end
+
+		return
+	end
+
+	error("Ensure passed event returns a cleanup function, or a table with a 'Disconnect' or a 'Destroy' method!")
+end
+
 local function cleanup(storage)
-	storage.connection:Disconnect()
+	disconnect(storage.connection)
 	storage.queue = nil
 end
 
 --[=[
+	@type ConnectionObject {Disconnect: (() -> ())?, Destroy: (() - >())?, disconnect: (() -> ())?, destroy: (() -> ())?} | () -> ()
 	@within Matter
 
+	A connection object returned by a custom event must be either a table with any of the following methods, or a cleanup function.
+]=]
+
+--[=[
+	@interface CustomEvent
+	@within Matter
+	.Connect ((...) -> ConnectionObject)?
+	.on ((...) -> ConnectionObject)?
+	.connect ((...) -> ConnectionObject)?
+
+	A custom event must have any of these 3 methods.
+]=]
+
+--[=[
+	@within Matter
 	:::info Topologically-aware function
 	This function is only usable if called within the context of [`Loop:begin`](/api/Loop#begin).
 	:::
@@ -44,14 +129,12 @@ end
 	```lua
 	for _, instance in pairs(someTable) do
 		for i, arg1, arg2 in useEvent(instance, "Touched") do -- This is ok
-
 		end
 	end
 
 	for _, instance in pairs(someTable) do
 		local event = getEventSomehow()
 		for i, arg1, arg2 in useEvent(instance, event) do -- PANIC! This is NOT OK
-
 		end
 	end
 	```
@@ -64,11 +147,14 @@ end
 
 	```lua
 	useEvent(instance, instance.Touched)
-
 	useEvent(instance, instance:GetPropertyChangedSignal("Name"))
 	```
 
-	@param instance Instance -- The instance that has the event you want to connect to
+	`useEvent` supports custom events as well, so you can pass in an object with a `Connect`, `connect` or `on` method.
+	The object returned by any event must either be a cleanup function, or a table with a `Disconnect` or a `Destroy`
+	method, so that `useEvent` can later clean it up when needed. See [ConnectionObject] for more information.
+
+	@param instance Instance | CustomEvent -- The instance or a custom event that has the event you want to connect to
 	@param event string | RBXScriptSignal -- The name of or actual event that you want to connect to
 ]=]
 local function useEvent(instance, event): () -> (number, ...any)
@@ -77,13 +163,9 @@ local function useEvent(instance, event): () -> (number, ...any)
 
 	local storage = topoRuntime.useHookState(instance, cleanup)
 
-	if type(event) == "string" then
-		event = instance[event]
-	end
-
 	if storage.event ~= event then
 		if storage.event then
-			storage.connection:Disconnect()
+			disconnect(storage.connection)
 			warn("useEvent event changed:", storage.event, "->", event)
 			table.clear(storage)
 		end
@@ -92,10 +174,11 @@ local function useEvent(instance, event): () -> (number, ...any)
 		storage.queue = queue
 		storage.event = event
 
-		local connection = event:Connect(function(...)
+		local connection = connect(instance, function(...)
 			queue:pushBack(table.pack(...))
-		end)
+		end, event)
 
+		validateConnection(connection)
 		storage.connection = connection
 	end
 

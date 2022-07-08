@@ -83,6 +83,50 @@ debugger.authorize = function(player)
 end
 ```
 
+## Entity Highlight
+
+### Highlight selected entity
+
+To highlight the selected entity in the World inspector, create the `findInstanceFromEntity` function in the debugger.
+
+```lua
+debugger.findInstanceFromEntity = function(id)
+	if not world:contains(id) then
+		return
+	end
+
+	local model = world:get(id, components.Model)
+
+	return model and model.model or nil
+end
+```
+
+Change the above function so that it works with your game's component structure.
+
+### Hover selection
+
+Create attributes `clientEntityId` and `serverEntityId` on instances to enable in-world hover selection when you hold the <kbd>ALT</kbd> key. Click to select the entity.
+
+<video controls width="600">
+	<source src="https://i.eryn.io/2228/JzUKh1xj.mp4" type="video/mp4" />
+</video>
+
+This can be done by creating a system like this on both the client and the server.
+
+```lua
+local name = RunService:IsServer() and "serverEntityId" or "clientEntityId"
+
+local function updateModelAttribute(world)
+	for id, record in world:queryChanged(Components.Model) do
+		if record.new then
+			record.new.model:SetAttribute(name, id)
+		end
+	end
+end
+```
+
+Change the above function so that it works with your game's component structure.
+
 ## Available widgets
 
 The following Plasma widgets are available:

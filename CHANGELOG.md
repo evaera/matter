@@ -3,6 +3,11 @@
 ## Unreleased
 ### Changed
 - The first time you call `queryChanged`, all existing entities in the world that match the component are now returned as "new" change records. Previously, nothing was returned.
+- Improved Debugger with highlight selections and tooltips.
+
+### Fixed
+- Debugger: Fixed bug with profiling when disabling a system and then closing the debugger
+- Debugger: Fixed bug with system list automatic sizing
 
 ## [0.5.3] - 2022-07-05
 ### Added

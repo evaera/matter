@@ -1,7 +1,7 @@
 local topoRuntime = require(script.Parent.Parent.topoRuntime)
 local Queue = require(script.Parent.Parent.Queue)
 
-local EVENT_CONNECT_METHODS = { "Connect", "on", "Once", "connect", "once" }
+local EVENT_CONNECT_METHODS = { "Connect", "on", "connect" }
 local CONNECTION_DISCONNECT_METHODS = { "Disconnect", "Destroy", "disconnect", "destroy" }
 
 local function connect(object, callback, event)

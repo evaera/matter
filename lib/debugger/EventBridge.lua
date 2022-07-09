@@ -99,6 +99,10 @@ function EventBridge:connect(instance, event, handler)
 		local connection
 
 		connection = instance.AncestryChanged:Connect(function()
+			if connection == nil then
+				return
+			end
+
 			if game:IsAncestorOf(instance) then
 				connection:Disconnect()
 				connection = nil

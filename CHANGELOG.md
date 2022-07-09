@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Fixed bug with server-side debugger when game was in deferred events mode
+
 ## [0.6.0] - 2022-07-08
 ### Changed
 - The first time you call `queryChanged`, all existing entities in the world that match the component are now returned as "new" change records. Previously, nothing was returned.

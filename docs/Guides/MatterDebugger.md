@@ -37,7 +37,7 @@ You need to install [Plasma](https://eryn.io/plasma/) as a dependency to your pr
 
 ```toml title="wally.toml"
 [dependencies]
-plasma = "evaera/plasma@0.4.0"
+plasma = "evaera/plasma@0.4.1"
 ```
 
 ### Create the debugger

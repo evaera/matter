@@ -27,6 +27,9 @@ local function formatDuration(duration)
 	return duration, timeUnits[unit]
 end
 
+local IS_SERVER = RunService:IsServer()
+local IS_CLIENT = RunService:IsClient()
+
 local function ui(debugger, loop)
 	local plasma = debugger.plasma
 	local custom = debugger._customWidgets
@@ -52,11 +55,11 @@ local function ui(debugger, loop)
 				custom.realmSwitch({
 					left = "client",
 					right = "server",
-					isRight = RunService:IsServer(),
-					tag = if RunService:IsServer() then "MatterDebuggerSwitchToClientView" else nil,
+					isRight = IS_SERVER,
+					tag = if IS_SERVER then "MatterDebuggerSwitchToClientView" else nil,
 				}):clicked()
 			then
-				if RunService:IsClient() then
+				if IS_CLIENT then
 					debugger:switchToServerView()
 				end
 			end
@@ -183,13 +186,21 @@ local function ui(debugger, loop)
 			end
 
 			if debugger.debugSystem then
+				local queriesOpen, setQueriesOpen = plasma.useState(false)
+
+				local name = systemName(debugger.debugSystem)
+
 				local closed = plasma.window({
-					title = "System config",
+					title = "System",
 					closable = true,
 				}, function()
-					plasma.useKey(systemName(debugger.debugSystem))
-					plasma.heading(systemName(debugger.debugSystem))
+					plasma.useKey(name)
+					plasma.heading(name)
 					plasma.space(0)
+
+					if plasma.button(string.format("View queries (%d)", #debugger._queries)):clicked() then
+						setQueriesOpen(true)
+					end
 
 					local currentlyDisabled = loop._skipSystems[debugger.debugSystem]
 
@@ -202,6 +213,14 @@ local function ui(debugger, loop)
 
 				if closed then
 					debugger.debugSystem = nil
+				end
+
+				if queriesOpen then
+					local closed = custom.queryInspect(debugger)
+
+					if closed then
+						setQueriesOpen(false)
+					end
 				end
 			end
 

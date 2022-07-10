@@ -133,7 +133,11 @@ local function ui(debugger, loop)
 						local duration = rollingAverage.getAverage(samples)
 
 						if duration > 0.004 then -- 4ms
-							icon = "⚠️"
+							icon = "\xe2\x9a\xa0\xef\xb8\x8f"
+						end
+
+						if loop._systemErrors[system] then
+							icon = "\xf0\x9f\x92\xa5"
 						end
 
 						local humanDuration, unit = formatDuration(duration)
@@ -169,11 +173,7 @@ local function ui(debugger, loop)
 				local closed = custom.worldInspect(debugger, objectStack)
 
 				if closed then
-					if debugger.debugEntity then
-						setWorldViewOpen(false)
-					else
-						debugger.debugWorld = nil
-					end
+					setWorldViewOpen(false)
 				end
 			end
 
@@ -221,6 +221,10 @@ local function ui(debugger, loop)
 					if closed then
 						setQueriesOpen(false)
 					end
+				end
+
+				if loop._systemErrors[debugger.debugSystem] then
+					custom.errorInspect(debugger, custom)
 				end
 			end
 

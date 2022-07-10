@@ -23,6 +23,8 @@ local customWidgetConstructors = {
 	tooltip = require(script.Parent.widgets.tooltip),
 	hoverInspect = require(script.Parent.widgets.hoverInspect),
 	queryInspect = require(script.Parent.widgets.queryInspect),
+	codeText = require(script.Parent.widgets.codeText),
+	errorInspect = require(script.Parent.widgets.errorInspect),
 }
 
 local IS_SERVER = RunService:IsServer()
@@ -310,6 +312,8 @@ end
 ]=]
 function Debugger:autoInitialize(loop)
 	self.loop = loop
+
+	self.loop.trackErrors = true
 
 	local parent = Instance.new("ScreenGui")
 	parent.Name = "MatterDebugger"

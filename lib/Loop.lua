@@ -62,6 +62,9 @@ function Loop.new(...)
 		_stateLength = select("#", ...),
 		_systemState = {},
 		_middlewares = {},
+		_systemErrors = {},
+		profiling = nil,
+		trackErrors = false,
 	}, Loop)
 end
 
@@ -157,6 +160,7 @@ function Loop:evictSystem(system: System)
 	end
 
 	self._systems[system] = nil
+	self._systemErrors[system] = nil
 
 	topoRuntime.start({
 		system = self._systemState[system],
@@ -407,6 +411,28 @@ function Loop:begin(events)
 							task.spawn(error, errorString)
 							warn("Matter: The above error will be suppressed for the next 10 seconds")
 							recentErrors[errorString] = true
+						end
+
+						if self.trackErrors then
+							if self._systemErrors[system] == nil then
+								self._systemErrors[system] = {}
+							end
+
+							local errorStorage = self._systemErrors[system]
+							local lastError = errorStorage[#errorStorage]
+
+							if lastError and lastError.error == errorString then
+								lastError.when = os.time()
+							else
+								table.insert(errorStorage, {
+									error = errorString,
+									when = os.time(),
+								})
+
+								if #errorStorage > 100 then
+									table.remove(errorStorage, 1)
+								end
+							end
 						end
 					end
 

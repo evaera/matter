@@ -8,23 +8,23 @@ local function roombasHurt(world)
 		for _, part in Matter.useEvent(model.model.PrimaryPart, "Touched") do
 			local touchedModel = part:FindFirstAncestorWhichIsA("Model")
 			if not touchedModel then
-				return
+				continue
 			end
 
 			local player = Players:GetPlayerFromCharacter(touchedModel)
 
 			if not player then
-				return
+				continue
 			end
 
 			if player ~= Players.LocalPlayer then
-				return
+				continue
 			end
 
 			local humanoid = touchedModel:FindFirstChildWhichIsA("Humanoid")
 
 			if not humanoid then
-				return
+				continue
 			end
 
 			humanoid:TakeDamage(5)

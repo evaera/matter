@@ -1,6 +1,6 @@
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Components = require(ReplicatedStorage.Game.components)
+local Components = require(ReplicatedStorage.Shared.components)
 
 local boundTags = {
 	Spinner = Components.Spinner,

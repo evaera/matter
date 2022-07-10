@@ -7,7 +7,7 @@ local Plasma = require(Packages.plasma)
 local HotReloader = require(Packages.rewire).HotReloader
 local components = require(script.Parent.components)
 
-local function start(container)
+local function start(containers)
 	local world = Matter.World.new()
 	local state = {}
 
@@ -32,7 +32,7 @@ local function start(container)
 	local firstRunSystems = {}
 	local systemsByModule = {}
 
-	hotReloader:scan(container, function(module, context)
+	local function loadModule(module, context)
 		local originalModule = context.originalModule
 
 		local ok, system = pcall(require, module)
@@ -52,7 +52,9 @@ local function start(container)
 		end
 
 		systemsByModule[originalModule] = system
-	end, function(_, context)
+	end
+
+	local function unloadModule(_, context)
 		if context.isReloading then
 			return
 		end
@@ -62,7 +64,11 @@ local function start(container)
 			loop:evictSystem(systemsByModule[originalModule])
 			systemsByModule[originalModule] = nil
 		end
-	end)
+	end
+
+	for _, container in containers do
+		hotReloader:scan(container, loadModule, unloadModule)
+	end
 
 	loop:scheduleSystems(firstRunSystems)
 	firstRunSystems = nil

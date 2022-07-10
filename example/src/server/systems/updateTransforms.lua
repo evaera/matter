@@ -1,5 +1,5 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Components = require(ReplicatedStorage.Game.components)
+local Components = require(ReplicatedStorage.Shared.components)
 local removeMissingModels = require(script.Parent.removeMissingModels)
 
 local function updateTransforms(world)

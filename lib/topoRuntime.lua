@@ -45,6 +45,10 @@ local function useFrameState()
 end
 
 local function useCurrentSystem()
+	if #stack == 0 then
+		return
+	end
+
 	return stack[#stack].node.currentSystem
 end
 

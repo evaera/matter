@@ -1,3 +1,4 @@
+local RunService = game:GetService("RunService")
 local topoRuntime = require(script.Parent.topoRuntime)
 local rollingAverage = require(script.Parent.rollingAverage)
 
@@ -63,6 +64,7 @@ function Loop.new(...)
 		_systemState = {},
 		_middlewares = {},
 		_systemErrors = {},
+		_systemLogs = {},
 		profiling = nil,
 		trackErrors = false,
 	}, Loop)
@@ -132,6 +134,11 @@ function Loop:scheduleSystems(systems: { System })
 	for _, system in ipairs(systems) do
 		self._systems[system] = system
 		self._systemState[system] = {}
+
+		if RunService:IsStudio() then
+			-- In Studio, we start logging immediately.
+			self._systemLogs[system] = {}
+		end
 	end
 
 	self:_sortSystems()
@@ -167,6 +174,7 @@ function Loop:evictSystem(system: System)
 	}, function() end)
 
 	self._systemState[system] = nil
+	self._systemLogs[system] = nil
 
 	self:_sortSystems()
 end
@@ -350,6 +358,7 @@ function Loop:begin(events)
 						generation = generation,
 						deltaTime = deltaTime,
 						dirtyWorlds = dirtyWorlds,
+						logs = self._systemLogs[system],
 					},
 					currentSystem = system,
 				}, function()

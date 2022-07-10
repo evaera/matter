@@ -187,6 +187,13 @@ local function ui(debugger, loop)
 
 			if debugger.debugSystem then
 				local queriesOpen, setQueriesOpen = plasma.useState(false)
+				local logsOpen, setLogsOpen = plasma.useState(true)
+
+				if loop._systemLogs[debugger.debugSystem] == nil then
+					loop._systemLogs[debugger.debugSystem] = {}
+				end
+
+				local numLogs = #loop._systemLogs[debugger.debugSystem]
 
 				local name = systemName(debugger.debugSystem)
 
@@ -198,9 +205,17 @@ local function ui(debugger, loop)
 					plasma.heading(name)
 					plasma.space(0)
 
-					if plasma.button(string.format("View queries (%d)", #debugger._queries)):clicked() then
-						setQueriesOpen(true)
-					end
+					plasma.row(function()
+						if plasma.button(string.format("View queries (%d)", #debugger._queries)):clicked() then
+							setQueriesOpen(true)
+						end
+
+						if numLogs > 0 then
+							if plasma.button(string.format("View logs (%d)", numLogs)):clicked() then
+								setLogsOpen(true)
+							end
+						end
+					end)
 
 					local currentlyDisabled = loop._skipSystems[debugger.debugSystem]
 
@@ -210,10 +225,6 @@ local function ui(debugger, loop)
 						loop._skipSystems[debugger.debugSystem] = not currentlyDisabled
 					end
 				end):closed()
-
-				if closed then
-					debugger.debugSystem = nil
-				end
 
 				if queriesOpen then
 					local closed = custom.queryInspect(debugger)
@@ -225,6 +236,31 @@ local function ui(debugger, loop)
 
 				if loop._systemErrors[debugger.debugSystem] then
 					custom.errorInspect(debugger, custom)
+				end
+
+				plasma.useKey(name)
+
+				if numLogs > 0 and logsOpen then
+					local closed = plasma.window({
+						closable = true,
+						title = "Logs",
+					}, function()
+						local items = {}
+						for i = numLogs, 1, -1 do
+							table.insert(items, { loop._systemLogs[debugger.debugSystem][i] })
+						end
+						plasma.table(items, {
+							font = Enum.Font.Code,
+						})
+					end):closed()
+
+					if closed then
+						setLogsOpen(false)
+					end
+				end
+
+				if closed then
+					debugger.debugSystem = nil
 				end
 			end
 

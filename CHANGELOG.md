@@ -3,6 +3,9 @@
 ## Unreleased
 ### Fixed
 - Fixed bug with server-side debugger when game was in deferred events mode
+- Added `Matter.log`, and a logs viewer per-system to the Matter debugger.
+- Added error logging and inspection to the Matter debugger.
+- Added Query inspection to the Matter debugger.
 
 ## [0.6.0] - 2022-07-08
 ### Changed

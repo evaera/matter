@@ -433,8 +433,6 @@ end
 
 	This is automatically set up when you call [Debugger:autoInitialize], so you don't need to call this yourself unless
 	you didn't call `autoInitialize`.
-
-	@param loop Loop
 ]=]
 function Debugger:update()
 	ui(self, self.loop)

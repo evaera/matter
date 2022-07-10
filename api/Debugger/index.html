@@ -14,7 +14,7 @@ local loop = Matter.Loop.new(world, widgets) -- pass the widgets to your systems
 
 debugger:autoInitialize(loop)
 
-if RunService:IsClient() then
+if IS_CLIENT then
 	debugger:show()
 end
 ```
@@ -29,14 +29,14 @@ local loop = Matter.Loop.new(world, widgets) -- pass the widgets to your systems
 
 debugger:autoInitialize(loop)
 
-if RunService:IsClient() then
+if IS_CLIENT then
 	debugger:show()
 end
 ```
 
 When the debugger is not open, the widgets do not render."><link data-rh="true" rel="canonical" href="https://eryn.io/matter/api/Debugger"><link data-rh="true" rel="alternate" href="https://eryn.io/matter/api/Debugger" hreflang="en"><link data-rh="true" rel="alternate" href="https://eryn.io/matter/api/Debugger" hreflang="x-default"><link rel="stylesheet" href="/matter/assets/css/styles.c025533e.css">
-<link rel="preload" href="/matter/assets/js/runtime~main.fb662bb0.js" as="script">
-<link rel="preload" href="/matter/assets/js/main.60a64e8e.js" as="script">
+<link rel="preload" href="/matter/assets/js/runtime~main.6c661978.js" as="script">
+<link rel="preload" href="/matter/assets/js/main.d3333e4c.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -49,12 +49,12 @@ When the debugger is not open, the widgets do not render."><link data-rh="true" 
 
 debugger<span class="token punctuation">:</span><span class="token function">autoInitialize</span><span class="token punctuation">(</span>loop<span class="token punctuation">)</span>
 
-<span class="token keyword">if</span> RunService<span class="token punctuation">:</span><span class="token function">IsClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">then</span>
+<span class="token keyword">if</span> IS_CLIENT <span class="token keyword">then</span>
 	debugger<span class="token punctuation">:</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 </code></pre>
 <p>When the debugger is not open, the widgets do not render.</p>
-</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a class="hash-link" href="#properties" title="Direct link to heading">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="authorize"><code style="text-decoration:none">authorize</code><a class="hash-link" href="#authorize" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L75"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->.<!-- -->authorize<!-- -->:<!-- --> </code> <code class="purple_ieR2">(</code><code>player<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Player" target="_blank" rel="noopener noreferrer">Player<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS">boolean</code></div><div>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a class="hash-link" href="#properties" title="Direct link to heading">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="authorize"><code style="text-decoration:none">authorize</code><a class="hash-link" href="#authorize" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L82"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->.<!-- -->authorize<!-- -->:<!-- --> </code> <code class="purple_ieR2">(</code><code>player<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Player" target="_blank" rel="noopener noreferrer">Player<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS">boolean</code></div><div>
 <p>
   Create this property in Debugger to specify a function that will be called to determine if a player should be
   allowed to connect to the server-side debugger.
@@ -66,7 +66,7 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
 	<span class="token keyword">end</span>
 <span class="token keyword">end</span>
 </code></pre>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="findInstanceFromEntity"><code style="text-decoration:none">findInstanceFromEntity</code><a class="hash-link" href="#findInstanceFromEntity" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L97"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->.<!-- -->findInstanceFromEntity<!-- -->:<!-- --> </code> <code class="purple_ieR2">(</code><code>entityId<!-- -->: </code><code class="blue_P4bS">number</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance?<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="findInstanceFromEntity"><code style="text-decoration:none">findInstanceFromEntity</code><a class="hash-link" href="#findInstanceFromEntity" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L104"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->.<!-- -->findInstanceFromEntity<!-- -->:<!-- --> </code> <code class="purple_ieR2">(</code><code>entityId<!-- -->: </code><code class="blue_P4bS">number</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Instance" target="_blank" rel="noopener noreferrer">Instance?<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
 <p>
   Create this property in Debugger to specify a function that will be called to determine what Instance is associated
   with an entity. This is used for the in-world highlight in the World inspector.
@@ -82,18 +82,18 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
 	<span class="token keyword">return</span> model <span class="token keyword">and</span> model<span class="token punctuation">.</span>model <span class="token keyword">or</span> <span class="token keyword">nil</span>
 <span class="token keyword">end</span>
 </code></pre>
-</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a class="hash-link" href="#new" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L106"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><div class="inset_uKQm"><div><code>plasma<!-- -->: </code><code class="blue_P4bS">Plasma</code><span class="inlineDescription_G7Er">-- <span>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a class="hash-link" href="#new" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L113"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><div class="inset_uKQm"><div><code>plasma<!-- -->: </code><code class="blue_P4bS">Plasma</code><span class="inlineDescription_G7Er">-- <span>
 <p>The instance of Plasma used in your game.</p>
 </span></span></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Debugger">Debugger</a></code></div><div>
 <p>Creates a new Debugger.</p>
 <p>You need to depend on <a href="https://eryn.io/plasma/" target="_blank">Plasma</a> in your project and pass a handle to it here.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="show"><code style="text-decoration:none">show</code><a class="hash-link" href="#show" title="Direct link to heading">​</a></h3><span class="badge_Ba2I" style="color:#349AD5"><span class="badgeTooltip_cWXP">This item only works when running on the client.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337 304" fill="#349AD5" role="img" aria-label="This item only works when running on the client."><path d="M0 201h337v36H0v-36zm0 0zM0 0v188h337V0H0zM218 287h30c12 0 12 17 0 17H88c-11 0-11-17 0-17h31l10-39h79l10 39z"></path></svg> <!-- -->Client</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L187"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">show</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="show"><code style="text-decoration:none">show</code><a class="hash-link" href="#show" title="Direct link to heading">​</a></h3><span class="badge_Ba2I" style="color:#349AD5"><span class="badgeTooltip_cWXP">This item only works when running on the client.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337 304" fill="#349AD5" role="img" aria-label="This item only works when running on the client."><path d="M0 201h337v36H0v-36zm0 0zM0 0v188h337V0H0zM218 287h30c12 0 12 17 0 17H88c-11 0-11-17 0-17h31l10-39h79l10 39z"></path></svg> <!-- -->Client</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L196"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">show</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Shows the debugger panel</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="hide"><code style="text-decoration:none">hide</code><a class="hash-link" href="#hide" title="Direct link to heading">​</a></h3><span class="badge_Ba2I" style="color:#349AD5"><span class="badgeTooltip_cWXP">This item only works when running on the client.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337 304" fill="#349AD5" role="img" aria-label="This item only works when running on the client."><path d="M0 201h337v36H0v-36zm0 0zM0 0v188h337V0H0zM218 287h30c12 0 12 17 0 17H88c-11 0-11-17 0-17h31l10-39h79l10 39z"></path></svg> <!-- -->Client</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L200"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">hide</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="hide"><code style="text-decoration:none">hide</code><a class="hash-link" href="#hide" title="Direct link to heading">​</a></h3><span class="badge_Ba2I" style="color:#349AD5"><span class="badgeTooltip_cWXP">This item only works when running on the client.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337 304" fill="#349AD5" role="img" aria-label="This item only works when running on the client."><path d="M0 201h337v36H0v-36zm0 0zM0 0v188h337V0H0zM218 287h30c12 0 12 17 0 17H88c-11 0-11-17 0-17h31l10-39h79l10 39z"></path></svg> <!-- -->Client</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L209"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">hide</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Hides the debugger panel</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="toggle"><code style="text-decoration:none">toggle</code><a class="hash-link" href="#toggle" title="Direct link to heading">​</a></h3><span class="badge_Ba2I" style="color:#349AD5"><span class="badgeTooltip_cWXP">This item only works when running on the client.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337 304" fill="#349AD5" role="img" aria-label="This item only works when running on the client."><path d="M0 201h337v36H0v-36zm0 0zM0 0v188h337V0H0zM218 287h30c12 0 12 17 0 17H88c-11 0-11-17 0-17h31l10-39h79l10 39z"></path></svg> <!-- -->Client</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L222"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">toggle</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="toggle"><code style="text-decoration:none">toggle</code><a class="hash-link" href="#toggle" title="Direct link to heading">​</a></h3><span class="badge_Ba2I" style="color:#349AD5"><span class="badgeTooltip_cWXP">This item only works when running on the client.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337 304" fill="#349AD5" role="img" aria-label="This item only works when running on the client."><path d="M0 201h337v36H0v-36zm0 0zM0 0v188h337V0H0zM218 287h30c12 0 12 17 0 17H88c-11 0-11-17 0-17h31l10-39h79l10 39z"></path></svg> <!-- -->Client</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L226"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">toggle</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Toggles visibility of the debugger panel</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="autoInitialize"><code style="text-decoration:none">autoInitialize</code><a class="hash-link" href="#autoInitialize" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L277"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">autoInitialize</code><code>(</code><code>loop<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop">Loop</a></code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="autoInitialize"><code style="text-decoration:none">autoInitialize</code><a class="hash-link" href="#autoInitialize" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L313"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">autoInitialize</code><code>(</code><code>loop<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop">Loop</a></code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Adds middleware to your Loop to set up the debugger every frame.</p>
 <div class="admonition admonition-tip alert alert--success">
   <div class="admonition-heading">
@@ -119,19 +119,19 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
   If you also want to use Plasma for more than just the debugger, you can opt to not call this function and instead
   do what it does yourself.
 </p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="replaceSystem"><code style="text-decoration:none">replaceSystem</code><a class="hash-link" href="#replaceSystem" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L346"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">replaceSystem</code><code>(</code><div class="inset_uKQm"><div><code>old<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop#System">System</a></code><code>,</code></div><div><code>new<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop#System">System</a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="replaceSystem"><code style="text-decoration:none">replaceSystem</code><a class="hash-link" href="#replaceSystem" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L381"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">replaceSystem</code><code>(</code><div class="inset_uKQm"><div><code>old<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop#System">System</a></code><code>,</code></div><div><code>new<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop#System">System</a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Alert the debugger when a system is hot reloaded.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="switchToServerView"><code style="text-decoration:none">switchToServerView</code><a class="hash-link" href="#switchToServerView" title="Direct link to heading">​</a></h3><span class="badge_Ba2I" style="color:#349AD5"><span class="badgeTooltip_cWXP">This item only works when running on the client.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337 304" fill="#349AD5" role="img" aria-label="This item only works when running on the client."><path d="M0 201h337v36H0v-36zm0 0zM0 0v188h337V0H0zM218 287h30c12 0 12 17 0 17H88c-11 0-11-17 0-17h31l10-39h79l10 39z"></path></svg> <!-- -->Client</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L357"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">switchToServerView</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="switchToServerView"><code style="text-decoration:none">switchToServerView</code><a class="hash-link" href="#switchToServerView" title="Direct link to heading">​</a></h3><span class="badge_Ba2I" style="color:#349AD5"><span class="badgeTooltip_cWXP">This item only works when running on the client.</span><span class="badgeToolTipTail_H9D_"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337 304" fill="#349AD5" role="img" aria-label="This item only works when running on the client."><path d="M0 201h337v36H0v-36zm0 0zM0 0v188h337V0H0zM218 287h30c12 0 12 17 0 17H88c-11 0-11-17 0-17h31l10-39h79l10 39z"></path></svg> <!-- -->Client</span></span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L392"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">switchToServerView</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Switch the client to server view. This starts the server debugger if it isn't already started.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="switchToClientView"><code style="text-decoration:none">switchToClientView</code><a class="hash-link" href="#switchToClientView" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L378"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">switchToClientView</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="switchToClientView"><code style="text-decoration:none">switchToClientView</code><a class="hash-link" href="#switchToClientView" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L413"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">switchToClientView</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Switch the client to client view. This stops the server debugger if there are no other players connected.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="draw"><code style="text-decoration:none">draw</code><a class="hash-link" href="#draw" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L404"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">draw</code><code>(</code><code>loop<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Loop">Loop</a></code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="update"><code style="text-decoration:none">update</code><a class="hash-link" href="#update" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L437"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">update</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>This should be called to draw the debugger UI.</p>
 <p>
   This is automatically set up when you call <a href="/matter/api/Debugger#autoInitialize">Debugger:autoInitialize</a>, so you don't need to call this yourself unless
   you didn't call <code>autoInitialize</code>.
 </p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="getWidgets"><code style="text-decoration:none">getWidgets</code><a class="hash-link" href="#getWidgets" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L448"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">getWidgets</code><code>(</code><code>) → </code><code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS">Widget</code><code class="purple_ieR2">}</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="getWidgets"><code style="text-decoration:none">getWidgets</code><a class="hash-link" href="#getWidgets" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/debugger/debugger.lua#L473"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Debugger<!-- -->:</code><code class="green_DgR4">getWidgets</code><code>(</code><code>) → </code><code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS">string</code><code>]</code></span><code>: </code><code class="blue_P4bS">Widget</code><code class="purple_ieR2">}</code></div><div>
 <p>Returns a handle to the debug widgets you can pass to your systems.</p>
 <p>All <a href="https://eryn.io/plasma/api/Plasma#arrow" target="_blank">plasma widgets</a> are available under this namespace.</p>
 <pre class="language-lua"><code class="language-lua"><span class="token comment">-- ...</span>
@@ -178,7 +178,7 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
             ],
             &quot;function_type&quot;: &quot;static&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 106,
+                &quot;line&quot;: 113,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
@@ -192,7 +192,7 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
                 &quot;Client&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 187,
+                &quot;line&quot;: 196,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
@@ -206,7 +206,7 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
                 &quot;Client&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 200,
+                &quot;line&quot;: 209,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
@@ -220,13 +220,13 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
                 &quot;Client&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 222,
+                &quot;line&quot;: 226,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
         {
             &quot;name&quot;: &quot;autoInitialize&quot;,
-            &quot;desc&quot;: &quot;Adds middleware to your Loop to set up the debugger every frame.\n\n:::tip\nThe debugger must also be shown on a client with [Debugger:show] or [Debugger:toggle] to be used.\n:::\n\t\t\t\t\t\n:::caution\n[Debugger:autoInitialize] should be called before [Loop:begin] to function as expected.\n:::\n\nIf you also want to use Plasma for more than just the debugger, you can opt to not call this function and instead\ndo what it does yourself.&quot;,
+            &quot;desc&quot;: &quot;Adds middleware to your Loop to set up the debugger every frame.\n\n:::tip\nThe debugger must also be shown on a client with [Debugger:show] or [Debugger:toggle] to be used.\n:::\n\n:::caution\n[Debugger:autoInitialize] should be called before [Loop:begin] to function as expected.\n:::\n\nIf you also want to use Plasma for more than just the debugger, you can opt to not call this function and instead\ndo what it does yourself.&quot;,
             &quot;params&quot;: [
                 {
                     &quot;name&quot;: &quot;loop&quot;,
@@ -237,7 +237,7 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 277,
+                &quot;line&quot;: 313,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
@@ -259,7 +259,7 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 346,
+                &quot;line&quot;: 381,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
@@ -273,7 +273,7 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
                 &quot;Client&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 357,
+                &quot;line&quot;: 392,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
@@ -284,24 +284,18 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 378,
+                &quot;line&quot;: 413,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
         {
-            &quot;name&quot;: &quot;draw&quot;,
+            &quot;name&quot;: &quot;update&quot;,
             &quot;desc&quot;: &quot;This should be called to draw the debugger UI.\n\nThis is automatically set up when you call [Debugger:autoInitialize], so you don&#x27;t need to call this yourself unless\nyou didn&#x27;t call `autoInitialize`.&quot;,
-            &quot;params&quot;: [
-                {
-                    &quot;name&quot;: &quot;loop&quot;,
-                    &quot;desc&quot;: &quot;&quot;,
-                    &quot;lua_type&quot;: &quot;Loop&quot;
-                }
-            ],
+            &quot;params&quot;: [],
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 404,
+                &quot;line&quot;: 437,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
@@ -317,7 +311,7 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 448,
+                &quot;line&quot;: 473,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         }
@@ -328,7 +322,7 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
             &quot;desc&quot;: &quot;Create this property in Debugger to specify a function that will be called to determine if a player should be\nallowed to connect to the server-side debugger.\n\nIf not specified, the default behavior is to allow anyone in Studio and disallow everyone in a live game.\n\n```lua\ndebugger.authorize = function(player)\n\tif player:GetRankInGroup(372) &gt; 250 then -- etc\n\t\treturn true\n\tend\nend\n```&quot;,
             &quot;lua_type&quot;: &quot;(player: Player) -&gt; boolean&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 75,
+                &quot;line&quot;: 82,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         },
@@ -337,20 +331,20 @@ debugger<span class="token punctuation">:</span><span class="token function">aut
             &quot;desc&quot;: &quot;Create this property in Debugger to specify a function that will be called to determine what Instance is associated\nwith an entity. This is used for the in-world highlight in the World inspector.\n\nIf not specified, the in-world highlight will not work.\n\n```lua\ndebugger.findInstanceFromEntity = function(id)\n\tif not world:contains(id) then\n\t\treturn\n\tend\n\n\tlocal model = world:get(id, components.Model)\n\n\treturn model and model.model or nil\nend\n```&quot;,
             &quot;lua_type&quot;: &quot;(entityId: number) -&gt; Instance?&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 97,
+                &quot;line&quot;: 104,
                 &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
             }
         }
     ],
     &quot;types&quot;: [],
     &quot;name&quot;: &quot;Debugger&quot;,
-    &quot;desc&quot;: &quot;Attaches a Debugger to the Matter instance, allowing you to create debug widgets in your systems.\n\n```lua\nlocal debugger = Matter.Debugger.new(Plasma)\n\nlocal widgets = debugger:getWidgets()\nlocal loop = Matter.Loop.new(world, widgets) -- pass the widgets to your systems\n\ndebugger:autoInitialize(loop)\n\nif RunService:IsClient() then\n\tdebugger:show()\nend\n```\n\nWhen the debugger is not open, the widgets do not render.&quot;,
+    &quot;desc&quot;: &quot;Attaches a Debugger to the Matter instance, allowing you to create debug widgets in your systems.\n\n```lua\nlocal debugger = Matter.Debugger.new(Plasma)\n\nlocal widgets = debugger:getWidgets()\nlocal loop = Matter.Loop.new(world, widgets) -- pass the widgets to your systems\n\ndebugger:autoInitialize(loop)\n\nif IS_CLIENT then\n\tdebugger:show()\nend\n```\n\nWhen the debugger is not open, the widgets do not render.&quot;,
     &quot;source&quot;: {
-        &quot;line&quot;: 55,
+        &quot;line&quot;: 62,
         &quot;path&quot;: &quot;lib/debugger/debugger.lua&quot;
     }
-}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#authorize" class="table-of-contents__link toc-highlight">authorize</a></li><li><a href="#findInstanceFromEntity" class="table-of-contents__link toc-highlight">findInstanceFromEntity</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#autoInitialize" class="table-of-contents__link toc-highlight">:autoInitialize</a></li><li><a href="#draw" class="table-of-contents__link toc-highlight">:draw</a></li><li><a href="#getWidgets" class="table-of-contents__link toc-highlight">:getWidgets</a></li><li><a href="#hide" class="table-of-contents__link toc-highlight">:hide</a></li><li><a href="#replaceSystem" class="table-of-contents__link toc-highlight">:replaceSystem</a></li><li><a href="#show" class="table-of-contents__link toc-highlight">:show</a></li><li><a href="#switchToClientView" class="table-of-contents__link toc-highlight">:switchToClientView</a></li><li><a href="#switchToServerView" class="table-of-contents__link toc-highlight">:switchToServerView</a></li><li><a href="#toggle" class="table-of-contents__link toc-highlight">:toggle</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/matter/assets/js/runtime~main.fb662bb0.js"></script>
-<script src="/matter/assets/js/main.60a64e8e.js"></script>
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#authorize" class="table-of-contents__link toc-highlight">authorize</a></li><li><a href="#findInstanceFromEntity" class="table-of-contents__link toc-highlight">findInstanceFromEntity</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#autoInitialize" class="table-of-contents__link toc-highlight">:autoInitialize</a></li><li><a href="#getWidgets" class="table-of-contents__link toc-highlight">:getWidgets</a></li><li><a href="#hide" class="table-of-contents__link toc-highlight">:hide</a></li><li><a href="#replaceSystem" class="table-of-contents__link toc-highlight">:replaceSystem</a></li><li><a href="#show" class="table-of-contents__link toc-highlight">:show</a></li><li><a href="#switchToClientView" class="table-of-contents__link toc-highlight">:switchToClientView</a></li><li><a href="#switchToServerView" class="table-of-contents__link toc-highlight">:switchToServerView</a></li><li><a href="#toggle" class="table-of-contents__link toc-highlight">:toggle</a></li><li><a href="#update" class="table-of-contents__link toc-highlight">:update</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/matter/assets/js/runtime~main.6c661978.js"></script>
+<script src="/matter/assets/js/main.d3333e4c.js"></script>
 </body>
 </html>

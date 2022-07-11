@@ -79,7 +79,7 @@ end
 We make use of the [`Component:patch`](/api/Component#patch) function, which returns a new component with an updated
 value, so we don't have to mutate the existing component.
 
-If you want to check out a more complex, real game example, check out the [`/example` directory in the matter repo](https://github.com/evaera/matter/tree/main/example/server).
+If you want to check out a more complex, real game example, check out the [`/example` directory in the matter repo](https://github.com/evaera/matter/tree/main/example/).
 
 ## Next steps
 You should dive in to the [API reference](/api/Matter)! The Matter API is simple and documented in detail.

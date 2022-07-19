@@ -159,5 +159,6 @@ return function(plasma)
 		if closed then
 			return closed
 		end
+		return nil
 	end)
 end

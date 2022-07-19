@@ -57,6 +57,7 @@ return function(plasma)
 					plasma.label("(further results truncated)")
 				end
 			end
+			return nil
 		end):closed()
 	end)
 end

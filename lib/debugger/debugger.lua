@@ -10,7 +10,7 @@ local mouseHighlight = require(script.Parent.mouseHighlight)
 local clientBindings = require(script.Parent.clientBindings)
 local hookWorld = require(script.Parent.hookWorld)
 
-local customWidgetConstructors = {
+local customWidgetConstructors: {[string]: any} = {
 	panel = require(script.Parent.widgets.panel),
 	selectionList = require(script.Parent.widgets.selectionList),
 	container = require(script.Parent.widgets.container),

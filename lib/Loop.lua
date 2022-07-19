@@ -348,7 +348,7 @@ function Loop:begin(events)
 
 			generation = not generation
 
-			local dirtyWorlds = {}
+			local dirtyWorlds: {[any]: true} = {}
 			local profiling = self.profiling
 
 			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do

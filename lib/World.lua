@@ -428,7 +428,7 @@ function QueryResult:next()
 end
 
 local snapshot = {
-	__iter = function(self)
+	__iter = function(self): any
 		local i = 0
 		return function()
 			i += 1
@@ -438,6 +438,7 @@ local snapshot = {
 			if data then
 				return unpack(data, 1, data.n)
 			end
+			return
 		end
 	end,
 }
@@ -506,7 +507,7 @@ end
 ]=]
 function QueryResult:without(...)
 	local metatables = { ... }
-	return function()
+	return function(): any
 		while true do
 			local entityId, entityData = self._next()
 
@@ -528,6 +529,7 @@ function QueryResult:without(...)
 
 			return self._expand(entityId, entityData)
 		end
+		return
 	end
 end
 
@@ -736,7 +738,7 @@ function World:queryChanged(componentToTrack, ...: nil)
 	local hookState = topoRuntime.useHookState(componentToTrack, cleanupQueryChanged)
 
 	if hookState.storage then
-		return function()
+		return function(): any
 			local entityId, record = next(hookState.storage)
 
 			if entityId then
@@ -744,6 +746,7 @@ function World:queryChanged(componentToTrack, ...: nil)
 
 				return entityId, record
 			end
+			return
 		end
 	end
 
@@ -760,12 +763,13 @@ function World:queryChanged(componentToTrack, ...: nil)
 
 	local queryResult = self:query(componentToTrack)
 
-	return function()
+	return function(): any
 		local entityId, component = queryResult:next()
 
 		if entityId then
 			return entityId, table.freeze({ new = component })
 		end
+		return
 	end
 end
 

@@ -41,14 +41,22 @@
 }
 
 .feature {
-  /* display: flex;
-  flex-direction: row;
-  justify-content: center; */
-
   display: grid;
   grid: 1fr / 1fr 1fr;
   gap: 2rem;
   grid-template-areas: "left right";
+}
+
+@media screen and (max-width: 1200px) {
+  .feature {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .feature.feature.feature div {
+    text-align: left;
+  }
 }
 
 .feature:nth-child(2n) img {

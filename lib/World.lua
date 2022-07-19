@@ -67,6 +67,7 @@ function World:_getStorageWithEntity(archetype, id)
 			end
 		end
 	end
+	return nil
 end
 
 function World:_markStorageDirty()

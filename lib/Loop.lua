@@ -228,7 +228,7 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 
 	local scheduledSystemsSet = {}
 	local scheduledSystems = {}
-	local tombstone = {}
+	local tombstone: any = {}
 
 	while #scheduledSystems < #unscheduledSystems do
 		local atLeastOneScheduled = false

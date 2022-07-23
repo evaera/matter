@@ -57,7 +57,7 @@ function World.new()
 end
 
 -- Searches all archetype storages for the entity with the given archetype
--- If found, returns the entity data followed by the storage index the entity was in
+-- Returns the storage that the entity is in if it exists, otherwise nil
 function World:_getStorageWithEntity(archetype, id)
 	for _, storage in self._storages do
 		local archetypeStorage = storage[archetype]

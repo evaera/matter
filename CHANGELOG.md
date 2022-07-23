@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.6.2] - 2022-07-22
+### Fixed
+- Debugger no longer interferes with `queryChanged` in order to display it in the debugger view. Previously, this caused the storage to get reset. This feature may return in the future.
+
 ## [0.6.1] - 2022-07-10
 ### Added
 - Added `Matter.log`, and a logs viewer per-system to the Matter debugger.

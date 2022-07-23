@@ -1,5 +1,3 @@
-local GuiService = game:GetService("GuiService")
-
 return function(Plasma)
 	local create = Plasma.create
 	return Plasma.widget(function(children, options)

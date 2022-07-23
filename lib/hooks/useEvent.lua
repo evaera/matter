@@ -183,7 +183,7 @@ local function useEvent(instance, event): () -> (number, ...any)
 	end
 
 	local index = 0
-	return function()
+	return function(): any
 		index += 1
 
 		local arguments = storage.queue:popFront()
@@ -191,6 +191,7 @@ local function useEvent(instance, event): () -> (number, ...any)
 		if arguments then
 			return index, unpack(arguments, 1, arguments.n)
 		end
+		return
 	end
 end
 

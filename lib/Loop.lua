@@ -255,8 +255,23 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 			if type(system) == "table" and system.after then
 				for _, dependency in ipairs(system.after) do
 					if scheduledSystemsSet[dependency] == nil then
-						allScheduled = false
-						break
+						if type(dependency) == "table" then
+							allScheduled = false
+							break
+						elseif type(dependency) == "function" then
+							local wasDependencyFound = false
+							for _, scheduledSystem in ipairs(scheduledSystems) do
+								if type(scheduledSystem) == "table" and scheduledSystem.system == dependency then
+									wasDependencyFound = true
+									break
+								end
+							end
+
+							if not wasDependencyFound then
+								allScheduled = false
+								break
+							end
+						end
 					end
 				end
 			end
@@ -348,7 +363,7 @@ function Loop:begin(events)
 
 			generation = not generation
 
-			local dirtyWorlds: {[any]: true} = {}
+			local dirtyWorlds: { [any]: true } = {}
 			local profiling = self.profiling
 
 			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do

@@ -89,4 +89,5 @@ end, function(_, context)
 end)
 ```
 
-That's it! For a real example of this in action, check out the [Matter example game](https://github.com/evaera/matter/blob/main/example/shared/start.lua).
+That's it! For a real example of this in action, check out the [Matter example game](https://github.com/evaera/matter/blob/main/example/src/shared/start.lua).
+

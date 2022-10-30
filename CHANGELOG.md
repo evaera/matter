@@ -1,11 +1,23 @@
 # Changelog
 
-## Unreleased
+## [0.6.2] - 2022-07-22
+### Fixed
+- Debugger no longer interferes with `queryChanged` in order to display it in the debugger view. Previously, this caused the storage to get reset. This feature may return in the future.
+
+## [0.6.1] - 2022-07-10
+### Added
+- Added `Matter.log`, and a logs viewer per-system to the Matter debugger.
+- Added error logging and inspection to the Matter debugger.
+- Added Query inspection to the Matter debugger.
+
+### Fixed
+- Fixed bug with server-side debugger when game was in deferred events mode
+
+## [0.6.0] - 2022-07-08
 ### Changed
 - The first time you call `queryChanged`, all existing entities in the world that match the component are now returned as "new" change records. Previously, nothing was returned.
 - Improved Debugger with highlight selections and tooltips.
-- `Matter.useEvent` now supports events that have a `Connect`, `connect`, or an `on` method. Additionally, it also supports custom
-connection objects (returned by custom events), which have a `Destroy` or a `Disconnect` method, or are just a cleanup function.
+- `Matter.useEvent` now supports events that have a `Connect`, `connect`, or an `on` method. Additionally, it also supports custom connection objects (returned by custom events), which have a `Destroy` or a `Disconnect` method, or are just a cleanup function.
 
 ### Fixed
 - Debugger: Fixed bug with profiling when disabling a system and then closing the debugger

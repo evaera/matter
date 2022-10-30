@@ -45,3 +45,4 @@ build
 *.rbxl
 *.rbxl.lock
 matter.rbxm
+sourcemap.json

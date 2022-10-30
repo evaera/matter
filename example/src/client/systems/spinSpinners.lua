@@ -1,5 +1,5 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Components = require(ReplicatedStorage.Game.components)
+local Components = require(ReplicatedStorage.Shared.components)
 
 local function spinSpinners(world, _, ui)
 	if ui.checkbox("Disable Spinning"):checked() then

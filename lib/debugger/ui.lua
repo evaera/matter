@@ -27,6 +27,9 @@ local function formatDuration(duration)
 	return duration, timeUnits[unit]
 end
 
+local IS_SERVER = RunService:IsServer()
+local IS_CLIENT = RunService:IsClient()
+
 local function ui(debugger, loop)
 	local plasma = debugger.plasma
 	local custom = debugger._customWidgets
@@ -52,11 +55,11 @@ local function ui(debugger, loop)
 				custom.realmSwitch({
 					left = "client",
 					right = "server",
-					isRight = RunService:IsServer(),
-					tag = if RunService:IsServer() then "MatterDebuggerSwitchToClientView" else nil,
+					isRight = IS_SERVER,
+					tag = if IS_SERVER then "MatterDebuggerSwitchToClientView" else nil,
 				}):clicked()
 			then
-				if RunService:IsClient() then
+				if IS_CLIENT then
 					debugger:switchToServerView()
 				end
 			end
@@ -130,7 +133,11 @@ local function ui(debugger, loop)
 						local duration = rollingAverage.getAverage(samples)
 
 						if duration > 0.004 then -- 4ms
-							icon = "⚠️"
+							icon = "\xe2\x9a\xa0\xef\xb8\x8f"
+						end
+
+						if loop._systemErrors[system] then
+							icon = "\xf0\x9f\x92\xa5"
 						end
 
 						local humanDuration, unit = formatDuration(duration)
@@ -166,11 +173,7 @@ local function ui(debugger, loop)
 				local closed = custom.worldInspect(debugger, objectStack)
 
 				if closed then
-					if debugger.debugEntity then
-						setWorldViewOpen(false)
-					else
-						debugger.debugWorld = nil
-					end
+					setWorldViewOpen(false)
 				end
 			end
 
@@ -183,13 +186,36 @@ local function ui(debugger, loop)
 			end
 
 			if debugger.debugSystem then
+				local queriesOpen, setQueriesOpen = plasma.useState(false)
+				local logsOpen, setLogsOpen = plasma.useState(true)
+
+				if loop._systemLogs[debugger.debugSystem] == nil then
+					loop._systemLogs[debugger.debugSystem] = {}
+				end
+
+				local numLogs = #loop._systemLogs[debugger.debugSystem]
+
+				local name = systemName(debugger.debugSystem)
+
 				local closed = plasma.window({
-					title = "System config",
+					title = "System",
 					closable = true,
 				}, function()
-					plasma.useKey(systemName(debugger.debugSystem))
-					plasma.heading(systemName(debugger.debugSystem))
+					plasma.useKey(name)
+					plasma.heading(name)
 					plasma.space(0)
+
+					plasma.row(function()
+						if plasma.button(string.format("View queries (%d)", #debugger._queries)):clicked() then
+							setQueriesOpen(true)
+						end
+
+						if numLogs > 0 then
+							if plasma.button(string.format("View logs (%d)", numLogs)):clicked() then
+								setLogsOpen(true)
+							end
+						end
+					end)
 
 					local currentlyDisabled = loop._skipSystems[debugger.debugSystem]
 
@@ -199,6 +225,39 @@ local function ui(debugger, loop)
 						loop._skipSystems[debugger.debugSystem] = not currentlyDisabled
 					end
 				end):closed()
+
+				if queriesOpen then
+					local closed = custom.queryInspect(debugger)
+
+					if closed then
+						setQueriesOpen(false)
+					end
+				end
+
+				if loop._systemErrors[debugger.debugSystem] then
+					custom.errorInspect(debugger, custom)
+				end
+
+				plasma.useKey(name)
+
+				if numLogs > 0 and logsOpen then
+					local closed = plasma.window({
+						closable = true,
+						title = "Logs",
+					}, function()
+						local items = {}
+						for i = numLogs, 1, -1 do
+							table.insert(items, { loop._systemLogs[debugger.debugSystem][i] })
+						end
+						plasma.table(items, {
+							font = Enum.Font.Code,
+						})
+					end):closed()
+
+					if closed then
+						setLogsOpen(false)
+					end
+				end
 
 				if closed then
 					debugger.debugSystem = nil

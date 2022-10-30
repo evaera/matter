@@ -60,6 +60,7 @@ return function(plasma)
 			end
 
 			plasma.table(items)
+			return nil
 		end):closed()
 
 		if closed then

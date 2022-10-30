@@ -8,8 +8,9 @@ local EventBridge = require(script.Parent.EventBridge)
 local ui = require(script.Parent.ui)
 local mouseHighlight = require(script.Parent.mouseHighlight)
 local clientBindings = require(script.Parent.clientBindings)
+local hookWorld = require(script.Parent.hookWorld)
 
-local customWidgetConstructors = {
+local customWidgetConstructors: {[string]: any} = {
 	panel = require(script.Parent.widgets.panel),
 	selectionList = require(script.Parent.widgets.selectionList),
 	container = require(script.Parent.widgets.container),
@@ -21,7 +22,13 @@ local customWidgetConstructors = {
 	entityInspect = require(script.Parent.widgets.entityInspect),
 	tooltip = require(script.Parent.widgets.tooltip),
 	hoverInspect = require(script.Parent.widgets.hoverInspect),
+	queryInspect = require(script.Parent.widgets.queryInspect),
+	codeText = require(script.Parent.widgets.codeText),
+	errorInspect = require(script.Parent.widgets.errorInspect),
 }
+
+local IS_SERVER = RunService:IsServer()
+local IS_CLIENT = RunService:IsClient()
 
 local remoteEvent, clientBindingConnections
 
@@ -45,7 +52,7 @@ end
 
 	debugger:autoInitialize(loop)
 
-	if RunService:IsClient() then
+	if IS_CLIENT then
 		debugger:show()
 	end
 	```
@@ -107,7 +114,7 @@ function Debugger.new(plasma)
 	assertCompatiblePlasma(plasma)
 
 	if not remoteEvent then
-		if RunService:IsServer() then
+		if IS_SERVER then
 			remoteEvent = Instance.new("RemoteEvent")
 			remoteEvent.Name = "MatterDebuggerRemote"
 			remoteEvent.Parent = ReplicatedStorage
@@ -128,8 +135,10 @@ function Debugger.new(plasma)
 
 	local self = setmetatable({
 		plasma = plasma,
+		loop = nil,
 		enabled = false,
 		_windowCount = 0,
+		_queries = {},
 		_seenEvents = {},
 		_eventOrder = {},
 		_eventBridge = EventBridge.new(function(...)
@@ -142,7 +151,7 @@ function Debugger.new(plasma)
 		self._customWidgets[name] = create(plasma)
 	end
 
-	if RunService:IsServer() then
+	if IS_SERVER then
 		self:_connectRemoteEvent()
 	else
 		if not clientBindingConnections then
@@ -185,11 +194,11 @@ end
 	Shows the debugger panel
 ]=]
 function Debugger:show()
-	if not RunService:IsClient() then
+	if not IS_CLIENT then
 		error("show can only be called from the client")
 	end
 
-	self.enabled = true
+	self:_enable()
 end
 
 --[=[
@@ -198,19 +207,14 @@ end
 	Hides the debugger panel
 ]=]
 function Debugger:hide()
-	if not RunService:IsClient() then
+	if not IS_CLIENT then
 		error("hide can only be called from the client")
 	end
 
-	self.enabled = false
-	self.debugSystem = nil
+	self:_disable()
 
 	if self:_isServerView() then
 		self:switchToClientView()
-	end
-
-	if self.plasmaNode then
-		self.plasma.start(self.plasmaNode, function() end)
 	end
 end
 
@@ -220,39 +224,71 @@ end
 	Toggles visibility of the debugger panel
 ]=]
 function Debugger:toggle()
-	if not RunService:IsClient() then
+	if not IS_CLIENT then
 		error("toggle can only be called from the client")
 	end
 
 	if self.enabled then
-		self:hide()
+		self:_disable()
 	else
-		self:show()
+		self:_enable()
+	end
+end
+
+function Debugger:_enable()
+	if self.enabled then
+		return
+	end
+
+	-- TODO: Find a better way for the user to specify the world.
+	if not self.debugWorld then
+		for _, object in self.loop._state do
+			if getmetatable(object) == World then
+				self.debugWorld = object
+				break
+			end
+		end
+	end
+
+	self.enabled = true
+	self.loop.profiling = self.loop.profiling or {}
+
+	hookWorld.hookWorld(self)
+end
+
+function Debugger:_disable()
+	self.enabled = false
+	self.debugSystem = nil
+	self.loop.profiling = nil
+	hookWorld.unhookWorld()
+
+	if self.plasmaNode then
+		self.plasma.start(self.plasmaNode, function() end)
 	end
 end
 
 function Debugger:connectPlayer(player)
-	if not RunService:IsServer() then
+	if not IS_SERVER then
 		error("connectClient can only be called from the server")
 	end
 
 	if not self.enabled then
 		print("Matter server debugger started")
-		self.enabled = true
+		self:_enable()
 	end
 
 	self._eventBridge:connectPlayer(player)
 end
 
 function Debugger:disconnectPlayer(player)
-	if not RunService:IsServer() then
+	if not IS_SERVER then
 		error("disconnectClient can only be called from the server")
 	end
 
 	self._eventBridge:disconnectPlayer(player)
 
 	if #self._eventBridge.players == 0 then
-		self.enabled = false
+		self:_disable()
 		self.debugSystem = nil
 		print("Matter server debugger stopped")
 	end
@@ -265,18 +301,26 @@ end
 	The debugger must also be shown on a client with [Debugger:show] or [Debugger:toggle] to be used.
 	:::
 
+	:::caution
+	[Debugger:autoInitialize] should be called before [Loop:begin] to function as expected.
+	:::
+
 	If you also want to use Plasma for more than just the debugger, you can opt to not call this function and instead
 	do what it does yourself.
 
 	@param loop Loop
 ]=]
 function Debugger:autoInitialize(loop)
+	self.loop = loop
+
+	self.loop.trackErrors = true
+
 	local parent = Instance.new("ScreenGui")
 	parent.Name = "MatterDebugger"
 	parent.ResetOnSpawn = false
 	parent.IgnoreGuiInset = true
 
-	if RunService:IsClient() then
+	if IS_CLIENT then
 		parent.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
 	else
 		parent.Parent = ReplicatedStorage
@@ -285,7 +329,7 @@ function Debugger:autoInitialize(loop)
 	local plasmaNode = self.plasma.new(parent)
 	self.plasmaNode = plasmaNode
 
-	loop:addMiddleware(function(nextFn, eventName)
+	self.loop:addMiddleware(function(nextFn, eventName)
 		return function()
 			if not self._seenEvents[eventName] then
 				self._seenEvents[eventName] = true
@@ -293,14 +337,9 @@ function Debugger:autoInitialize(loop)
 			end
 
 			if not self.enabled then
-				loop.profiling = nil
-
 				nextFn()
-
 				return
 			end
-
-			loop.profiling = loop.profiling or {}
 
 			if eventName == self._eventOrder[1] then
 				self._continueHandle = self.plasma.beginFrame(plasmaNode, function()
@@ -308,7 +347,7 @@ function Debugger:autoInitialize(loop)
 						return self._eventBridge:connect(...)
 					end)
 
-					self:draw(loop)
+					self:update()
 
 					nextFn()
 				end)
@@ -328,7 +367,7 @@ function Debugger:autoInitialize(loop)
 		end
 	end)
 
-	if RunService:IsClient() then
+	if IS_CLIENT then
 		self.plasma.hydrateAutomaticSize()
 	end
 end
@@ -351,7 +390,7 @@ end
 	Switch the client to server view. This starts the server debugger if it isn't already started.
 ]=]
 function Debugger:switchToServerView()
-	if not RunService:IsClient() then
+	if not IS_CLIENT then
 		error("switchToServerView may only be called from the client.")
 	end
 
@@ -372,7 +411,7 @@ end
 	Switch the client to client view. This stops the server debugger if there are no other players connected.
 ]=]
 function Debugger:switchToClientView()
-	if not RunService:IsClient() then
+	if not IS_CLIENT then
 		error("switchToClientView may only be called from the client.")
 	end
 
@@ -394,23 +433,13 @@ end
 
 	This is automatically set up when you call [Debugger:autoInitialize], so you don't need to call this yourself unless
 	you didn't call `autoInitialize`.
-
-	@param loop Loop
 ]=]
-function Debugger:draw(loop)
-	-- TODO: Find a better way for the user to specify the world.
-	if (self.debugEntity or self.hoverEntity) and not self.debugWorld then
-		for _, object in loop._state do
-			if getmetatable(object) == World then
-				self.debugWorld = object
-				break
-			end
-		end
-	end
+function Debugger:update()
+	ui(self, self.loop)
 
-	ui(self, loop)
+	table.clear(self._queries)
 
-	if RunService:IsClient() then
+	if IS_CLIENT then
 		mouseHighlight(self, remoteEvent)
 	end
 end

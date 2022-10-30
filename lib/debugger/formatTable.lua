@@ -66,7 +66,8 @@ local function formatTable(object, mode, _padLength, _depth)
 			end
 		elseif mode == FormatMode.Long and (type(value) == "userdata" or type(value) == "vector") then
 			if typeof(value) == "CFrame" then
-				part ..= string.format("CFrame(%.1f, %.1f, %.1f, ..)", value:components())
+				local x, y, z = value:components()
+				part ..= string.format("CFrame(%.1f, %.1f, %.1f, ..)", x, y, z)
 			else
 				part ..= typeof(value) .. "(" .. tostring(value) .. ")"
 			end

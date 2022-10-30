@@ -18,7 +18,7 @@ end
 local function toSet(list)
 	local set = {}
 
-	for _, v in ipairs(list) do
+	for _, v in list do
 		set[v] = true
 	end
 
@@ -31,7 +31,7 @@ local function values(dictionary)
 
 	local index = 1
 
-	for _, value in pairs(dictionary) do
+	for _, value in dictionary do
 		valuesList[index] = value
 		index = index + 1
 	end

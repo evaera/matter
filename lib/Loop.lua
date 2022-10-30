@@ -131,7 +131,7 @@ type System = (...any) -> () | { system: (...any) -> (), event: string?, priorit
 	@param systems { System } -- Array of systems to schedule.
 ]=]
 function Loop:scheduleSystems(systems: { System })
-	for _, system in ipairs(systems) do
+	for _, system in systems do
 		self._systems[system] = system
 		self._systemState[system] = {}
 
@@ -253,7 +253,7 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 			local allScheduled = true
 
 			if type(system) == "table" and system.after then
-				for _, dependency in ipairs(system.after) do
+				for _, dependency in system.after do
 					if scheduledSystemsSet[dependency] == nil then
 						allScheduled = false
 						break
@@ -284,7 +284,7 @@ end
 function Loop:_sortSystems()
 	local systemsByEvent = {}
 
-	for system in pairs(self._systems) do
+	for system in self._systems do
 		local eventName = "default"
 
 		if type(system) == "table" and system.event then
@@ -300,7 +300,7 @@ function Loop:_sortSystems()
 
 	self._orderedSystemsByEvent = {}
 
-	for eventName, systems in pairs(systemsByEvent) do
+	for eventName, systems in systemsByEvent do
 		self._orderedSystemsByEvent[eventName] = orderSystemsByDependencies(systems)
 	end
 end
@@ -332,7 +332,7 @@ end
 function Loop:begin(events)
 	local connections = {}
 
-	for eventName, event in pairs(events) do
+	for eventName, event in events do
 		local lastTime = os.clock()
 		local generation = false
 
@@ -351,7 +351,7 @@ function Loop:begin(events)
 			local dirtyWorlds: {[any]: true} = {}
 			local profiling = self.profiling
 
-			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do
+			for _, system in self._orderedSystemsByEvent[eventName] do
 				topoRuntime.start({
 					system = self._systemState[system],
 					frame = {
@@ -450,7 +450,7 @@ function Loop:begin(events)
 			end
 		end
 
-		for _, middleware in ipairs(self._middlewares) do
+		for _, middleware in self._middlewares do
 			stepSystems = middleware(stepSystems, eventName)
 
 			if type(stepSystems) ~= "function" then

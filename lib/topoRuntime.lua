@@ -10,8 +10,8 @@ end
 local function cleanup()
 	local currentFrame = stack[#stack]
 
-	for baseKey, state in pairs(currentFrame.node.system) do
-		for key, value in pairs(state.storage) do
+	for baseKey, state in currentFrame.node.system do
+		for key, value in state.storage do
 			if not currentFrame.accessedKeys[baseKey] or not currentFrame.accessedKeys[baseKey][key] then
 				local cleanupCallback = state.cleanupCallback
 

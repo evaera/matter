@@ -200,7 +200,7 @@ function World:_newQueryArchetype(queryArchetype)
 end
 
 function World:_updateQueryCache(entityArchetype)
-	for queryArchetype, compatibleArchetypes in pairs(self._queryCache) do
+	for queryArchetype, compatibleArchetypes in self._queryCache do
 		if areArchetypesCompatible(queryArchetype, entityArchetype) then
 			compatibleArchetypes[entityArchetype] = true
 		end
@@ -283,7 +283,7 @@ function World:replace(id, ...)
 		table.insert(metatables, metatable)
 	end
 
-	for metatable, component in pairs(entity) do
+	for metatable, component in entity do
 		if not components[metatable] then
 			self:_trackChanged(metatable, id, component, nil)
 		end
@@ -302,7 +302,7 @@ end
 function World:despawn(id)
 	local entity = self:_getEntity(id)
 
-	for metatable, component in pairs(entity) do
+	for metatable, component in entity do
 		self:_trackChanged(metatable, id, component, nil)
 	end
 
@@ -516,7 +516,7 @@ function QueryResult:without(...)
 			end
 
 			local skip = false
-			for _, metatable in ipairs(metatables) do
+			for _, metatable in metatables do
 				if entityData[metatable] then
 					skip = true
 					break
@@ -584,7 +584,7 @@ function World:query(...)
 			return
 		end
 
-		for i, metatable in ipairs(metatables) do
+		for i, metatable in metatables do
 			queryOutput[i] = entityData[metatable]
 		end
 
@@ -787,7 +787,7 @@ function World:_trackChanged(metatable, id, old, new)
 		new = new,
 	})
 
-	for _, storage in ipairs(self._changedStorage[metatable]) do
+	for _, storage in self._changedStorage[metatable] do
 		-- If this entity has changed since the last time this system read it,
 		-- we ensure that the "old" value is whatever the system saw it as last, instead of the
 		-- "old" value we have here.
@@ -893,7 +893,7 @@ function World:remove(id, ...)
 	-- Rebuild entity metatable cache
 	local metatables = {}
 
-	for metatable in pairs(entity) do
+	for metatable in entity do
 		table.insert(metatables, metatable)
 	end
 

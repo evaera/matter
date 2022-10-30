@@ -46,7 +46,7 @@ end
 
 local function useCurrentSystem()
 	if #stack == 0 then
-		return
+		return nil
 	end
 
 	return stack[#stack].node.currentSystem

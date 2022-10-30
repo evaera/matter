@@ -4,6 +4,11 @@ local Queue = require(script.Parent.Parent.Queue)
 local EVENT_CONNECT_METHODS = { "Connect", "on", "connect" }
 local CONNECTION_DISCONNECT_METHODS = { "Disconnect", "Destroy", "disconnect", "destroy" }
 
+type Connection = (
+) -> () | { Disconnect: () -> () } | { Destroy: () -> () } | { disconnect: () -> () } | { destroy: () -> () }
+
+type CustomEvent = { Connect: () -> Connection } | { connect: () -> Connection } | { on: () -> Connection }
+
 local function connect(object, callback, event)
 	local eventObject = object
 
@@ -76,7 +81,7 @@ local function cleanup(storage)
 end
 
 --[=[
-	@type ConnectionObject {Disconnect: (() -> ())?, Destroy: (() - >())?, disconnect: (() -> ())?, destroy: (() -> ())?} | () -> ()
+	@type ConnectionObject { (Disconnect: () -> ())?, (Destroy: () -> ())?, (disconnect: () -> ())?, (destroy: () -> ())?} | () -> () 
 	@within Matter
 
 	A connection object returned by a custom event must be either a table with any of the following methods, or a cleanup function.
@@ -85,15 +90,16 @@ end
 --[=[
 	@interface CustomEvent
 	@within Matter
-	.Connect ((...) -> ConnectionObject)?
-	.on ((...) -> ConnectionObject)?
-	.connect ((...) -> ConnectionObject)?
+	.Connect ((...any) -> ConnectionObject)?
+	.on ((...any) -> ConnectionObject)?
+	.connect ((...any) -> ConnectionObject)?
 
 	A custom event must have any of these 3 methods.
 ]=]
 
 --[=[
 	@within Matter
+
 	:::info Topologically-aware function
 	This function is only usable if called within the context of [`Loop:begin`](/api/Loop#begin).
 	:::
@@ -101,7 +107,7 @@ end
 	Collects events that fire during the frame and allows iteration over event arguments.
 
 	```lua
-	for _, player in ipairs(Players:GetPlayers()) do
+	for _, player in Players:GetPlayers() do
 		for i, character in useEvent(player, "CharacterAdded") do
 			world:spawn(
 				Components.Target(),
@@ -111,8 +117,8 @@ end
 			)
 		end
 	end
-	```
 
+	```
 	Returns an iterator function that returns an ever-increasing number, starting at 1, followed by any event arguments
 	from the specified event.
 
@@ -122,17 +128,16 @@ end
 	`useEvent` keys storage uniquely identified by **the script and line number** `useEvent` was called from, and the
 	first parameter (instance). If the second parameter, `event`, is not equal to the event passed in for this unique
 	storage last frame, the old event is disconnected from and the new one is connected in its place.
-
+	
 	Tl;dr: on a given line, you should hard-code a single event to connect to. Do not dynamically change the event with
 	a variable. Dynamically changing the first parameter (instance) is fine.
 
 	```lua
-	for _, instance in pairs(someTable) do
+	for _, instance in someTable do
 		for i, arg1, arg2 in useEvent(instance, "Touched") do -- This is ok
 		end
 	end
-
-	for _, instance in pairs(someTable) do
+	for _, instance in someTable do
 		local event = getEventSomehow()
 		for i, arg1, arg2 in useEvent(instance, event) do -- PANIC! This is NOT OK
 		end
@@ -154,10 +159,14 @@ end
 	The object returned by any event must either be a cleanup function, or a table with a `Disconnect` or a `Destroy`
 	method, so that `useEvent` can later clean it up when needed. See [ConnectionObject] for more information.
 
-	@param instance Instance | CustomEvent -- The instance or a custom event that has the event you want to connect to
-	@param event string | RBXScriptSignal -- The name of or actual event that you want to connect to
+	@param instance Instance | { [string]: CustomEvent } -- The instance or a table that has the event you want to connect to
+	@param event string | RBXScriptSignal | CustomEvent -- The name of or actual event that you want to connect to
 ]=]
-local function useEvent(instance, event): () -> (number, ...any)
+
+local function useEvent(
+	instance: Instance | { [string]: CustomEvent? },
+	event: string | RBXScriptSignal | CustomEvent
+): () -> (number, ...any)
 	assert(instance ~= nil, "Instance is nil")
 	assert(event ~= nil, "Event is nil")
 
@@ -183,7 +192,8 @@ local function useEvent(instance, event): () -> (number, ...any)
 	end
 
 	local index = 0
-	return function(): any
+
+	return function()
 		index += 1
 
 		local arguments = storage.queue:popFront()
@@ -191,7 +201,8 @@ local function useEvent(instance, event): () -> (number, ...any)
 		if arguments then
 			return index, unpack(arguments, 1, arguments.n)
 		end
-		return
+
+		return nil, nil
 	end
 end
 

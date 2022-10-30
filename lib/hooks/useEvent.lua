@@ -5,17 +5,16 @@ local EVENT_CONNECT_METHODS = { "Connect", "on", "connect" }
 local CONNECTION_DISCONNECT_METHODS = { "Disconnect", "Destroy", "disconnect", "destroy" }
 
 type Connection = (
-) -> () | {
-	Disconnect: () -> (),
-	Destroy: () -> (),
-	disconnect: () -> (),
-	destroy: () -> (),
-}
-type CustomEvent = RBXScriptSignal | {
-	Connect: (callback: (...any) -> ()) -> Connection,
-	connect: () -> Connection,
-	on: () -> Connection,
-}
+) -> ()
+	| { Disconnect: () -> () }
+	| { Destroy: () -> () }
+	| { disconnect: () -> () }
+	| { destroy: () -> () }
+
+type CustomEvent =
+	{ Connect: () -> Connection }
+	| { connect: () -> Connection }
+	| { on: () -> Connection }
 
 local function connect(object, callback, event)
 	local eventObject = object
@@ -109,6 +108,7 @@ end
 
 --[=[
 	@within Matter
+
 	:::info Topologically-aware function
 	This function is only usable if called within the context of [`Loop:begin`](/api/Loop#begin).
 	:::
@@ -126,8 +126,8 @@ end
 			)
 		end
 	end
-	```
 
+	```
 	Returns an iterator function that returns an ever-increasing number, starting at 1, followed by any event arguments
 	from the specified event.
 
@@ -137,7 +137,7 @@ end
 	`useEvent` keys storage uniquely identified by **the script and line number** `useEvent` was called from, and the
 	first parameter (instance). If the second parameter, `event`, is not equal to the event passed in for this unique
 	storage last frame, the old event is disconnected from and the new one is connected in its place.
-
+	
 	Tl;dr: on a given line, you should hard-code a single event to connect to. Do not dynamically change the event with
 	a variable. Dynamically changing the first parameter (instance) is fine.
 
@@ -146,7 +146,6 @@ end
 		for i, arg1, arg2 in useEvent(instance, "Touched") do -- This is ok
 		end
 	end
-
 	for _, instance in someTable do
 		local event = getEventSomehow()
 		for i, arg1, arg2 in useEvent(instance, event) do -- PANIC! This is NOT OK
@@ -169,12 +168,12 @@ end
 	The object returned by any event must either be a cleanup function, or a table with a `Disconnect` or a `Destroy`
 	method, so that `useEvent` can later clean it up when needed. See [ConnectionObject] for more information.
 
-	@param instance Instance | CustomEvent -- The instance or a custom event that has the event you want to connect to
-	@param event string | RBXScriptSignal -- The name of or actual event that you want to connect to
+	@param instance Instance | { [string]: CustomEvent } -- The instance or a table that has the event you want to connect to
+	@param event string | RBXScriptSignal | CustomEvent -- The name of or actual event that you want to connect to
 ]=]
 local function useEvent(
-	instance: Instance | CustomEvent,
-	event: string | RBXScriptSignal
+	instance: Instance | { [string]: CustomEvent },
+	event: string | RBXScriptSignal | CustomEvent
 ): () -> (number, ...any)
 	assert(instance ~= nil, "Instance is nil")
 	assert(event ~= nil, "Event is nil")

@@ -86,7 +86,7 @@ local function hookWidgets(debugger)
 		end)
 	end
 
-	return hookedWidgets
+	return table.freeze(hookedWidgets)
 end
 
 return hookWidgets

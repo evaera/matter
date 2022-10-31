@@ -4,9 +4,17 @@ local Queue = require(script.Parent.Parent.Queue)
 local EVENT_CONNECT_METHODS = { "Connect", "on", "connect" }
 local CONNECTION_DISCONNECT_METHODS = { "Disconnect", "Destroy", "disconnect", "destroy" }
 
-type Connection = (
-) -> () | { Disconnect: () -> () } | { Destroy: () -> () } | { disconnect: () -> () } | { destroy: () -> () }
-type CustomEvent = { Connect: () -> Connection } | { connect: () -> Connection } | { on: () -> Connection }
+type Connection = {
+	Disconnect: ((self: any) -> ())?,
+	disconnect: ((self: any) -> ())?,
+	destroy: ((self: any) -> ())?,
+}
+
+type CustomEvent = {
+	Connect: ((self: any, callback: (...any) -> ()) -> Connection)?,
+	connect: ((self: any, callback: (...any) -> ()) -> Connection)?,
+	on: ((self: any, callback: (...any) -> ()) -> Connection)?,
+}
 
 local function connect(object, callback, event)
 	local eventObject = object

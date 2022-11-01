@@ -1,8 +1,7 @@
 # Changelog
 
 ## Unreleased
-
-#### Added
+### Changed
 
 - Exported Matter object is now read only, which prevents invalid mutations to it.
 

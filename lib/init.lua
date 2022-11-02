@@ -61,7 +61,7 @@ local topoRuntime = require(script.topoRuntime)
 export type World = typeof(World.new())
 export type Loop = typeof(Loop.new())
 
-return {
+return table.freeze({
 	World = World,
 	Loop = Loop,
 
@@ -78,4 +78,4 @@ return {
 	None = immutable.None,
 
 	Debugger = require(script.debugger.debugger),
-}
+})

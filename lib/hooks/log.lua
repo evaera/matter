@@ -36,8 +36,6 @@ local function log(...)
 	if #state.logs > 100 then
 		table.remove(state.logs, 1)
 	end
-
-	return state.deltaTime
 end
 
 return log

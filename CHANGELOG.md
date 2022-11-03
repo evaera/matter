@@ -3,6 +3,7 @@
 ## Unreleased
 ### Changed
 
+- Change `Matter.log` to return *nothing* as expected.
 - Exported Matter object is now read only, which prevents invalid mutations to it.
 
 ## [0.6.2] - 2022-07-22

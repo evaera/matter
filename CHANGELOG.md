@@ -4,6 +4,7 @@
 ### Changed
 
 - Exported Matter object is now read only, which prevents invalid mutations to it.
+- Change `Matter.log` from returning a redundant value.
 
 ## [0.6.2] - 2022-07-22
 ### Fixed

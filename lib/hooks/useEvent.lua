@@ -4,6 +4,18 @@ local Queue = require(script.Parent.Parent.Queue)
 local EVENT_CONNECT_METHODS = { "Connect", "on", "connect" }
 local CONNECTION_DISCONNECT_METHODS = { "Disconnect", "Destroy", "disconnect", "destroy" }
 
+type Connection = {
+	Disconnect: ((self: any) -> ())?,
+	disconnect: ((self: any) -> ())?,
+	destroy: ((self: any) -> ())?,
+}
+
+type CustomEvent = {
+	Connect: ((self: any, callback: (...any) -> ()) -> Connection)?,
+	connect: ((self: any, callback: (...any) -> ()) -> Connection)?,
+	on: ((self: any, callback: (...any) -> ()) -> Connection)?,
+}
+
 local function connect(object, callback, event)
 	local eventObject = object
 
@@ -154,10 +166,13 @@ end
 	The object returned by any event must either be a cleanup function, or a table with a `Disconnect` or a `Destroy`
 	method, so that `useEvent` can later clean it up when needed. See [ConnectionObject] for more information.
 
-	@param instance Instance | CustomEvent -- The instance or a custom event that has the event you want to connect to
-	@param event string | RBXScriptSignal -- The name of or actual event that you want to connect to
+	@param instance Instance | { [string]: CustomEvent? } -- The instance or a table that has the event you want to connect to
+	@param event string | RBXScriptSignal | CustomEvent -- The name of or actual event that you want to connect to
 ]=]
-local function useEvent(instance, event): () -> (number, ...any)
+local function useEvent(
+	instance: Instance | { [string]: CustomEvent? },
+	event: RBXScriptSignal | string | CustomEvent
+): () -> (number, ...any)
 	assert(instance ~= nil, "Instance is nil")
 	assert(event ~= nil, "Event is nil")
 

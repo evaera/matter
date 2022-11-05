@@ -150,12 +150,12 @@ end
 	useEvent(instance, instance:GetPropertyChangedSignal("Name"))
 	```
 
-	`useEvent` supports custom events as well, so you can pass in an object with a `Connect`, `connect` or `on` method.
+	`useEvent` supports custom events as well, so you can pass in an object with a `Connect`, `connect` or an `on` method.
 	The object returned by any event must either be a cleanup function, or a table with a `Disconnect` or a `Destroy`
-	method, so that `useEvent` can later clean it up when needed. See [ConnectionObject] for more information.
+	method so that `useEvent` can later clean the event up when needed.	See [ConnectionObject] for more information.
 
-	@param instance Instance | CustomEvent -- The instance or a custom event that has the event you want to connect to
-	@param event string | RBXScriptSignal -- The name of or actual event that you want to connect to
+	@param instance Instance | { [string]: CustomEvent } | CustomEvent -- The instance or the custom event, or a table that has the event you want to connect to
+	@param event string | RBXScriptSignal | CustomEvent -- The name of, or the actual event that you want to connect to
 ]=]
 local function useEvent(instance, event): () -> (number, ...any)
 	assert(instance ~= nil, "Instance is nil")

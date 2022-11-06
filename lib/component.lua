@@ -115,7 +115,7 @@ local function newComponent(name, defaultData)
 	return component
 end
 
-local function assertValidComponent(value, position)
+local function assertValidType(value, position)
 	if typeof(value) ~= "table" then
 		error(string.format("Component #%d is invalid: not a table", position), 3)
 	end
@@ -127,8 +127,25 @@ local function assertValidComponent(value, position)
 	end
 end
 
+local function assertValidComponent(value, position)
+	assertValidType(value, position)
+
+	local metatable = getmetatable(value)
+
+	if getmetatable(metatable) ~= nil and getmetatable(metatable)[DIAGNOSTIC_COMPONENT_MARKER] then
+		error(
+			string.format(
+				"Component #%d is invalid: component instance of component %s was passed instead of the component it self!",
+				position,
+				tostring(metatable)
+			),
+			3
+		)
+	end
+end
+
 local function assertValidComponentInstance(value, position)
-	assertValidComponent(value, position)
+	assertValidType(value, position)
 
 	if getmetatable(value)[DIAGNOSTIC_COMPONENT_MARKER] ~= nil then
 		error(

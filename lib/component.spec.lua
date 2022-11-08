@@ -2,6 +2,7 @@ local Component = require(script.Parent.component)
 local None = require(script.Parent.immutable).None
 local component = Component.newComponent
 local assertValidComponentInstance = Component.assertValidComponentInstance
+local assertValidComponent = Component.assertValidComponent
 
 return function()
 	describe("Component", function()
@@ -82,6 +83,22 @@ return function()
 
 			expect(function()
 				assertValidComponentInstance(component().new())
+			end).never.to.throw()
+		end)
+	end)
+
+	describe("assertValidComponent", function()
+		it("should throw on invalid components", function()
+			expect(function()
+				assertValidComponent(component().new())
+			end).to.throw()
+
+			expect(function()
+				assertValidComponent(55)
+			end).to.throw()
+
+			expect(function()
+				assertValidComponent(component())
 			end).never.to.throw()
 		end)
 	end)

@@ -113,16 +113,22 @@ We can make a system that handles both of these cases for us.
 
 ```lua title="updateTransforms.lua"
 -- Handle Transform added/changed to existing entity with Model
-for _id, transformRecord, model in world:queryChanged(Transform, Model) do
+for id, transformRecord in world:queryChanged(Transform) do
+
+	local model = world:get(id, Model)
+	
 	-- Take care to ignore the changed event if it was us that triggered it
-	if transformRecord.new and not transformRecord.new.doNotReconcile then
+	if model and transformRecord.new and not transformRecord.new.doNotReconcile then
 		model.instance:SetPrimaryPartCFrame(transformRecord.new.cframe)
 	end
 end
 
 -- Handle Model added/changed on existing entity with Transform
-for _id, modelRecord, transform in world:queryChanged(Model, Transform) do
-	if modelRecord.new then
+for id, modelRecord in world:queryChanged(Model) do
+
+	local transform = world:get(id, Transform)
+	
+	if transform and modelRecord.new then
 		modelRecord.new.model:SetPrimaryPartCFrame(transform.cframe)
 	end
 end

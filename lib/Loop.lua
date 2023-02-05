@@ -491,7 +491,7 @@ end
 	Middleware added later "wraps" middleware that was added earlier. The innermost middleware function is the internal
 	function that actually calls your systems.
 	:::
-	@param middleware (nextFn: () -> (), eventName: string) -> () -> ()
+	@param middleware (nextFn: () -> ()) -> () -> ()
 ]=]
 function Loop:addMiddleware(middleware: (nextFn: () -> ()) -> () -> ())
 	table.insert(self._middlewares, middleware)

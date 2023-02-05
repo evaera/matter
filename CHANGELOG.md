@@ -6,6 +6,7 @@
 - Change `Matter.log` to return *nothing* as expected.
 - Exported Matter object is now read only, which prevents invalid mutations to it.
 - Improve documentation for `Matter.useEvent`.
+- Fix incorrect `middleware` parameter type in `Loop:addMiddleware`'s documentation.
 
 ## [0.6.2] - 2022-07-22
 ### Fixed

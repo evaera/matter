@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="generator" content="Docusaurus v2.0.0-beta.21">
+<meta name="generator" content="Docusaurus v2.0.1">
 <title data-rh="true">World | matter</title><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://eryn.io/matter/api/World"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="World | matter"><meta data-rh="true" name="description" content="A World contains entities which have components.
 The World is queryable and can be used to get entities with a specific set of components.
 Entities are simply ever-increasing integers."><meta data-rh="true" property="og:description" content="A World contains entities which have components.
 The World is queryable and can be used to get entities with a specific set of components.
-Entities are simply ever-increasing integers."><link data-rh="true" rel="canonical" href="https://eryn.io/matter/api/World"><link data-rh="true" rel="alternate" href="https://eryn.io/matter/api/World" hreflang="en"><link data-rh="true" rel="alternate" href="https://eryn.io/matter/api/World" hreflang="x-default"><link rel="stylesheet" href="/matter/assets/css/styles.823f8a88.css">
-<link rel="preload" href="/matter/assets/js/runtime~main.6c6e2bdd.js" as="script">
-<link rel="preload" href="/matter/assets/js/main.34be2d82.js" as="script">
+Entities are simply ever-increasing integers."><link data-rh="true" rel="canonical" href="https://eryn.io/matter/api/World"><link data-rh="true" rel="alternate" href="https://eryn.io/matter/api/World" hreflang="en"><link data-rh="true" rel="alternate" href="https://eryn.io/matter/api/World" hreflang="x-default"><link rel="stylesheet" href="/matter/assets/css/styles.dcd958b1.css">
+<link rel="preload" href="/matter/assets/js/runtime~main.7fc52c9e.js" as="script">
+<link rel="preload" href="/matter/assets/js/main.1d8a9e1a.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
-<div role="region"><a href="#" class="skipToContent_fXgn">Skip to main content</a></div><nav class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Navigation bar toggle" class="navbar__toggle clean-btn" type="button" tabindex="0"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/matter/"><div class="navbar__logo"><img src="/matter/logo.svg" alt="Matter" class="themedImage_ToTc themedImage--light_HNdA"><img src="/matter/logo.svg" alt="Matter" class="themedImage_ToTc themedImage--dark_i4oU"></div><b class="navbar__title text--truncate"></b></a><a class="navbar__item navbar__link" href="/matter/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/matter/api/">API</a><a class="navbar__item navbar__link" href="/matter/changelog">Changelog</a></div><div class="navbar__items navbar__items--right"><a href="https://discord.gg/aQwDAYhqtJ" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Roblox Open Source Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_lCJq"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><a href="https://patreon.com/erynlynn" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Support on Patreon<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_lCJq"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><a href="https://github.com/evaera/matter" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_lCJq"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="searchBox_ZlJk"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input type="search" id="search_input_react" placeholder="Press S to Search..." aria-label="Search" class="navbar__search-input search-bar"></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div class="main-wrapper docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Matter">​Matter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/matter/api/World">​World</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/QueryResult">​Query​Result</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Loop">​Loop</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Component">​Component</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Debugger">​Debugger</a></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">World</span></h1><div class="luaClassTags_EipM"></div><div>
+<div role="region"><a href="#" class="skipToContent_fXgn">Skip to main content</a></div><nav class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Navigation bar toggle" class="navbar__toggle clean-btn" type="button" tabindex="0"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/matter/"><div class="navbar__logo"><img src="/matter/logo.svg" alt="Matter" class="themedImage_ToTc themedImage--light_HNdA"><img src="/matter/logo.svg" alt="Matter" class="themedImage_ToTc themedImage--dark_i4oU"></div><b class="navbar__title text--truncate"></b></a><a class="navbar__item navbar__link" href="/matter/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/matter/api/">API</a><a class="navbar__item navbar__link" href="/matter/changelog">Changelog</a></div><div class="navbar__items navbar__items--right"><a href="https://discord.gg/aQwDAYhqtJ" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Roblox Open Source Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><a href="https://patreon.com/erynlynn" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Support on Patreon<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><a href="https://github.com/evaera/matter" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="searchBox_ZlJk"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input type="search" id="search_input_react" placeholder="Press S to Search..." aria-label="Search" class="navbar__search-input search-bar"></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div class="main-wrapper mainWrapper_z2l0 docPageContainer_wNNk"><div class="docPage_Dpn1"><div class="docSidebarContainer_o_re"><div class="sidebar_njMd"><nav class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Matter">​Matter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/matter/api/World">​World</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/QueryResult">​Query​Result</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Loop">​Loop</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Component">​Component</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/matter/api/Debugger">​Debugger</a></li></ul></nav></div></div><main class="docMainContainer_HJE1"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_MU3C"><div class="docItemContainer_Wv98"><article><div class="member_J0w1 markdown"><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_oUs_"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><header><h1 class="docTitle_mZRt" style="text-decoration:none"><span style="display:inline-block">World</span></h1><div class="luaClassTags_EipM"></div><div>
 <p>
   A World contains entities which have components.
   The World is queryable and can be used to get entities with a specific set of components.
@@ -22,7 +22,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
 </p>
 </div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="new"><code style="text-decoration:none">new</code><a class="hash-link" href="#new" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L25"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->.</code><code class="green_DgR4">new</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Creates a new World.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="__iter"><span style="font-style:italic">iterating over <!-- -->World</span><a class="hash-link" href="#__iter" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L118"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="red_AwJO">for</code>  <span><code class="blue_P4bS">number</code><code>,</code> </span><span><code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><code>]</code></span><code>: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><code class="purple_ieR2">}</code> </span> <code class="red_AwJO">in</code>  <code class="green_DgR4">World</code>  <code class="red_AwJO">do</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="__iter"><span style="font-style:italic">iterating over <!-- -->World</span><a class="hash-link" href="#__iter" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L119"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code class="red_AwJO">for</code>  <span><code class="blue_P4bS">number</code><code>,</code> </span><span><code class="purple_ieR2">{</code><span><code>[</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><code>]</code></span><code>: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><code class="purple_ieR2">}</code> </span> <code class="red_AwJO">in</code>  <code class="green_DgR4">World</code>  <code class="red_AwJO">do</code></div><div>
 <p>
   Iterates over all entities in this World. Iteration returns entity ID followed by a dictionary mapping
   Component to Component Instance.
@@ -32,13 +32,13 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
 	<span class="token function">print</span><span class="token punctuation">(</span>entityId<span class="token punctuation">,</span> entityData<span class="token punctuation">[</span>Components<span class="token punctuation">.</span>Example<span class="token punctuation">]</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 </code></pre>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="spawn"><code style="text-decoration:none">spawn</code><a class="hash-link" href="#spawn" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L128"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">spawn</code><code>(</code><div class="inset_uKQm"><div><code>...<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="spawn"><code style="text-decoration:none">spawn</code><a class="hash-link" href="#spawn" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L129"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">spawn</code><code>(</code><div class="inset_uKQm"><div><code>...<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><span class="inlineDescription_G7Er">-- <span>
 <p>The component values to spawn the entity with.</p>
 </span></span></div></div><code>) → </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
 <p>The new entity ID.</p>
 </span></span></div><div>
 <p>Spawns a new entity in the world with the given components.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="spawnAt"><code style="text-decoration:none">spawnAt</code><a class="hash-link" href="#spawnAt" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L141"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">spawnAt</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="spawnAt"><code style="text-decoration:none">spawnAt</code><a class="hash-link" href="#spawnAt" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L142"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">spawnAt</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
 <p>The entity ID to spawn with</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><span class="inlineDescription_G7Er">-- <span>
 <p>The component values to spawn the entity with.</p>
@@ -47,7 +47,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
 </span></span></div><div>
 <p>Spawns a new entity in the world with a specific entity ID and given components.</p>
 <p>The next ID generated from <a href="/matter/api/World#spawn">World:spawn</a> will be increased as needed to never collide with a manually specified ID.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="replace"><code style="text-decoration:none">replace</code><a class="hash-link" href="#replace" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L259"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">replace</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="replace"><code style="text-decoration:none">replace</code><a class="hash-link" href="#replace" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L260"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">replace</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
 <p>The entity ID</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><span class="inlineDescription_G7Er">-- <span>
 <p>The component values to spawn the entity with.</p>
@@ -56,11 +56,11 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
   Replaces a given entity by ID with an entirely new set of components.
   Equivalent to removing all components from an entity, and then adding these ones.
 </p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="despawn"><code style="text-decoration:none">despawn</code><a class="hash-link" href="#despawn" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L301"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">despawn</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="despawn"><code style="text-decoration:none">despawn</code><a class="hash-link" href="#despawn" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L302"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">despawn</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
 <p>The entity ID</p>
 </span></span></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Despawns a given entity by ID, removing it and all its components from the world entirely.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="clear"><code style="text-decoration:none">clear</code><a class="hash-link" href="#clear" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L321"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">clear</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="clear"><code style="text-decoration:none">clear</code><a class="hash-link" href="#clear" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L322"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">clear</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Removes all entities from the world.</p>
 <div class="admonition admonition-caution alert alert--warning">
   <div class="admonition-heading">
@@ -72,13 +72,13 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
     <p>Removing entities in this way is not reported by <code>queryChanged</code>.</p>
   </div>
 </div>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="contains"><code style="text-decoration:none">contains</code><a class="hash-link" href="#contains" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L337"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">contains</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="contains"><code style="text-decoration:none">contains</code><a class="hash-link" href="#contains" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L338"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">contains</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><span class="inlineDescription_G7Er">-- <span>
 <p>The entity ID</p>
 </span></span></div></div><code>) → </code><code class="blue_P4bS">bool</code><span class="inlineDescription_G7Er">-- <span>
 <p><code>true</code> if the entity exists</p>
 </span></span></div><div>
 <p>Checks if the given entity ID is currently spawned in this world.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="get"><code style="text-decoration:none">get</code><a class="hash-link" href="#get" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L348"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">get</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="get"><code style="text-decoration:none">get</code><a class="hash-link" href="#get" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L349"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">get</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
 <p>The entity ID</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_G7Er">-- <span>
 <p>The components to fetch</p>
@@ -86,7 +86,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
 <p>Returns the component values in the same order they were passed in</p>
 </span></span></div><div>
 <p>Gets a specific component (or set of components) from a specific entity in this world.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="query"><code style="text-decoration:none">query</code><a class="hash-link" href="#query" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L552"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">query</code><code>(</code><div class="inset_uKQm"><div><code>...<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="query"><code style="text-decoration:none">query</code><a class="hash-link" href="#query" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L555"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">query</code><code>(</code><div class="inset_uKQm"><div><code>...<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_G7Er">-- <span>
 <p>The component types to query. Only entities with <em>all</em> of these components will be returned.</p>
 </span></span></div></div><code>) → </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/QueryResult">QueryResult</a></code><span class="inlineDescription_G7Er">-- <span>
 <p>See <a href="/matter/api/QueryResult">QueryResult</a> docs.</p>
@@ -104,7 +104,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
 	<span class="token comment">-- Again, with feeling</span>
 <span class="token keyword">end</span>
 </code></pre>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="queryChanged"><code style="text-decoration:none">queryChanged</code><a class="hash-link" href="#queryChanged" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L730"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">queryChanged</code><code>(</code><div class="inset_uKQm"><div><code>componentToTrack<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="queryChanged"><code style="text-decoration:none">queryChanged</code><a class="hash-link" href="#queryChanged" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L733"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">queryChanged</code><code>(</code><div class="inset_uKQm"><div><code>componentToTrack<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><code>,</code><span class="inlineDescription_G7Er">-- <span>
 <p>The component you want to listen to changes for.</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_P4bS">nil</code></div></div><code>) → </code><code class="purple_ieR2">(</code><code class="purple_ieR2">)</code><code class="purple_ieR2"> → </code><code class="purple_ieR2">(</code><div class="inset_uKQm"><code class="blue_P4bS">id</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/World#ChangeRecord">ChangeRecord</a></code></div><code class="purple_ieR2">)</code><span class="inlineDescription_G7Er">-- <span>
 <p>Iterator of entity ID and change record</p>
@@ -189,7 +189,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
 	<span class="token keyword">end</span>
 <span class="token keyword">end</span>
 </code></pre>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="insert"><code style="text-decoration:none">insert</code><a class="hash-link" href="#insert" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L817"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">insert</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="insert"><code style="text-decoration:none">insert</code><a class="hash-link" href="#insert" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L822"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">insert</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
 <p>The entity ID</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component#ComponentInstance">ComponentInstance</a></code><span class="inlineDescription_G7Er">-- <span>
 <p>The component values to insert</p>
@@ -206,7 +206,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
 	<span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">)</span>
 </code></pre>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="remove"><code style="text-decoration:none">remove</code><a class="hash-link" href="#remove" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L864"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">remove</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="remove"><code style="text-decoration:none">remove</code><a class="hash-link" href="#remove" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L869"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">remove</code><code>(</code><div class="inset_uKQm"><div><code>id<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code><span class="inlineDescription_G7Er">-- <span>
 <p>The entity ID</p>
 </span></span></div><div><code>...<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/matter/api/Component">Component</a></code><span class="inlineDescription_G7Er">-- <span>
 <p>The components to remove</p>
@@ -216,9 +216,9 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
 <p>Removes a component (or set of components) from an existing entity.</p>
 <pre class="language-lua"><code class="language-lua"><span class="token keyword">local</span> removedA<span class="token punctuation">,</span> removedB <span class="token operator">=</span> world<span class="token punctuation">:</span><span class="token function">remove</span><span class="token punctuation">(</span>entityId<span class="token punctuation">,</span> ComponentA<span class="token punctuation">,</span> ComponentB<span class="token punctuation">)</span>
 </code></pre>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="size"><code style="text-decoration:none">size</code><a class="hash-link" href="#size" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L905"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">size</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="size"><code style="text-decoration:none">size</code><a class="hash-link" href="#size" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L910"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">size</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Returns the number of entities currently spawned in the world.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="optimizeQueries"><code style="text-decoration:none">optimizeQueries</code><a class="hash-link" href="#optimizeQueries" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L923"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">optimizeQueries</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="optimizeQueries"><code style="text-decoration:none">optimizeQueries</code><a class="hash-link" href="#optimizeQueries" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/evaera/matter/blob/main/lib/World.lua#L928"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>World<!-- -->:</code><code class="green_DgR4">optimizeQueries</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <div class="admonition admonition-tip alert alert--success">
   <div class="admonition-heading">
     <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16">
@@ -271,7 +271,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 118,
+                &quot;line&quot;: 119,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -293,7 +293,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 128,
+                &quot;line&quot;: 129,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -320,7 +320,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 141,
+                &quot;line&quot;: 142,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -342,7 +342,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 259,
+                &quot;line&quot;: 260,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -359,7 +359,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 301,
+                &quot;line&quot;: 302,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -370,7 +370,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 321,
+                &quot;line&quot;: 322,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -392,7 +392,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 337,
+                &quot;line&quot;: 338,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -419,7 +419,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 348,
+                &quot;line&quot;: 349,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -441,7 +441,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 552,
+                &quot;line&quot;: 555,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -468,7 +468,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 730,
+                &quot;line&quot;: 733,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -490,7 +490,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 817,
+                &quot;line&quot;: 822,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -517,7 +517,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 864,
+                &quot;line&quot;: 869,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -528,7 +528,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 905,
+                &quot;line&quot;: 910,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         },
@@ -539,7 +539,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 923,
+                &quot;line&quot;: 928,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         }
@@ -562,7 +562,7 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
                 }
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 670,
+                &quot;line&quot;: 673,
                 &quot;path&quot;: &quot;lib/World.lua&quot;
             }
         }
@@ -573,8 +573,8 @@ Entities are simply ever-increasing integers."><link data-rh="true" rel="canonic
         &quot;line&quot;: 19,
         &quot;path&quot;: &quot;lib/World.lua&quot;
     }
-}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#ChangeRecord" class="table-of-contents__link toc-highlight">ChangeRecord</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#__iter" class="table-of-contents__link toc-highlight">:__iter</a></li><li><a href="#clear" class="table-of-contents__link toc-highlight">:clear</a></li><li><a href="#contains" class="table-of-contents__link toc-highlight">:contains</a></li><li><a href="#despawn" class="table-of-contents__link toc-highlight">:despawn</a></li><li><a href="#get" class="table-of-contents__link toc-highlight">:get</a></li><li><a href="#insert" class="table-of-contents__link toc-highlight">:insert</a></li><li><a href="#optimizeQueries" class="table-of-contents__link toc-highlight">:optimizeQueries</a></li><li><a href="#query" class="table-of-contents__link toc-highlight">:query</a></li><li><a href="#queryChanged" class="table-of-contents__link toc-highlight">:queryChanged</a></li><li><a href="#remove" class="table-of-contents__link toc-highlight">:remove</a></li><li><a href="#replace" class="table-of-contents__link toc-highlight">:replace</a></li><li><a href="#size" class="table-of-contents__link toc-highlight">:size</a></li><li><a href="#spawn" class="table-of-contents__link toc-highlight">:spawn</a></li><li><a href="#spawnAt" class="table-of-contents__link toc-highlight">:spawnAt</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/matter/assets/js/runtime~main.6c6e2bdd.js"></script>
-<script src="/matter/assets/js/main.34be2d82.js"></script>
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#ChangeRecord" class="table-of-contents__link toc-highlight">ChangeRecord</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#__iter" class="table-of-contents__link toc-highlight">:__iter</a></li><li><a href="#clear" class="table-of-contents__link toc-highlight">:clear</a></li><li><a href="#contains" class="table-of-contents__link toc-highlight">:contains</a></li><li><a href="#despawn" class="table-of-contents__link toc-highlight">:despawn</a></li><li><a href="#get" class="table-of-contents__link toc-highlight">:get</a></li><li><a href="#insert" class="table-of-contents__link toc-highlight">:insert</a></li><li><a href="#optimizeQueries" class="table-of-contents__link toc-highlight">:optimizeQueries</a></li><li><a href="#query" class="table-of-contents__link toc-highlight">:query</a></li><li><a href="#queryChanged" class="table-of-contents__link toc-highlight">:queryChanged</a></li><li><a href="#remove" class="table-of-contents__link toc-highlight">:remove</a></li><li><a href="#replace" class="table-of-contents__link toc-highlight">:replace</a></li><li><a href="#size" class="table-of-contents__link toc-highlight">:size</a></li><li><a href="#spawn" class="table-of-contents__link toc-highlight">:spawn</a></li><li><a href="#spawnAt" class="table-of-contents__link toc-highlight">:spawnAt</a></li><li><a href="#new" class="table-of-contents__link toc-highlight">.new</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 evaera. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/matter/assets/js/runtime~main.7fc52c9e.js"></script>
+<script src="/matter/assets/js/main.1d8a9e1a.js"></script>
 </body>
 </html>

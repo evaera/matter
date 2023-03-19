@@ -6,10 +6,11 @@ sidebar_position: 2
 
 ## Wally package manager
 
-1. Install [Wally](https://wally.run) with [Foreman](https://github.com/Roblox/foreman).
+1. Install [Wally](https://wally.run) with [Aftman](https://github.com/lpghatguy/aftman).
 
-```toml title="foreman.toml"
-wally = { source = "UpliftGames/wally", version = "0.3.1" }
+```toml title="aftman.toml"
+[tools]
+wally = "upliftgames/wally@0.3.1"
 ```
 
 2. If you don't have a `wally.toml` file, run `wally init`.
@@ -34,4 +35,3 @@ matter = "evaera/matter@X.X.X" # Don't copy this. This won't work.
 
 1. Download `matter.rbxm` from the [latest release](https://github.com/evaera/matter/releases/latest).
 2. Sync in with [Rojo](https://rojo.space) or import into Roblox Studio manually.
-

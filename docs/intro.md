@@ -4,9 +4,14 @@ sidebar_position: 1
 
 # Matter
 
-Matter is a modern ECS library for Roblox.
+Matter is a modern Entiy-Component-System library for Roblox, featuring:
+- a standard, no-frills ECS implementation
+- fast, archetypical entity storage
+- automatic system scheduling
+- a slick API featuring topologically-aware state
 
-Matter is a pure ECS library with fast archetypical entity storage, automatic system scheduling, and a slick API featuring topologically-aware state. Matter empowers users to build games that are extensible, performant, and easy to debug.
+Matter empowers users to build games that are extensible, performant, and easy
+to debug.
 
 ## Goals
 

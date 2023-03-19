@@ -1,8 +1,16 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Getting Started
+
+:::tip
+We **highly recommend** checking out the source code of our example game to see what this all looks like when set up in a real game. Clone the repo, build the project, open it up in your favorite editor and get some first hand experience. There's no better way to learn!
+
+See the [`/example` directory in the matter repo](https://github.com/evaera/matter/tree/main/example/).
+:::
+
+## Scaffolding a new project
 
 Here's how you scaffold a project with Matter.
 
@@ -79,9 +87,8 @@ end
 We make use of the [`Component:patch`](/api/Component#patch) function, which returns a new component with an updated
 value, so we don't have to mutate the existing component.
 
-If you want to check out a more complex, real game example, check out the [`/example` directory in the matter repo](https://github.com/evaera/matter/tree/main/example/).
 
 ## Next steps
 You should dive in to the [API reference](/api/Matter)! The Matter API is simple and documented in detail.
 
-A more detailed usage guide will be written eventually, offering an introduction to ECS architecture and going over more of Matter's design philosophy.
+And if you haven't already, check out the [`/example` directory in the matter repo](https://github.com/evaera/matter/tree/main/example/).

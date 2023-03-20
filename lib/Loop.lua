@@ -244,12 +244,6 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 				continue
 			end
 
-			if priority == nil then
-				priority = systemPriority(system)
-			elseif systemPriority(system) ~= priority then
-				break
-			end
-
 			local allScheduled = true
 
 			if type(system) == "table" and system.after then
@@ -262,6 +256,12 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 			end
 
 			if allScheduled then
+				if priority == nil then
+					priority = systemPriority(system)
+				elseif systemPriority(system) ~= priority then
+					break
+				end
+
 				atLeastOneScheduled = true
 
 				unscheduledSystems[index] = tombstone

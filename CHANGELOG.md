@@ -6,6 +6,9 @@
 - Change `Matter.log` to return *nothing* as expected.
 - Exported Matter object is now read only, which prevents invalid mutations to it.
 - Improve documentation for `Matter.useEvent`.
+- Systems with both after and priority defined will error.
+- Error message for cycles should be more descriptive.
+- Systems with dependencies should be scheduled after the system with the highest priority in it's "after" list.
 
 ## [0.6.2] - 2022-07-22
 ### Fixed

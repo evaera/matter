@@ -165,6 +165,56 @@ return function()
 			connection.default:Disconnect()
 		end)
 
+		it("should throw error for systems with cyclic dependency", function()
+			local loop = Loop.new()
+
+			local order = {}
+			local systemC = {}
+			local systemA = {
+				system = function()
+					table.insert(order, "a")
+				end,
+				after = { systemC},
+			}
+			local systemB = {
+				system = function()
+					table.insert(order, "b")
+				end,
+				after = { systemA, systemC },
+			}
+			systemC.system = function()
+				table.insert(order, "c")
+			end
+			systemC.after = { systemA, systemB }
+
+			expect(function()
+				loop:scheduleSystems({
+					systemC,
+					systemB,
+					systemA,
+				})
+			end).to.throw()
+		end)
+
+		it("should throw error for systems with both after and priority defined", function()
+			local loop = Loop.new()
+
+			local order = {}
+			local systemA = {
+				system = function()
+					table.insert(order, "a")
+				end,
+				priority = 1,
+				after = {}
+			}
+
+			expect(function()
+				loop:scheduleSystems({
+					systemA,
+				})
+			end).to.throw()
+		end)
+
 		it("should call systems with priority and after in order", function()
 			local loop = Loop.new()
 
@@ -192,7 +242,6 @@ return function()
 					table.insert(order, "d")
 				end,
 				after = {systemB},
-				priority = 2,
 			}
 			local systemE = {
 				system = function()
@@ -221,6 +270,7 @@ return function()
 			expect(order[3]).to.equal("b")
 			expect(order[4]).to.equal("d")
 			expect(order[5]).to.equal("c")
+
 
 			connection.default:Disconnect()
 		end)

@@ -9,6 +9,7 @@
 - Systems with both after and priority defined will error.
 - Error message for cycles should be more descriptive.
 - Systems with dependencies should be scheduled after the system with the highest priority in it's "after" list.
+- Improve error message for when a component instance is passed where a component is expected, e.g `world:remove(id, componentInstance())`.
 
 ## [0.6.2] - 2022-07-22
 ### Fixed

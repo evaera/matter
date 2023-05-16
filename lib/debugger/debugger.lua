@@ -317,6 +317,7 @@ function Debugger:autoInitialize(loop)
 
 	local parent = Instance.new("ScreenGui")
 	parent.Name = "MatterDebugger"
+	parent.DisplayOrder = 2 ^ 31 - 1
 	parent.ResetOnSpawn = false
 	parent.IgnoreGuiInset = true
 

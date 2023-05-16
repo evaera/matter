@@ -6,6 +6,7 @@
 - Change `Matter.log` to return *nothing* as expected.
 - Exported Matter object is now read only, which prevents invalid mutations to it.
 - Improve documentation for `Matter.useEvent`.
+- Improve error message for when a component instance is passed where a component is expected, e.g `world:remove(id, componentInstance())`.
 
 ## [0.6.2] - 2022-07-22
 ### Fixed

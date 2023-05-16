@@ -135,7 +135,7 @@ local function assertValidComponent(value, position)
 	if getmetatable(metatable) ~= nil and getmetatable(metatable)[DIAGNOSTIC_COMPONENT_MARKER] then
 		error(
 			string.format(
-				"Component #%d is invalid: component instance of component %s was passed instead of the component it self!",
+				"Component #%d is invalid: Component Instance %s was passed instead of the Component itself!",
 				position,
 				tostring(metatable)
 			),

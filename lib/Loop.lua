@@ -214,6 +214,7 @@ function Loop:replaceSystem(old: System, new: System)
 	self:_sortSystems()
 end
 
+
 local function orderSystemsByDependencies(unscheduledSystems: { System })
 	table.sort(unscheduledSystems, function(a, b)
 		local priorityA = systemPriority(a)
@@ -228,33 +229,30 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 
 	local scheduledSystemsSet = {}
 	local scheduledSystems = {}
-	local tombstone: any = {}
+
+	local explore = 1
+	local visited = 2
 
 	while #scheduledSystems < #unscheduledSystems do
-		local atLeastOneScheduled = false
-
 		local index = 1
-		local priority
+
 		while index <= #unscheduledSystems do
 			local system = unscheduledSystems[index]
 
-			-- If the system has already been scheduled it will have been replaced with this value
-			if system == tombstone then
+			if scheduledSystemsSet[system] == visited then
 				index += 1
 				continue
 			end
 
-			if priority == nil then
-				priority = systemPriority(system)
-			elseif systemPriority(system) ~= priority then
-				break
-			end
+			scheduledSystemsSet[system] = explore
 
 			local allScheduled = true
 
 			if type(system) == "table" and system.after then
 				for _, dependency in ipairs(system.after) do
-					if scheduledSystemsSet[dependency] == nil then
+					if scheduledSystemsSet[dependency] == explore then
+						error("Unable to schedule systems due to cycle")
+					elseif scheduledSystemsSet[dependency] ~= visited then
 						allScheduled = false
 						break
 					end
@@ -262,19 +260,13 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 			end
 
 			if allScheduled then
-				atLeastOneScheduled = true
-
-				unscheduledSystems[index] = tombstone
-
-				scheduledSystemsSet[system] = system
+				scheduledSystemsSet[system] = visited
 				table.insert(scheduledSystems, system)
+				--Once this system is scheduled we want to start from the beginning to schedule systems that have a dependency on this system
+				break
 			end
 
 			index += 1
-		end
-
-		if not atLeastOneScheduled then
-			error("Unable to schedule systems given current requirements")
 		end
 	end
 
@@ -287,8 +279,13 @@ function Loop:_sortSystems()
 	for system in pairs(self._systems) do
 		local eventName = "default"
 
-		if type(system) == "table" and system.event then
-			eventName = system.event
+		if type(system) == "table" then
+			if system.event then
+				eventName = system.event
+			end
+			if system.priority and system.after then
+				error(`{systemName(system)} shouldn't have both priority and after defined`)
+			end
 		end
 
 		if not systemsByEvent[eventName] then

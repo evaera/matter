@@ -165,6 +165,116 @@ return function()
 			connection.default:Disconnect()
 		end)
 
+		it("should throw error for systems with cyclic dependency", function()
+			local loop = Loop.new()
+
+			local order = {}
+			local systemC = {}
+			local systemA = {
+				system = function()
+					table.insert(order, "a")
+				end,
+				after = { systemC},
+			}
+			local systemB = {
+				system = function()
+					table.insert(order, "b")
+				end,
+				after = { systemA, systemC },
+			}
+			systemC.system = function()
+				table.insert(order, "c")
+			end
+			systemC.after = { systemA, systemB }
+
+			expect(function()
+				loop:scheduleSystems({
+					systemC,
+					systemB,
+					systemA,
+				})
+			end).to.throw()
+		end)
+
+		it("should throw error for systems with both after and priority defined", function()
+			local loop = Loop.new()
+
+			local order = {}
+			local systemA = {
+				system = function()
+					table.insert(order, "a")
+				end,
+				priority = 1,
+				after = {}
+			}
+
+			expect(function()
+				loop:scheduleSystems({
+					systemA,
+				})
+			end).to.throw()
+		end)
+
+		it("should call systems with priority and after in order", function()
+			local loop = Loop.new()
+
+			local order = {}
+			local systemA = {
+				system = function()
+					table.insert(order, "a")
+				end,
+				priority = 1,
+			}
+			local systemB = {
+				system = function()
+					table.insert(order, "b")
+				end,
+				priority = 2,
+			}
+			local systemC = {
+				system = function()
+					table.insert(order, "c")
+				end,
+				priority = 3,
+			}
+			local systemD = {
+				system = function()
+					table.insert(order, "d")
+				end,
+				after = {systemB},
+			}
+			local systemE = {
+				system = function()
+					table.insert(order, "e")
+				end,
+				after = {systemA}
+			}
+
+			loop:scheduleSystems({
+				systemE,
+				systemD,
+				systemC,
+				systemB,
+				systemA,
+			})
+
+			local connection = loop:begin({ default = bindable.Event })
+
+			expect(#order).to.equal(0)
+
+			bindable:Fire()
+
+			expect(#order).to.equal(5)
+			expect(order[1]).to.equal("a")
+			expect(order[2]).to.equal("e")
+			expect(order[3]).to.equal("b")
+			expect(order[4]).to.equal("d")
+			expect(order[5]).to.equal("c")
+
+
+			connection.default:Disconnect()
+		end)
+
 		it("should call systems with priority in order", function()
 			local loop = Loop.new()
 

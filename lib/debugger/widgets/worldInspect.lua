@@ -57,6 +57,9 @@ return function(plasma)
 					selected = debugComponent == component,
 				})
 			end
+			table.sort(items, function(a, b)
+				return a.text < b.text	
+			end)
 
 			plasma.row({ padding = 30 }, function()
 				local selectedItem = custom.selectionList(items, {

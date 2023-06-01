@@ -172,7 +172,6 @@ return function()
 				system = function()
 					table.insert(order, "a")
 				end,
-				after = {},
 			}
 			local systemB = {
 				system = function()
@@ -185,6 +184,37 @@ return function()
 				loop:scheduleSystems({
 					systemB,
 				})
+			end).to.throw()
+
+			loop:scheduleSystem(systemA)
+			loop:scheduleSystem(systemB)
+
+			expect(function()
+				loop:evictSystem(systemA)
+			end).to.throw()
+		end)
+
+		it("should throw error for system if dependency is evicted", function()
+			local loop = Loop.new()
+
+			local order = {}
+			local systemA = {
+				system = function()
+					table.insert(order, "a")
+				end,
+			}
+			local systemB = {
+				system = function()
+					table.insert(order, "b")
+				end,
+				after = { systemA },
+			}
+
+			loop:scheduleSystem(systemA)
+			loop:scheduleSystem(systemB)
+
+			expect(function()
+				loop:evictSystem(systemA)
 			end).to.throw()
 		end)
 

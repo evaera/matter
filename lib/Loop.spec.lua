@@ -130,7 +130,6 @@ return function()
 				system = function()
 					table.insert(order, "a")
 				end,
-				after = {},
 			}
 			local systemB = {
 				system = function()
@@ -165,7 +164,7 @@ return function()
 			connection.default:Disconnect()
 		end)
 
-		it("should schedule systems with undefined dependencies", function()
+		it("should throw error for systems with unscheduled depedencies", function()
 			local loop = Loop.new()
 
 			local order = {}
@@ -181,30 +180,15 @@ return function()
 				end,
 				after = { systemA },
 			}
-			local systemC = function()
-				table.insert(order, "c")
-			end
 
-			loop:scheduleSystems({})
-			loop:scheduleSystem(systemB)
-			loop:scheduleSystem(systemC)
-			loop:scheduleSystem(systemA)
-
-			local connection = loop:begin({ default = bindable.Event })
-
-			expect(#order).to.equal(0)
-
-			bindable:Fire()
-
-			expect(#order).to.equal(3)
-			expect(order[1]).to.equal("c")
-			expect(order[2]).to.equal("a")
-			expect(order[3]).to.equal("b")
-
-			connection.default:Disconnect()
+			expect(function()
+				loop:scheduleSystems({
+					systemB,
+				})
+			end).to.throw()
 		end)
 
-		it("should not schedule system with undefined dependency", function()
+		it("should throw error for system with empty after table", function()
 			local loop = Loop.new()
 
 			local order = {}
@@ -214,23 +198,12 @@ return function()
 				end,
 				after = {},
 			}
-			local systemB = {
-				system = function()
-					table.insert(order, "b")
-				end,
-				after = { systemA },
-			}
 
-			loop:scheduleSystems({})
-			loop:scheduleSystem(systemB)
-
-			local connection = loop:begin({ default = bindable.Event })
-
-			bindable:Fire()
-
-			expect(#order).to.equal(0)
-
-			connection.default:Disconnect()
+			expect(function()
+				loop:scheduleSystems({
+					systemA,
+				})
+			end).to.throw()
 		end)
 
 		it("should throw error for systems with cyclic dependency", function()

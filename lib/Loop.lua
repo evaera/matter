@@ -287,11 +287,22 @@ function Loop:_sortSystems()
 				if system.priority then
 					error(`{systemName(system)} shouldn't have both priority and after defined`)
 				end
-				--Only schedule this system if all its dependencies are defined
+
+				if #system.after == 0 then
+					error(
+						`System "{systemName(system)}" "after" table was provided but is empty; did you accidentally use a nil value or make a typo?`
+					)
+				end
+
 				for _, dependency in system.after do
 					if not self._systems[dependency] then
-						schedule = false
-						break
+						error(
+							`Unable to schedule "{systemName(system)}" because the system "{systemName(dependency)}" is not scheduled.\n\nEither schedule "{systemName(
+								dependency
+							)}" before "{systemName(
+								system
+							)}" or consider scheduling these systems together with Loop:scheduleSystems`
+						)
 					end
 				end
 			end

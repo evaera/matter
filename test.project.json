@@ -13,7 +13,7 @@
       "$className": "ReplicatedStorage",
       "$path": "Packages",
       "Matter": {
-        "$path": "lib"
+        "$path": "src"
       }
     },
     "TestService": {

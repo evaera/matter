@@ -165,6 +165,74 @@ return function()
 			connection.default:Disconnect()
 		end)
 
+		it("should schedule systems with undefined dependencies", function()
+			local loop = Loop.new()
+
+			local order = {}
+			local systemA = {
+				system = function()
+					table.insert(order, "a")
+				end,
+				after = {},
+			}
+			local systemB = {
+				system = function()
+					table.insert(order, "b")
+				end,
+				after = { systemA },
+			}
+			local systemC = function()
+				table.insert(order, "c")
+			end
+
+			loop:scheduleSystems({})
+			loop:scheduleSystem(systemB)
+			loop:scheduleSystem(systemC)
+			loop:scheduleSystem(systemA)
+
+			local connection = loop:begin({ default = bindable.Event })
+
+			expect(#order).to.equal(0)
+
+			bindable:Fire()
+
+			expect(#order).to.equal(3)
+			expect(order[1]).to.equal("c")
+			expect(order[2]).to.equal("a")
+			expect(order[3]).to.equal("b")
+
+			connection.default:Disconnect()
+		end)
+
+		it("should not schedule system with undefined dependency", function()
+			local loop = Loop.new()
+
+			local order = {}
+			local systemA = {
+				system = function()
+					table.insert(order, "a")
+				end,
+				after = {},
+			}
+			local systemB = {
+				system = function()
+					table.insert(order, "b")
+				end,
+				after = { systemA },
+			}
+
+			loop:scheduleSystems({})
+			loop:scheduleSystem(systemB)
+
+			local connection = loop:begin({ default = bindable.Event })
+
+			bindable:Fire()
+
+			expect(#order).to.equal(0)
+
+			connection.default:Disconnect()
+		end)
+
 		it("should throw error for systems with cyclic dependency", function()
 			local loop = Loop.new()
 
@@ -174,7 +242,7 @@ return function()
 				system = function()
 					table.insert(order, "a")
 				end,
-				after = { systemC},
+				after = { systemC },
 			}
 			local systemB = {
 				system = function()
@@ -205,7 +273,7 @@ return function()
 					table.insert(order, "a")
 				end,
 				priority = 1,
-				after = {}
+				after = {},
 			}
 
 			expect(function()
@@ -241,13 +309,13 @@ return function()
 				system = function()
 					table.insert(order, "d")
 				end,
-				after = {systemB},
+				after = { systemB },
 			}
 			local systemE = {
 				system = function()
 					table.insert(order, "e")
 				end,
-				after = {systemA}
+				after = { systemA },
 			}
 
 			loop:scheduleSystems({
@@ -270,7 +338,6 @@ return function()
 			expect(order[3]).to.equal("b")
 			expect(order[4]).to.equal("d")
 			expect(order[5]).to.equal("c")
-
 
 			connection.default:Disconnect()
 		end)

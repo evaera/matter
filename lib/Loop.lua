@@ -214,7 +214,6 @@ function Loop:replaceSystem(old: System, new: System)
 	self:_sortSystems()
 end
 
-
 local function orderSystemsByDependencies(unscheduledSystems: { System })
 	table.sort(unscheduledSystems, function(a, b)
 		local priorityA = systemPriority(a)
@@ -278,21 +277,33 @@ function Loop:_sortSystems()
 
 	for system in pairs(self._systems) do
 		local eventName = "default"
+		local schedule = true
 
 		if type(system) == "table" then
 			if system.event then
 				eventName = system.event
 			end
-			if system.priority and system.after then
-				error(`{systemName(system)} shouldn't have both priority and after defined`)
+			if system.after then
+				if system.priority then
+					error(`{systemName(system)} shouldn't have both priority and after defined`)
+				end
+				--Only schedule this system if all its dependencies are defined
+				for _, dependency in system.after do
+					if not self._systems[dependency] then
+						schedule = false
+						break
+					end
+				end
 			end
 		end
 
-		if not systemsByEvent[eventName] then
-			systemsByEvent[eventName] = {}
-		end
+		if schedule then
+			if not systemsByEvent[eventName] then
+				systemsByEvent[eventName] = {}
+			end
 
-		table.insert(systemsByEvent[eventName], system)
+			table.insert(systemsByEvent[eventName], system)
+		end
 	end
 
 	self._orderedSystemsByEvent = {}
@@ -345,7 +356,7 @@ function Loop:begin(events)
 
 			generation = not generation
 
-			local dirtyWorlds: {[any]: true} = {}
+			local dirtyWorlds: { [any]: true } = {}
 			local profiling = self.profiling
 
 			for _, system in ipairs(self._orderedSystemsByEvent[eventName]) do

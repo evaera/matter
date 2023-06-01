@@ -277,7 +277,6 @@ function Loop:_sortSystems()
 
 	for system in pairs(self._systems) do
 		local eventName = "default"
-		local schedule = true
 
 		if type(system) == "table" then
 			if system.event then
@@ -308,13 +307,11 @@ function Loop:_sortSystems()
 			end
 		end
 
-		if schedule then
-			if not systemsByEvent[eventName] then
-				systemsByEvent[eventName] = {}
-			end
-
-			table.insert(systemsByEvent[eventName], system)
+		if not systemsByEvent[eventName] then
+			systemsByEvent[eventName] = {}
 		end
+
+		table.insert(systemsByEvent[eventName], system)
 	end
 
 	self._orderedSystemsByEvent = {}

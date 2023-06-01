@@ -30,7 +30,7 @@
       "Lib": {
         "$path": "Packages",
         "Matter": {
-          "$path": "lib"
+          "$path": "src"
         }
       },
       "Packages": {

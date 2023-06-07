@@ -94,16 +94,24 @@ local function ui(debugger, loop)
 
 			if selectedState then
 				if selectedState.isWorld then
-					debugger.debugWorld = selectedState.object
-					setWorldViewOpen(true)
+					if worldViewOpen and debugger.debugWorld == selectedState.object then
+						debugger.debugWorld = nil
+						setWorldViewOpen(false)
+					else
+						debugger.debugWorld = selectedState.object
+						setWorldViewOpen(true)
+					end
 				else
+					local previousFirstValue = if objectStack[1] then objectStack[1].value else nil
 					table.clear(objectStack)
 
-					objectStack[1] = {
-						key = selectedState.text,
-						icon = selectedState.icon,
-						value = selectedState.object,
-					}
+					if selectedState.object ~= previousFirstValue then
+						objectStack[1] = {
+							key = selectedState.text,
+							icon = selectedState.icon,
+							value = selectedState.object,
+						}
+					end
 				end
 			end
 

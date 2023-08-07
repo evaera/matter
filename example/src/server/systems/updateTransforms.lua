@@ -49,7 +49,7 @@ local function updateTransforms(world)
 		-- Despawn models that fall into the void
 		if currentCFrame.Y < -400 then
 			world:despawn(id)
-			return
+			continue
 		end
 
 		if currentCFrame ~= existingCFrame then

@@ -81,8 +81,10 @@ local function ui(debugger, loop)
 				local selected = (#objectStack > 0 and object == objectStack[#objectStack].value)
 					or (debugger.debugWorld == object and worldViewOpen)
 
+				local name = debugger.loopParameterNames[index]
+
 				table.insert(items, {
-					text = (if isWorld then "World" else "table") .. " " .. index,
+					text = if name then name else (if isWorld then "World" else "table") .. " " .. index,
 					icon = if isWorld then "🌐" else "{}",
 					object = object,
 					selected = selected,

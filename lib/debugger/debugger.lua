@@ -103,6 +103,20 @@ Debugger.__index = Debugger
 ]=]
 
 --[=[
+	@prop loopParameterNames {string}
+	@within Debugger
+
+	Create this property in Debugger to specify the names of the parameters to your Loop constructor. This is used to
+	display a more accurate name in the debugger.
+
+	If not specified, the default behavior is to label Worlds as "World" and tables as "table", followed by its index.
+
+	```lua
+	debugger.loopParameterNames = {"World", "State", "Widgets"}
+	```
+]=]
+
+--[=[
 	Creates a new Debugger.
 
 	You need to depend on [Plasma](https://eryn.io/plasma/) in your project and pass a handle to it here.
@@ -136,6 +150,7 @@ function Debugger.new(plasma)
 	local self = setmetatable({
 		plasma = plasma,
 		loop = nil,
+		loopParameterNames = {},
 		enabled = false,
 		_windowCount = 0,
 		_queries = {},

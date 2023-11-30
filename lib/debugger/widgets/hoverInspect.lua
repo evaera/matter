@@ -4,6 +4,8 @@ local FormatMode = formatTableModule.FormatMode
 
 return function(plasma)
 	return plasma.widget(function(world, id, custom)
+		if not world:contains(id) then return end
+			
 		local entityData = world:_getEntity(id)
 
 		local str = "Entity " .. id .. "\n\n"

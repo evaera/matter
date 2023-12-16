@@ -1,6 +1,6 @@
-local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
 function getInstanceOnMouse()
 	local camera = workspace.CurrentCamera
@@ -9,7 +9,7 @@ function getInstanceOnMouse()
 	end
 
 	local mouseLocation = UserInputService:GetMouseLocation()
-	local ray = camera:ScreenPointToRay(mouseLocation.X, mouseLocation.Y)
+	local ray = camera:ViewportPointToRay(mouseLocation.X, mouseLocation.Y)
 
 	local result = workspace:Raycast(ray.Origin, ray.Direction * 1000)
 	return result and result.Instance

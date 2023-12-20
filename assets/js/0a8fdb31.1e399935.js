@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[347],{63891:e=>{e.exports=JSON.parse('{"sourceUrl":"https://github.com/evaera/matter/blob/main","baseUrl":"/matter/","classOrder":["Matter","World","QueryResult","Loop"],"apiCategories":[]}')}}]);

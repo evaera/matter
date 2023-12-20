@@ -534,7 +534,6 @@ function QueryResult:without(...)
 end
 
 local viewHandle = {
-
 	__iter = function()
 		local i = 0
 		return function()

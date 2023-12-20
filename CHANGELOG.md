@@ -1,8 +1,10 @@
 # Changelog
 
-## Unreleased
-### Changed
+## [0.7.0] - 2023-12-19
+### Added
+- Created a debugger configuration `Debugger.componentRefreshFrequency` to change the unique component list's refresh frequency.
 
+### Changed
 - Change `Matter.log` to return *nothing* as expected.
 - Exported Matter object is now read only, which prevents invalid mutations to it.
 - Improve documentation for `Matter.useEvent`.
@@ -10,10 +12,11 @@
 - Error message for cycles should be more descriptive.
 - Systems with dependencies should be scheduled after the system with the highest priority in it's "after" list.
 - Improve error message for when a component instance is passed where a component is expected, e.g `world:remove(id, componentInstance())`.
-- Use a new implementation for the debugger's mouse hover feature, which will support debugging the player's character model.
+- Improve implementation of the debugger's mouse hover feature, which now supports debugging the player's character model.
+
+### Fixed
 - Fix the debugger not showing a system's widgets properly when switching from one to another.
 - Fix slider debugger widget returning 0 when not being rendered.
-- Created a debugger configuration to change the unique component list's refresh frequency.
 
 ## [0.6.2] - 2022-07-22
 ### Fixed

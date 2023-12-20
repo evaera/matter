@@ -505,9 +505,10 @@ return function()
 				})
 			)
 
-			local snapshot = world:query(Health, Player):snapshot()
+			local query = world:query(Health, Player)
+			local snapshot = query:snapshot()
 
-			for entityId, health, player in world:query(Health, Player):snapshot() do
+			for entityId, health, player in snapshot do
 				expect(type(entityId)).to.equal("number")
 				expect(type(player.name)).to.equal("string")
 				expect(type(health.value)).to.equal("number")
@@ -520,6 +521,57 @@ return function()
 				expect(snapshot[1][1]).to.equal(1)
 			else
 				expect(snapshot[2][1]).to.equal(1)
+			end
+		end)
+
+		it("should allow viewing a query", function()
+			local Parent = component("Parent")
+			local Transform = component("Transform")
+
+			local world = World.new()
+
+			local root = world:spawn(Transform({ pos = Vector2.new(3, 4) }))
+			local otherRoot = world:spawn(Transform({ pos = Vector2.new(1, 2) }))
+
+			local child = world:spawn(
+				Parent({
+					entity = root,
+					fromChild = Transform({ pos = Vector2.one }),
+				}),
+				Transform.new({ pos = Vector2.zero })
+			)
+
+			local otherChild = world:spawn(
+				Parent({
+					entity = root,
+					fromChild = Transform({ pos = Vector2.new(0, 0) }),
+				}),
+				Transform.new({ pos = Vector2.zero })
+			)
+
+			local grandChild = world:spawn(
+				Parent({
+					entity = child,
+					fromChild = Transform({ pos = Vector3.new(-1, 0) }),
+				}),
+				Transform.new({ pos = Vector2.zero })
+			)
+
+			local parents = world:query(Transform, Parent):view()
+
+			expect(parents:contains(root)).to.equal(false)
+
+			local orderOfIteration = {}
+
+			for id in world:query(Transform, Parent) do
+				table.insert(orderOfIteration, id)
+			end
+
+			local view = world:query(Transform, Parent):view()
+			local i = 0
+			for id in view do
+				i += 1
+				expect(orderOfIteration[i]).to.equal(id)
 			end
 		end)
 

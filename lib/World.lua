@@ -533,52 +533,56 @@ function QueryResult:without(...)
 	end
 end
 
-local viewHandle = {
-	__iter = function()
-		local i = 0
-		return function()
-			i += 1
+local View = {}
+View.__index = View
 
-			local data = self[i]
+function View.new()
+	return setmetatable({
+		entities = {},
+		items = {},
+	}, View)
+end
 
-			if data then
-				return unpack(data, 1, data.n)
-			end
-			return
-		end
-	end,
-}
+function View:__iter()
+	local i = 0
+	return function()
+		i += 1
+
+		local entity = self.entities[i]
+		return entity, self:get(entity)
+	end
+end
+
+function View:get(entity)
+	if not self:contains(entity) then
+		return
+	end
+
+	local item = self.items[entity]
+
+	return unpack(item, 1, item.n)
+end
+
+function View:contains(entity)
+	return self.items[entity] ~= nil
+end
 
 function QueryResult:view(entity)
-	local viewHandle = {}
-	viewHandle.__index = viewHandle
-
 	local function iter()
 		return self._next()
 	end
 
-	local view = {}
+	local view = View.new()
 
 	for entityId, entityData in iter do
 		if entityId then
-			-- We start at 2 since we don't need to return the eentity id. Might be a better
-			view[entityId] = table.pack(select(2, self._expand(entityId, entityData)))
+			table.insert(view.entities, entityId)
+			-- We start 2 on Select since we don't need to return the eentity id. Might be a better
+			view.items[entityId] = table.pack(select(2, self._expand(entityId, entityData)))
 		end
 	end
 
-	function view:get(entity)
-		if not self:contains(entity) then
-			return
-		end
-
-		return unpack(self[entity], 1, self[entity].n)
-	end
-
-	function view:contains(entity)
-		return self[entity] ~= nil
-	end
-
-	return setmetatable(view, viewwHandle)
+	return view
 end
 
 --[=[

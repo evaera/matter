@@ -36,7 +36,7 @@ return function(Plasma)
 					BackgroundColor3 = style.primaryColor,
 					TextColor3 = style.textColor,
 					Font = Enum.Font.GothamMedium,
-					TextSize = 15,
+					TextSize = 14,
 				}),
 
 				create("TextLabel", {
@@ -46,7 +46,7 @@ return function(Plasma)
 					BackgroundColor3 = style.bg1,
 					TextColor3 = style.textColor,
 					Font = Enum.Font.GothamMedium,
-					TextSize = 15,
+					TextSize = 14,
 				}),
 
 				MouseEnter = function()

@@ -10,7 +10,7 @@ return function(Plasma)
 				Name = "Panel",
 				BackgroundColor3 = style.bg2,
 				Position = UDim2.new(0, 0, 0, 0),
-				Size = UDim2.new(0, 250, 1, 0),
+				Size = UDim2.new(0, 220, 1, 0),
 
 				create("Frame", {
 					-- Account for GUI inset

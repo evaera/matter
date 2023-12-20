@@ -8,7 +8,7 @@ return function(Plasma)
 		local refs = Plasma.useInstance(function(ref)
 			local button = create("TextButton", {
 				[ref] = "button",
-				Size = UDim2.new(1, 0, 0, 40),
+				Size = UDim2.new(1, 0, 0, 24),
 				Text = "",
 
 				create("UICorner", {
@@ -34,7 +34,7 @@ return function(Plasma)
 					Size = UDim2.new(0, 22, 1, 0),
 					Text = icon,
 					TextXAlignment = Enum.TextXAlignment.Left,
-					TextSize = 23,
+					TextSize = 18,
 					TextColor3 = style.textColor,
 					Font = Enum.Font.GothamBold,
 				}),
@@ -45,9 +45,9 @@ return function(Plasma)
 					Size = UDim2.new(0, 0, 1, 0),
 					Text = text,
 					TextXAlignment = Enum.TextXAlignment.Left,
-					TextSize = 19,
+					TextSize = 14,
 					TextColor3 = style.textColor,
-					Font = Enum.Font.SourceSans,
+					Font = Enum.Font.Gotham,
 					TextTruncate = Enum.TextTruncate.AtEnd,
 
 					create("UISizeConstraint", {
@@ -62,9 +62,9 @@ return function(Plasma)
 					Size = UDim2.new(0, 0, 1, 0),
 					Text = "",
 					TextXAlignment = Enum.TextXAlignment.Left,
-					TextSize = 15,
+					TextSize = 12,
 					TextColor3 = style.mutedTextColor,
-					Font = Enum.Font.SourceSans,
+					Font = Enum.Font.Gotham,
 				}),
 
 				Activated = function()

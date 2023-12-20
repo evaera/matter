@@ -33,7 +33,9 @@ local dummyHandles = {
 		end,
 	},
 
-	slider = 0,
+	slider = function(config)
+		return config.initial or 0
+	end,
 
 	window = {
 		closed = function()
@@ -57,7 +59,11 @@ local function hookWidgets(debugger)
 			local debugSystem = debugger.debugSystem
 
 			if debugSystem == nil or debugSystem ~= useCurrentSystem() then
-				return dummyHandles[name]
+				local dummyHandle = dummyHandles[name]
+				if type(dummyHandle) == "function" then
+					dummyHandle = dummyHandle(...)
+				end
+				return dummyHandle
 			end
 
 			if debugger._windowCount > 0 then

@@ -33,7 +33,7 @@ return function(plasma)
 				end
 			end)
 
-			if not cache or os.clock() - cache.createdTime > 3 then
+			if not cache or os.clock() - cache.createdTime > debugger.componentRefreshFrequency then
 				cache = {
 					createdTime = os.clock(),
 					uniqueComponents = {},

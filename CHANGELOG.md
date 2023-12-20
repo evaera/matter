@@ -10,6 +10,10 @@
 - Error message for cycles should be more descriptive.
 - Systems with dependencies should be scheduled after the system with the highest priority in it's "after" list.
 - Improve error message for when a component instance is passed where a component is expected, e.g `world:remove(id, componentInstance())`.
+- Use a new implementation for the debugger's mouse hover feature, which will support debugging the player's character model.
+- Fix the debugger not showing a system's widgets properly when switching from one to another.
+- Fix slider debugger widget returning 0 when not being rendered.
+- Created a debugger configuration to change the unique component list's refresh frequency.
 
 ## [0.6.2] - 2022-07-22
 ### Fixed

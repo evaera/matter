@@ -103,7 +103,20 @@ Debugger.__index = Debugger
 ]=]
 
 --[=[
-	@prop loopParameterNames {string}
+	@prop componentRefreshFrequency number
+	@within Debugger
+
+	Create this property in Debugger to specify the frequency (in seconds) that the unique component list will refresh.
+
+	If not specified, it will use a default time of 3 seconds.
+
+	```lua
+	debugger.componentRefreshFrequency = 1
+	```
+]=]
+                
+--[=[
+  @prop loopParameterNames {string}
 	@within Debugger
 
 	Create this property in Debugger to specify the names of the parameters to your Loop constructor. This is used to
@@ -113,7 +126,7 @@ Debugger.__index = Debugger
 
 	```lua
 	debugger.loopParameterNames = {"World", "State", "Widgets"}
-	```
+  ```
 ]=]
 
 --[=[
@@ -152,6 +165,7 @@ function Debugger.new(plasma)
 		loop = nil,
 		loopParameterNames = {},
 		enabled = false,
+		componentRefreshFrequency = 3,
 		_windowCount = 0,
 		_queries = {},
 		_seenEvents = {},

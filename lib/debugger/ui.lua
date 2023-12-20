@@ -272,6 +272,7 @@ local function ui(debugger, loop)
 				end
 			end
 
+			plasma.useKey(nil)
 			debugger.frame = custom.frame()
 		end, {
 			marginTop = 46,

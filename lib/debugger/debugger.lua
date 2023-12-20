@@ -103,6 +103,19 @@ Debugger.__index = Debugger
 ]=]
 
 --[=[
+	@prop componentRefreshFrequency number
+	@within Debugger
+
+	Create this property in Debugger to specify the frequency (in seconds) that the unique component list will refresh.
+
+	If not specified, it will use a default time of 3 seconds.
+
+	```lua
+	debugger.componentRefreshFrequency = 1
+	```
+]=]
+
+--[=[
 	Creates a new Debugger.
 
 	You need to depend on [Plasma](https://eryn.io/plasma/) in your project and pass a handle to it here.
@@ -137,6 +150,7 @@ function Debugger.new(plasma)
 		plasma = plasma,
 		loop = nil,
 		enabled = false,
+		componentRefreshFrequency = 3,
 		_windowCount = 0,
 		_queries = {},
 		_seenEvents = {},

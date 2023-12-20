@@ -533,6 +533,55 @@ function QueryResult:without(...)
 	end
 end
 
+local viewHandle = {
+
+	__iter = function()
+		local i = 0
+		return function()
+			i += 1
+
+			local data = self[i]
+
+			if data then
+				return unpack(data, 1, data.n)
+			end
+			return
+		end
+	end,
+}
+
+function QueryResult:view(entity)
+	local viewHandle = {}
+	viewHandle.__index = viewHandle
+
+	local function iter()
+		return self._next()
+	end
+
+	local view = {}
+
+	for entityId, entityData in iter do
+		if entityId then
+			-- We start at 2 since we don't need to return the eentity id. Might be a better
+			view[entityId] = table.pack(select(2, self._expand(entityId, entityData)))
+		end
+	end
+
+	function view:get(entity)
+		if not self:contains(entity) then
+			return
+		end
+
+		return unpack(self[entity], 1, self[entity].n)
+	end
+
+	function view:contains(entity)
+		return self[entity] ~= nil
+	end
+
+	return setmetatable(view, viewwHandle)
+end
+
 --[=[
 	Performs a query against the entities in this World. Returns a [QueryResult](/api/QueryResult), which iterates over
 	the results of the query.

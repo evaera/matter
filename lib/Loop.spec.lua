@@ -167,15 +167,15 @@ return function()
 		it("should throw error for systems with unscheduled depedencies", function()
 			local loop = Loop.new()
 
-			local order = {}
+			local _order = {}
 			local systemA = {
 				system = function()
-					table.insert(order, "a")
+					table.insert(_order, "a")
 				end,
 			}
 			local systemB = {
 				system = function()
-					table.insert(order, "b")
+					table.insert(_order, "b")
 				end,
 				after = { systemA },
 			}
@@ -197,15 +197,15 @@ return function()
 		it("should throw error for system if dependency is evicted", function()
 			local loop = Loop.new()
 
-			local order = {}
+			local _order = {}
 			local systemA = {
 				system = function()
-					table.insert(order, "a")
+					table.insert(_order, "a")
 				end,
 			}
 			local systemB = {
 				system = function()
-					table.insert(order, "b")
+					table.insert(_order, "b")
 				end,
 				after = { systemA },
 			}
@@ -221,10 +221,10 @@ return function()
 		it("should throw error for system with empty after table", function()
 			local loop = Loop.new()
 
-			local order = {}
+			local _order = {}
 			local systemA = {
 				system = function()
-					table.insert(order, "a")
+					table.insert(_order, "a")
 				end,
 				after = {},
 			}
@@ -239,22 +239,22 @@ return function()
 		it("should throw error for systems with cyclic dependency", function()
 			local loop = Loop.new()
 
-			local order = {}
+			local _order = {}
 			local systemC = {}
 			local systemA = {
 				system = function()
-					table.insert(order, "a")
+					table.insert(_order, "a")
 				end,
 				after = { systemC },
 			}
 			local systemB = {
 				system = function()
-					table.insert(order, "b")
+					table.insert(_order, "b")
 				end,
 				after = { systemA, systemC },
 			}
 			systemC.system = function()
-				table.insert(order, "c")
+				table.insert(_order, "c")
 			end
 			systemC.after = { systemA, systemB }
 
@@ -270,10 +270,10 @@ return function()
 		it("should throw error for systems with both after and priority defined", function()
 			local loop = Loop.new()
 
-			local order = {}
+			local _order = {}
 			local systemA = {
 				system = function()
-					table.insert(order, "a")
+					table.insert(_order, "a")
 				end,
 				priority = 1,
 				after = {},

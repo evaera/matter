@@ -1,7 +1,7 @@
 return function(Plasma)
 	local create = Plasma.create
 
-	local Item = Plasma.widget(function(text, selected, icon, sideText, width)
+	local Item = Plasma.widget(function(text, selected, icon, sideText)
 		local clicked, setClicked = Plasma.useState(false)
 		local style = Plasma.useStyle()
 

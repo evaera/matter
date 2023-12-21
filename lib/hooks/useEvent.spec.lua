@@ -1,6 +1,6 @@
+local BindableEvent = require(script.Parent.Parent.mock.BindableEvent)
 local topoRuntime = require(script.Parent.Parent.topoRuntime)
 local useEvent = require(script.Parent.useEvent)
-local BindableEvent = require(script.Parent.Parent.mock.BindableEvent)
 
 return function()
 	describe("useEvent", function()
@@ -112,7 +112,7 @@ return function()
 			}
 
 			local event = {
-				connect = function(self, handler)
+				connect = function(_, handler)
 					eventHandler = handler
 
 					return {

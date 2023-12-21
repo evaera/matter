@@ -531,7 +531,7 @@ return function()
 			local world = World.new()
 
 			local root = world:spawn(Transform({ pos = Vector2.new(3, 4) }))
-			local otherRoot = world:spawn(Transform({ pos = Vector2.new(1, 2) }))
+			local _otherRoot = world:spawn(Transform({ pos = Vector2.new(1, 2) }))
 
 			local child = world:spawn(
 				Parent({

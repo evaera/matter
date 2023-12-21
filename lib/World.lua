@@ -620,7 +620,7 @@ function QueryResult:view()
 		if entityId then
 			table.insert(view.entities, entityId)
 			-- We start at 2 on Select since we don't need want to pack the entity id.
-			view.items[entityId] = table.pack(select(2, s._expand(entityId, entityData)))
+			view.items[entityId] = table.pack(select(2, self._expand(entityId, entityData)))
 		end
 	end
 

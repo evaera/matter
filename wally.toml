@@ -5,5 +5,5 @@ registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 exclude = ["example", "docs", "Packages", ".moonwave", "build", "pages", "tests", "AttackOfTheKillerRoombas.rbxl", "AttackOfTheKillerRoombas.rbxl.lock", "matter.rbxl", "matter.rbxm", "roblox.toml"]
 
-[dependencies]
+[dev-dependencies]
 TestEZ = "roblox/testez@0.4.1"

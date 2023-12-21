@@ -22,7 +22,7 @@ jobs:
         uses: ok-nick/setup-aftman@v0.3.0
 
       - name: Selene
-        run: selene lib example tests
+        run: selene lib example/src tests
   format:
     name: Check StyLua
     runs-on: ubuntu-latest

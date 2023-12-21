@@ -541,7 +541,7 @@ return function()
 				Transform.new({ pos = Vector2.zero })
 			)
 
-			local otherChild = world:spawn(
+			local _otherChild = world:spawn(
 				Parent({
 					entity = root,
 					fromChild = Transform({ pos = Vector2.new(0, 0) }),
@@ -549,7 +549,7 @@ return function()
 				Transform.new({ pos = Vector2.zero })
 			)
 
-			local grandChild = world:spawn(
+			local _grandChild = world:spawn(
 				Parent({
 					entity = child,
 					fromChild = Transform({ pos = Vector3.new(-1, 0) }),

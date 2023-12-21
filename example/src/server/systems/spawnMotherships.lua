@@ -23,7 +23,7 @@ local function spawnMotherships(world)
 		)
 	end
 
-	for id, transform in world:query(Components.Transform, Components.Mothership):without(Components.Model) do
+	for id in world:query(Components.Transform, Components.Mothership):without(Components.Model) do
 		local model = ReplicatedStorage.Assets.Mothership:Clone()
 		model.Parent = workspace
 		model.PrimaryPart:SetNetworkOwner(nil)
@@ -57,7 +57,7 @@ local function spawnMotherships(world)
 		end
 	end
 
-	for id, mothership, model in world:query(Components.Mothership, Components.Model):without(Components.Lasering) do
+	for _, mothership, model in world:query(Components.Mothership, Components.Model):without(Components.Lasering) do
 		model.model.Roomba.AlignPosition.Position = mothership.goal
 	end
 end

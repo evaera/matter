@@ -2,3 +2,6 @@ std = "roblox+testez"
 
 [rules]
 shadowing = "allow"
+
+# Plasma's API encourages using mixed tables, so we kind of have to allow it
+mixed_table = "allow"

@@ -1,6 +1,6 @@
 local RunService = game:GetService("RunService")
-local topoRuntime = require(script.Parent.topoRuntime)
 local rollingAverage = require(script.Parent.rollingAverage)
+local topoRuntime = require(script.Parent.topoRuntime)
 
 local recentErrors = {}
 local recentErrorLastTime = 0

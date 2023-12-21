@@ -533,6 +533,20 @@ function QueryResult:without(...)
 	end
 end
 
+--[=[
+	@class View
+
+	Provides random access to the results of a query.
+
+	Calling the table is equivalent iterating a query. 
+
+	```lua
+	for id, player, health, poison in world:query(Player, Health, Poison):view() do
+		-- Do something
+	end
+	```
+]=]
+
 local View = {}
 View.__index = View
 
@@ -553,6 +567,11 @@ function View:__iter()
 	end
 end
 
+--[=[
+	Retrieve the query results to corresponding `entity`
+	@param entity number - the entity ID
+	@return ...ComponentInstance
+]=]
 function View:get(entity)
 	if not self:contains(entity) then
 		return
@@ -563,9 +582,32 @@ function View:get(entity)
 	return unpack(item, 1, item.n)
 end
 
+--[=[
+	Equivalent to `world:contains()`	
+	@param entity number - the entity ID
+	@return boolean 
+]=]
+
 function View:contains(entity)
 	return self.items[entity] ~= nil
 end
+
+--[=[
+	Creates a View of the query and does all of the iterator tasks at once at an amortized cost.
+	This is used for many repeated random access to an entity. If you only need to iterate, just use a query.
+
+	```lua
+	for id, player, health, poison in world:query(Player, Health, Poison):view() do
+		-- Do something
+	end
+
+	local dyingPeople = world:query(Player, Health, Poison):view()
+	local remainingHealth = dyingPeople:get(entity)
+	```
+	
+	@param ... Component - The component types to query. Only entities with *all* of these components will be returned.
+	@return View See [View](/api/View) docs.
+]=]
 
 function QueryResult:view(entity)
 	local function iter()
@@ -577,7 +619,7 @@ function QueryResult:view(entity)
 	for entityId, entityData in iter do
 		if entityId then
 			table.insert(view.entities, entityId)
-			-- We start 2 on Select since we don't need to return the eentity id. Might be a better
+			-- We start at 2 on Select since we don't need want to pack the entity id.
 			view.items[entityId] = table.pack(select(2, self._expand(entityId, entityData)))
 		end
 	end

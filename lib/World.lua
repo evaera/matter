@@ -552,18 +552,20 @@ View.__index = View
 
 function View.new()
 	return setmetatable({
-		entities = {},
-		items = {},
+		fetches = {},
 	}, View)
 end
 
 function View:__iter()
-	local i = 0
+	local current = self.head
 	return function()
-		i += 1
+		if current then
+			local entity = current.entity
+			local fetch = self.fetches[entity]
+			current = current.next
 
-		local entity = self.entities[i]
-		return entity, self:get(entity)
+			return entity, unpack(fetch, 1, fetch.n)
+		end
 	end
 end
 
@@ -577,9 +579,9 @@ function View:get(entity)
 		return
 	end
 
-	local item = self.items[entity]
+	local fetch = self.fetches[entity]
 
-	return unpack(item, 1, item.n)
+	return unpack(fetch, 1, fetch.n)
 end
 
 --[=[
@@ -589,7 +591,7 @@ end
 ]=]
 
 function View:contains(entity)
-	return self.items[entity] ~= nil
+	return self.fetches[entity] ~= nil
 end
 
 --[=[
@@ -618,9 +620,19 @@ function QueryResult:view()
 
 	for entityId, entityData in iter do
 		if entityId then
-			table.insert(view.entities, entityId)
 			-- We start at 2 on Select since we don't need want to pack the entity id.
-			view.items[entityId] = table.pack(select(2, self._expand(entityId, entityData)))
+			local fetch = table.pack(select(2, self._expand(entityId, entityData)))
+			local node = { entity = entityId, next = nil }
+			view.fetches[entityId] = fetch
+			if not view.head then
+				view.head = node
+			else
+				local current = view.head
+				while current.next do
+					current = current.next
+				end
+				current.next = node
+			end
 		end
 	end
 

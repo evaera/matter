@@ -7,7 +7,7 @@ local function roombasMove(world)
 		table.insert(targets, model.model.PrimaryPart.CFrame.p)
 	end
 
-	for id, roomba, charge, model in world:query(Components.Roomba, Components.Charge, Components.Model) do
+	for _, _, charge, model in world:query(Components.Roomba, Components.Charge, Components.Model) do
 		if charge.charge <= 0 then
 			continue
 		end

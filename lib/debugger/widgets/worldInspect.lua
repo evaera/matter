@@ -42,7 +42,7 @@ return function(plasma)
 
 					setCache(cache)
 
-					for entityId, entityData in world do
+					for _, entityData in world do
 						for component in entityData do
 							cache.uniqueComponents[component] = (cache.uniqueComponents[component] or 0) + 1
 						end

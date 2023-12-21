@@ -11,8 +11,9 @@ on:
 
 jobs:
   lint:
-    name: Selene, Stylua
+    name: Lint with Selene
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout Project
         uses: actions/checkout@v3
@@ -22,6 +23,16 @@ jobs:
 
       - name: Selene
         run: selene lib
+  format:
+    name: Check StyLua
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3
+
+      - name: Setup Aftman
+        uses: ok-nick/setup-aftman@v0.3.0
         
       - name: StyLua
         run: stylua lib --check

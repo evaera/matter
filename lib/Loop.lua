@@ -1,6 +1,6 @@
 local RunService = game:GetService("RunService")
-local topoRuntime = require(script.Parent.topoRuntime)
 local rollingAverage = require(script.Parent.rollingAverage)
+local topoRuntime = require(script.Parent.topoRuntime)
 
 local recentErrors = {}
 local recentErrorLastTime = 0
@@ -105,7 +105,7 @@ type System = (...any) -> () | { system: (...any) -> (), event: string?, priorit
 
 	Systems that share an event will run in order of their priority, which means that systems with a lower `priority`
 	value run first. The default priority is `0`.
-
+2
 	Systems that have defined what systems they run `after` can only be scheduled after all systems they depend on have
 	already been scheduled.
 

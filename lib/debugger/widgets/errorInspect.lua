@@ -9,11 +9,8 @@ return function(plasma)
 
 			local items = {}
 			for index, errorData in loop._systemErrors[debugger.debugSystem] do
-				local preview = errorData.error
-					:gsub("^(.-):", "")
-					:gsub("^%s?[%w%.]+%.(%w+:)", "%1")
-					:gsub("\n", " ")
-					:sub(1, 60)
+				local preview =
+					errorData.error:gsub("^(.-):", ""):gsub("^%s?[%w%.]+%.(%w+:)", "%1"):gsub("\n", " "):sub(1, 60)
 
 				items[index] = {
 					DateTime.fromUnixTimestamp(errorData.when):ToIsoDate(),
@@ -25,9 +22,11 @@ return function(plasma)
 			end
 
 			plasma.row(function()
-				local selected = plasma.table(items, {
-					selectable = true,
-				}):selected()
+				local selected = plasma
+					.table(items, {
+						selectable = true,
+					})
+					:selected()
 
 				if selected then
 					setText(selected.errorData.error)

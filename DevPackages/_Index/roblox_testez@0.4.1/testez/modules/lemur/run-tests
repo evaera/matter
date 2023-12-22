@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export LUA_PATH="$LUA_PATH;;./?/init.lua"
+
+busted -e 'require("lib.baste").global()' lib spec "$@"

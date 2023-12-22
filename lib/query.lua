@@ -62,6 +62,7 @@ function QueryResult.new(world, ...)
 		lastEntityId = lastEntityId,
 		storageIndex = storageIndex,
 		_filter = {},
+		_archetype = archetype,
 	}, QueryResult)
 end
 
@@ -112,12 +113,6 @@ function QueryResult:_next()
 	self.currentCompatibleArchetype = currentCompatibleArchetype
 
 	seenEntities[entityId] = true
-
-	for _, metatable in self._filter do
-		if entityData[metatable] then
-			return self:_next()
-		end
-	end
 
 	return entityId, entityData
 end
@@ -258,8 +253,17 @@ end
 ]=]
 
 function QueryResult:without(...)
-	self._filter = { ... }
+	local world = self.world
+	local negativeArchetype = `{self._archetype}|{archetypeOf(...)}`
 
+	if world._queryCache[negativeArchetype] == nil then
+		world:_newQueryArchetype(negativeArchetype)
+	end
+
+	local compatibleArchetypes = world._queryCache[negativeArchetype]
+
+	self.compatibleArchetypes = compatibleArchetypes
+	self.currentCompatibleArchetype = next(compatibleArchetypes)
 	return self
 end
 

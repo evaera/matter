@@ -26,6 +26,8 @@ function QueryResult.new(world, ...)
 	assertValidComponent((...), 1)
 
 	local metatables = { ... }
+	local queryLength = select("#", ...)
+
 	local archetype = archetypeOf(...)
 
 	if world._queryCache[archetype] == nil then
@@ -33,6 +35,9 @@ function QueryResult.new(world, ...)
 	end
 
 	local compatibleArchetypes = world._queryCache[archetype]
+
+	debug.profileend()
+
 	if next(compatibleArchetypes) == nil then
 		-- If there are no compatible storages avoid creating our complicated iterator
 		local noopQuery = setmetatable({}, QueryResult)
@@ -40,7 +45,19 @@ function QueryResult.new(world, ...)
 		noopQuery._next = function() end
 	end
 
-	debug.profileend()
+	local queryOutput = table.create(queryLength)
+
+	local function expand(entityId, entityData)
+		if not entityId then
+			return
+		end
+
+		for i, metatable in ipairs(metatables) do
+			queryOutput[i] = entityData[metatable]
+		end
+
+		return entityId, unpack(queryOutput, 1, queryLength)
+	end
 
 	local currentCompatibleArchetype = next(compatibleArchetypes)
 
@@ -54,6 +71,7 @@ function QueryResult.new(world, ...)
 	local seenEntities = {}
 
 	return setmetatable({
+		_expand = expand,
 		world = world,
 		metatables = metatables,
 		seenEntities = seenEntities,
@@ -117,30 +135,14 @@ function QueryResult:_next()
 	return entityId, entityData
 end
 
-function QueryResult:_expand(entityId, entityData)
-	local metatables = self.metatables
-	local queryLength = #metatables
-	local queryOutput = table.create(queryLength)
-
-	if not entityId then
-		return
-	end
-
-	for i, metatable in ipairs(metatables) do
-		queryOutput[i] = entityData[metatable]
-	end
-
-	return entityId, unpack(queryOutput, 1, queryLength)
-end
-
 function QueryResult:__iter()
 	return function()
-		return self:_expand(self:_next())
+		return self._expand(self:_next())
 	end
 end
 
 function QueryResult:__call()
-	return self:_expand(self:_next())
+	return self._expand(self:_next())
 end
 
 --[=[
@@ -170,7 +172,7 @@ end
 	@return ...ComponentInstance -- The requested component values
 ]=]
 function QueryResult:next()
-	return self:_expand(self:_next())
+	return self._expand(self:_next())
 end
 
 local snapshot = {
@@ -224,7 +226,7 @@ function QueryResult:snapshot()
 
 	for entityId, entityData in iter do
 		if entityId then
-			table.insert(list, table.pack(self:_expand(entityId, entityData)))
+			table.insert(list, table.pack(self._expand(entityId, entityData)))
 		end
 	end
 

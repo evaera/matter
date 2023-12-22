@@ -1,9 +1,0 @@
-return {
-	include = {
-		"lib",
-	},
-	exclude = {
-		"lib/baste",
-		"_spec$",
-	},
-}

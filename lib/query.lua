@@ -197,8 +197,6 @@ function QueryResult:without(...)
 	return self
 end
 
-function QueryResult:transform() end
-
 function QueryResult:_expand(entityId, entityData)
 	local metatables = self.metatables
 	local queryLength = #metatables
@@ -237,6 +235,9 @@ function QueryResult.new(world, ...)
 	local compatibleArchetypes = world._queryCache[archetype]
 	if next(compatibleArchetypes) == nil then
 		-- If there are no compatible storages avoid creating our complicated iterator
+		local noopQuery = setmetatable({}, QueryResult)
+		noopQuery._expand = function() end
+		noopQuery._next = function() end
 	end
 
 	debug.profileend()

@@ -21,6 +21,129 @@ local archetypeOf = archetypeModule.archetypeOf
 local QueryResult = {}
 QueryResult.__index = QueryResult
 
+function QueryResult.new(world, ...)
+	debug.profilebegin("World:query")
+	assertValidComponent((...), 1)
+
+	local metatables = { ... }
+	local archetype = archetypeOf(...)
+
+	if world._queryCache[archetype] == nil then
+		world:_newQueryArchetype(archetype)
+	end
+
+	local compatibleArchetypes = world._queryCache[archetype]
+	if next(compatibleArchetypes) == nil then
+		-- If there are no compatible storages avoid creating our complicated iterator
+		local noopQuery = setmetatable({}, QueryResult)
+		noopQuery._expand = function() end
+		noopQuery._next = function() end
+	end
+
+	debug.profileend()
+
+	local currentCompatibleArchetype = next(compatibleArchetypes)
+
+	local lastEntityId
+	local storageIndex = 1
+
+	if world._pristineStorage == world._storages[1] then
+		world:_markStorageDirty()
+	end
+
+	local seenEntities = {}
+
+	return setmetatable({
+		world = world,
+		metatables = metatables,
+		seenEntities = seenEntities,
+		currentCompatibleArchetype = currentCompatibleArchetype,
+		compatibleArchetypes = compatibleArchetypes,
+		lastEntityId = lastEntityId,
+		storageIndex = storageIndex,
+		_filter = {},
+	}, QueryResult)
+end
+
+function QueryResult:_next()
+	local world = self.world
+	local currentCompatibleArchetype = self.currentCompatibleArchetype
+	local storageIndex = self.storageIndex
+	local seenEntities = self.seenEntities
+	local compatibleArchetypes = self.compatibleArchetypes
+
+	local entityId, entityData
+
+	repeat
+		if world._storages[storageIndex][currentCompatibleArchetype] then
+			entityId, entityData = next(world._storages[storageIndex][currentCompatibleArchetype], self.lastEntityId)
+		end
+
+		while entityId == nil do
+			currentCompatibleArchetype = next(compatibleArchetypes, currentCompatibleArchetype)
+
+			if currentCompatibleArchetype == nil then
+				storageIndex += 1
+
+				local nextStorage = world._storages[storageIndex]
+
+				if nextStorage == nil or next(nextStorage) == nil then
+					return
+				end
+
+				currentCompatibleArchetype = nil
+
+				if world._pristineStorage == nextStorage then
+					world:_markStorageDirty()
+				end
+
+				continue
+			elseif world._storages[storageIndex][currentCompatibleArchetype] == nil then
+				continue
+			end
+
+			entityId, entityData = next(world._storages[storageIndex][currentCompatibleArchetype])
+		end
+
+		self.lastEntityId = entityId
+
+	until seenEntities[entityId] == nil
+
+	self.currentCompatibleArchetype = currentCompatibleArchetype
+
+	seenEntities[entityId] = true
+
+	for _, metatable in self._filter do
+		if entityData[metatable] then
+			return self:_next()
+		end
+	end
+
+	return entityId, entityData
+end
+
+function QueryResult:_expand(entityId, entityData)
+	local metatables = self.metatables
+	local queryLength = #metatables
+	local queryOutput = table.create(queryLength)
+
+	if not entityId then
+		return
+	end
+
+	for i, metatable in ipairs(metatables) do
+		queryOutput[i] = entityData[metatable]
+	end
+
+	return entityId, unpack(queryOutput, 1, queryLength)
+end
+
+function QueryResult:__iter()
+	return function()
+		return self:_expand(self:_next())
+	end
+end
+
 function QueryResult:__call()
 	return self:_expand(self:_next())
 end
@@ -134,133 +257,10 @@ end
 	```
 ]=]
 
-function QueryResult:_next()
-	local world = self.world
-	local currentCompatibleArchetype = self.currentCompatibleArchetype
-	local storageIndex = self.storageIndex
-	local seenEntities = self.seenEntities
-	local compatibleArchetypes = self.compatibleArchetypes
-
-	local entityId, entityData
-
-	repeat
-		if world._storages[storageIndex][currentCompatibleArchetype] then
-			entityId, entityData = next(world._storages[storageIndex][currentCompatibleArchetype], self.lastEntityId)
-		end
-
-		while entityId == nil do
-			currentCompatibleArchetype = next(compatibleArchetypes, currentCompatibleArchetype)
-
-			if currentCompatibleArchetype == nil then
-				storageIndex += 1
-
-				local nextStorage = world._storages[storageIndex]
-
-				if nextStorage == nil or next(nextStorage) == nil then
-					return
-				end
-
-				currentCompatibleArchetype = nil
-
-				if world._pristineStorage == nextStorage then
-					world:_markStorageDirty()
-				end
-
-				continue
-			elseif world._storages[storageIndex][currentCompatibleArchetype] == nil then
-				continue
-			end
-
-			entityId, entityData = next(world._storages[storageIndex][currentCompatibleArchetype])
-		end
-
-		self.lastEntityId = entityId
-
-	until seenEntities[entityId] == nil
-
-	self.currentCompatibleArchetype = currentCompatibleArchetype
-
-	seenEntities[entityId] = true
-
-	for _, metatable in self._filter do
-		if entityData[metatable] then
-			return self:_next()
-		end
-	end
-
-	return entityId, entityData
-end
-
 function QueryResult:without(...)
 	self._filter = { ... }
 
 	return self
-end
-
-function QueryResult:_expand(entityId, entityData)
-	local metatables = self.metatables
-	local queryLength = #metatables
-	local queryOutput = table.create(queryLength)
-
-	if not entityId then
-		return
-	end
-
-	for i, metatable in ipairs(metatables) do
-		queryOutput[i] = entityData[metatable]
-	end
-
-	return entityId, unpack(queryOutput, 1, queryLength)
-end
-
-function QueryResult:__iter()
-	return function()
-		return self:_expand(self:_next())
-	end
-end
-
-function QueryResult.new(world, ...)
-	debug.profilebegin("World:query")
-	assertValidComponent((...), 1)
-
-	local metatables = { ... }
-	local archetype = archetypeOf(...)
-
-	if world._queryCache[archetype] == nil then
-		world:_newQueryArchetype(archetype)
-	end
-
-	local compatibleArchetypes = world._queryCache[archetype]
-	if next(compatibleArchetypes) == nil then
-		-- If there are no compatible storages avoid creating our complicated iterator
-		local noopQuery = setmetatable({}, QueryResult)
-		noopQuery._expand = function() end
-		noopQuery._next = function() end
-	end
-
-	debug.profileend()
-
-	local currentCompatibleArchetype = next(compatibleArchetypes)
-
-	local lastEntityId
-	local storageIndex = 1
-
-	if world._pristineStorage == world._storages[1] then
-		world:_markStorageDirty()
-	end
-
-	local seenEntities = {}
-
-	return setmetatable({
-		world = world,
-		metatables = metatables,
-		seenEntities = seenEntities,
-		currentCompatibleArchetype = currentCompatibleArchetype,
-		compatibleArchetypes = compatibleArchetypes,
-		lastEntityId = lastEntityId,
-		storageIndex = storageIndex,
-		_filter = {},
-	}, QueryResult)
 end
 
 return QueryResult

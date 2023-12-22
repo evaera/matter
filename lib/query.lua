@@ -219,8 +219,6 @@ function QueryResult:__iter()
 	end
 end
 
-function QueryResult:_transform(phantomData) end
-
 function QueryResult.new(world, ...)
 	debug.profilebegin("World:query")
 	assertValidComponent((...), 1)

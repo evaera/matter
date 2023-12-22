@@ -34,7 +34,10 @@ local dummyHandles = {
 	},
 
 	slider = function(config)
-		return config.initial or 0
+		if type(config) == "table" then
+			config = config.initial
+		end
+		return config
 	end,
 
 	window = {

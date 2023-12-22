@@ -52,12 +52,14 @@ local function ui(debugger, loop)
 
 		custom.panel(function()
 			if
-				custom.realmSwitch({
-					left = "client",
-					right = "server",
-					isRight = IS_SERVER,
-					tag = if IS_SERVER then "MatterDebuggerSwitchToClientView" else nil,
-				}):clicked()
+				custom
+					.realmSwitch({
+						left = "client",
+						right = "server",
+						isRight = IS_SERVER,
+						tag = if IS_SERVER then "MatterDebuggerSwitchToClientView" else nil,
+					})
+					:clicked()
 			then
 				if IS_CLIENT then
 					debugger:switchToServerView()
@@ -205,34 +207,40 @@ local function ui(debugger, loop)
 
 				local name = systemName(debugger.debugSystem)
 
-				local closed = plasma.window({
-					title = "System",
-					closable = true,
-				}, function()
-					plasma.useKey(name)
-					plasma.heading(name)
-					plasma.space(0)
+				local closed = plasma
+					.window({
+						title = "System",
+						closable = true,
+					}, function()
+						plasma.useKey(name)
+						plasma.heading(name)
+						plasma.space(0)
 
-					plasma.row(function()
-						if plasma.button(string.format("View queries (%d)", #debugger._queries)):clicked() then
-							setQueriesOpen(true)
-						end
-
-						if numLogs > 0 then
-							if plasma.button(string.format("View logs (%d)", numLogs)):clicked() then
-								setLogsOpen(true)
+						plasma.row(function()
+							if plasma.button(string.format("View queries (%d)", #debugger._queries)):clicked() then
+								setQueriesOpen(true)
 							end
+
+							if numLogs > 0 then
+								if plasma.button(string.format("View logs (%d)", numLogs)):clicked() then
+									setLogsOpen(true)
+								end
+							end
+						end)
+
+						local currentlyDisabled = loop._skipSystems[debugger.debugSystem]
+
+						if
+							plasma
+								.checkbox("Disable system", {
+									checked = currentlyDisabled,
+								})
+								:clicked()
+						then
+							loop._skipSystems[debugger.debugSystem] = not currentlyDisabled
 						end
 					end)
-
-					local currentlyDisabled = loop._skipSystems[debugger.debugSystem]
-
-					if plasma.checkbox("Disable system", {
-						checked = currentlyDisabled,
-					}):clicked() then
-						loop._skipSystems[debugger.debugSystem] = not currentlyDisabled
-					end
-				end):closed()
+					:closed()
 
 				if queriesOpen then
 					local closed = custom.queryInspect(debugger)
@@ -249,18 +257,20 @@ local function ui(debugger, loop)
 				plasma.useKey(name)
 
 				if numLogs > 0 and logsOpen then
-					local closed = plasma.window({
-						closable = true,
-						title = "Logs",
-					}, function()
-						local items = {}
-						for i = numLogs, 1, -1 do
-							table.insert(items, { loop._systemLogs[debugger.debugSystem][i] })
-						end
-						plasma.table(items, {
-							font = Enum.Font.Code,
-						})
-					end):closed()
+					local closed = plasma
+						.window({
+							closable = true,
+							title = "Logs",
+						}, function()
+							local items = {}
+							for i = numLogs, 1, -1 do
+								table.insert(items, { loop._systemLogs[debugger.debugSystem][i] })
+							end
+							plasma.table(items, {
+								font = Enum.Font.Code,
+							})
+						end)
+						:closed()
 
 					if closed then
 						setLogsOpen(false)

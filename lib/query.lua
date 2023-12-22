@@ -182,11 +182,12 @@ function QueryResult:_next()
 
 	seenEntities[entityId] = true
 
-	for metatable in entityData do
-		if table.find(self._filter, metatable) then
+	for _, metatable in self._filter do
+		if entityData[metatable] then
 			return self:_next()
 		end
 	end
+
 	return entityId, entityData
 end
 

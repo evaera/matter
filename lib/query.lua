@@ -58,26 +58,17 @@ function QueryResult.new(world, ...)
 		return entityId, unpack(queryOutput, 1, queryLength)
 	end
 
-	local currentCompatibleArchetype = next(compatibleArchetypes)
-
-	local lastEntityId
-	local storageIndex = 1
-
 	if world._pristineStorage == world._storages[1] then
 		world:_markStorageDirty()
 	end
 
-	local seenEntities = {}
-
 	return setmetatable({
-		_expand = expand,
 		world = world,
-		metatables = metatables,
-		seenEntities = seenEntities,
-		currentCompatibleArchetype = currentCompatibleArchetype,
+		seenEntities = {},
+		currentCompatibleArchetype = next(compatibleArchetypes),
 		compatibleArchetypes = compatibleArchetypes,
-		lastEntityId = lastEntityId,
-		storageIndex = storageIndex,
+		storageIndex = 1,
+		_expand = expand,
 		_filter = {},
 		_archetype = archetype,
 	}, QueryResult)

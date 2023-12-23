@@ -249,7 +249,7 @@ end
 
 function QueryResult:without(...)
 	local world = self.world
-	local negativeArchetype = `{self._archetype}|{archetypeOf(...)}`
+	local negativeArchetype = `{self._archetype}||{archetypeOf(...)}`
 
 	if world._queryCache[negativeArchetype] == nil then
 		world:_newQueryArchetype(negativeArchetype)

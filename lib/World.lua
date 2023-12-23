@@ -194,7 +194,7 @@ function World:_newQueryArchetype(queryArchetype)
 
 	for _, storage in self._storages do
 		for entityArchetype in storage do
-			local archetype = string.split(queryArchetype, "|")
+			local archetype = string.split(queryArchetype, "||")
 			local negatedArchetype = archetype[1]
 			local exclude = archetype[2]
 

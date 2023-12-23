@@ -1,6 +1,5 @@
 local archetypeModule = require(script.Parent.archetype)
 local Component = require(script.Parent.component)
-
 local assertValidComponent = Component.assertValidComponent
 local archetypeOf = archetypeModule.archetypeOf
 
@@ -84,18 +83,21 @@ function QueryResult.new(world, ...)
 	}, QueryResult)
 end
 
-function QueryResult:_next()
-	local world = self.world
-	local currentCompatibleArchetype = self.currentCompatibleArchetype
-	local storageIndex = self.storageIndex
-	local seenEntities = self.seenEntities
-	local compatibleArchetypes = self.compatibleArchetypes
+local function nextItem(query)
+	local world = query.world
+	local currentCompatibleArchetype = query.currentCompatibleArchetype
+	local storageIndex = query.storageIndex
+	local seenEntities = query.seenEntities
+	local compatibleArchetypes = query.compatibleArchetypes
 
 	local entityId, entityData
 
+	local storages = world._storages
 	repeat
-		if world._storages[storageIndex][currentCompatibleArchetype] then
-			entityId, entityData = next(world._storages[storageIndex][currentCompatibleArchetype], self.lastEntityId)
+		local nextStorage = storages[storageIndex]
+		local currently = nextStorage[currentCompatibleArchetype]
+		if currently then
+			entityId, entityData = next(currently, query.lastEntityId)
 		end
 
 		while entityId == nil do
@@ -104,7 +106,7 @@ function QueryResult:_next()
 			if currentCompatibleArchetype == nil then
 				storageIndex += 1
 
-				local nextStorage = world._storages[storageIndex]
+				nextStorage = storages[storageIndex]
 
 				if nextStorage == nil or next(nextStorage) == nil then
 					return
@@ -117,18 +119,18 @@ function QueryResult:_next()
 				end
 
 				continue
-			elseif world._storages[storageIndex][currentCompatibleArchetype] == nil then
+			elseif nextStorage[currentCompatibleArchetype] == nil then
 				continue
 			end
 
-			entityId, entityData = next(world._storages[storageIndex][currentCompatibleArchetype])
+			entityId, entityData = next(nextStorage[currentCompatibleArchetype])
 		end
 
-		self.lastEntityId = entityId
+		query.lastEntityId = entityId
 
 	until seenEntities[entityId] == nil
 
-	self.currentCompatibleArchetype = currentCompatibleArchetype
+	query.currentCompatibleArchetype = currentCompatibleArchetype
 
 	seenEntities[entityId] = true
 
@@ -137,12 +139,12 @@ end
 
 function QueryResult:__iter()
 	return function()
-		return self._expand(self:_next())
+		return self._expand(nextItem(self))
 	end
 end
 
 function QueryResult:__call()
-	return self._expand(self:_next())
+	return self._expand(nextItem(self))
 end
 
 --[=[
@@ -172,7 +174,7 @@ end
 	@return ...ComponentInstance -- The requested component values
 ]=]
 function QueryResult:next()
-	return self._expand(self:_next())
+	return self._expand(nextItem(self))
 end
 
 local snapshot = {
@@ -221,7 +223,7 @@ function QueryResult:snapshot()
 	local list = setmetatable({}, snapshot)
 
 	local function iter()
-		return self:_next()
+		return nextItem(self)
 	end
 
 	for entityId, entityData in iter do

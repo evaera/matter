@@ -64,7 +64,7 @@ local function ui(debugger, loop)
 				end
 			end
 
-			plasma.space(30)
+			plasma.space(20)
 
 			plasma.heading("STATE")
 			plasma.space(10)
@@ -115,7 +115,7 @@ local function ui(debugger, loop)
 				end
 			end
 
-			plasma.space(30)
+			plasma.space(20)
 			plasma.heading("SYSTEMS")
 			plasma.space(10)
 
@@ -172,7 +172,7 @@ local function ui(debugger, loop)
 					end
 				end
 
-				plasma.space(20)
+				plasma.space(10)
 			end
 		end)
 

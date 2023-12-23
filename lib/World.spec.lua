@@ -544,6 +544,76 @@ return function()
 			expect(#world:query(Player):without(Poison):snapshot()).to.equal(1)
 		end)
 
+		it("should allow viewing a query", function()
+			local Parent = component("Parent")
+			local Transform = component("Transform")
+			local Root = component("Root")
+
+			local world = World.new()
+
+			local root = world:spawn(Transform({ pos = Vector2.new(3, 4) }), Root())
+			local _otherRoot = world:spawn(Transform({ pos = Vector2.new(1, 2) }), Root())
+
+			local child = world:spawn(
+				Parent({
+					entity = root,
+					fromChild = Transform({ pos = Vector2.one }),
+				}),
+				Transform.new({ pos = Vector2.zero })
+			)
+
+			local _otherChild = world:spawn(
+				Parent({
+					entity = root,
+					fromChild = Transform({ pos = Vector2.new(0, 0) }),
+				}),
+				Transform.new({ pos = Vector2.zero })
+			)
+
+			local _grandChild = world:spawn(
+				Parent({
+					entity = child,
+					fromChild = Transform({ pos = Vector2.new(-1, 0) }),
+				}),
+				Transform.new({ pos = Vector2.zero })
+			)
+
+			local parents = world:query(Parent):view()
+			local roots = world:query(Transform, Root):view()
+
+			expect(parents:contains(root)).to.equal(false)
+
+			local orderOfIteration = {}
+
+			for id in world:query(Transform, Parent) do
+				table.insert(orderOfIteration, id)
+			end
+
+			local view = world:query(Transform, Parent):view()
+			local i = 0
+			for id in view do
+				i += 1
+				expect(orderOfIteration[i]).to.equal(id)
+			end
+
+			for id, absolute, parent in world:query(Transform, Parent) do
+				local relative = parent.fromChild.pos
+				local ancestor = parent.entity
+				local current = parents:get(ancestor)
+				while current do
+					relative = current.fromChild.pos * relative
+					ancestor = current.entity
+					current = parents:get(ancestor)
+				end
+
+				local pos = roots:get(ancestor).pos
+
+				world:insert(id, absolute:patch({ pos = Vector2.new(pos.x + relative.x, pos.y + relative.y) }))
+			end
+
+			expect(world:get(child, Transform).pos).to.equal(Vector2.new(4, 5))
+		end)
+
 		it("should not invalidate iterators", function()
 			local world = World.new()
 			local A = component()

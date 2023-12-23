@@ -262,4 +262,105 @@ function QueryResult:without(...)
 	return self
 end
 
+--[=[
+	@class View
+	Provides random access to the results of a query.
+	Calling the table is equivalent iterating a query. 
+	```lua
+	for id, player, health, poison in world:query(Player, Health, Poison):view() do
+		-- Do something
+	end
+	```
+]=]
+
+local View = {}
+View.__index = View
+
+function View.new()
+	return setmetatable({
+		fetches = {},
+	}, View)
+end
+
+function View:__iter()
+	local current = self.head
+	return function()
+		if current then
+			local entity = current.entity
+			local fetch = self.fetches[entity]
+			current = current.next
+
+			return entity, unpack(fetch, 1, fetch.n)
+		end
+	end
+end
+
+--[=[
+	Retrieve the query results to corresponding `entity`
+	@param entity number - the entity ID
+	@return ...ComponentInstance
+]=]
+function View:get(entity)
+	if not self:contains(entity) then
+		return
+	end
+
+	local fetch = self.fetches[entity]
+
+	return unpack(fetch, 1, fetch.n)
+end
+
+--[=[
+	Equivalent to `world:contains()`	
+	@param entity number - the entity ID
+	@return boolean 
+]=]
+
+function View:contains(entity)
+	return self.fetches[entity] ~= nil
+end
+
+--[=[
+	Creates a View of the query and does all of the iterator tasks at once at an amortized cost.
+	This is used for many repeated random access to an entity. If you only need to iterate, just use a query.
+	```lua
+	for id, player, health, poison in world:query(Player, Health, Poison):view() do
+		-- Do something
+	end
+	local dyingPeople = world:query(Player, Health, Poison):view()
+	local remainingHealth = dyingPeople:get(entity)
+	```
+	
+	@param ... Component - The component types to query. Only entities with *all* of these components will be returned.
+	@return View See [View](/api/View) docs.
+]=]
+
+function QueryResult:view()
+	local function iter()
+		return nextItem(self)
+	end
+
+	local view = View.new()
+
+	for entityId, entityData in iter do
+		if entityId then
+			-- We start at 2 on Select since we don't need want to pack the entity id.
+			local fetch = table.pack(select(2, self._expand(entityId, entityData)))
+			local node = { entity = entityId, next = nil }
+			view.fetches[entityId] = fetch
+			if not view.head then
+				view.head = node
+			else
+				local current = view.head
+				while current.next do
+					current = current.next
+				end
+				current.next = node
+			end
+		end
+	end
+
+	return view
+end
+
 return QueryResult

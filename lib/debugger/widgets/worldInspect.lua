@@ -10,7 +10,7 @@ return function(plasma)
 
 		local cache, setCache = plasma.useState()
 		local ascendingOrder, _ = plasma.useState(false)
-		local skipIntersections, setSkipIntersections = plasma.useState(false)
+		local skipIntersections, setSkipIntersections = plasma.useState(true)
 		local debugComponent, setDebugComponent = plasma.useState()
 
 		local closed = plasma

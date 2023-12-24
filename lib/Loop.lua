@@ -132,7 +132,9 @@ type System = (...any) -> () | { system: (...any) -> (), event: string?, priorit
 ]=]
 function Loop:scheduleSystems(systems: { System })
 	for _, system in ipairs(systems) do
-		table.insert(self._systems, system)
+		if table.find(self._systems, system) == nil then
+			table.insert(self._systems, system)
+		end
 		self._systemState[system] = {}
 
 		if RunService:IsStudio() then
@@ -143,7 +145,6 @@ function Loop:scheduleSystems(systems: { System })
 
 	self:_sortSystems()
 end
-
 --[=[
 	Schedules a single system. This is an expensive function to call multiple times. Instead, try batch scheduling
 	systems with [Loop:scheduleSystems] if possible.

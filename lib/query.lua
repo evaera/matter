@@ -1,6 +1,4 @@
 local archetypeModule = require(script.Parent.archetype)
-local Component = require(script.Parent.component)
-local assertValidComponent = Component.assertValidComponent
 local archetypeOf = archetypeModule.archetypeOf
 
 --[=[
@@ -20,48 +18,7 @@ local archetypeOf = archetypeModule.archetypeOf
 local QueryResult = {}
 QueryResult.__index = QueryResult
 
-function QueryResult.new(world, ...)
-	debug.profilebegin("World:query")
-	assertValidComponent((...), 1)
-
-	local metatables = { ... }
-	local queryLength = select("#", ...)
-
-	local archetype = archetypeOf(...)
-
-	if world._queryCache[archetype] == nil then
-		world:_newQueryArchetype(archetype)
-	end
-
-	local compatibleArchetypes = world._queryCache[archetype]
-
-	debug.profileend()
-
-	if next(compatibleArchetypes) == nil then
-		-- If there are no compatible storages avoid creating our complicated iterator
-		local noopQuery = setmetatable({}, QueryResult)
-		noopQuery._expand = function() end
-		noopQuery._next = function() end
-	end
-
-	local queryOutput = table.create(queryLength)
-
-	local function expand(entityId, entityData)
-		if not entityId then
-			return
-		end
-
-		for i, metatable in ipairs(metatables) do
-			queryOutput[i] = entityData[metatable]
-		end
-
-		return entityId, unpack(queryOutput, 1, queryLength)
-	end
-
-	if world._pristineStorage == world._storages[1] then
-		world:_markStorageDirty()
-	end
-
+function QueryResult.new(world, expand, queryArchetype, compatibleArchetypes)
 	return setmetatable({
 		world = world,
 		seenEntities = {},
@@ -69,8 +26,7 @@ function QueryResult.new(world, ...)
 		compatibleArchetypes = compatibleArchetypes,
 		storageIndex = 1,
 		_expand = expand,
-		_filter = {},
-		_archetype = archetype,
+		_queryArchetype = queryArchetype,
 	}, QueryResult)
 end
 
@@ -249,7 +205,7 @@ end
 
 function QueryResult:without(...)
 	local world = self.world
-	local negativeArchetype = `{self._archetype}||{archetypeOf(...)}`
+	local negativeArchetype = `{self._queryArchetype}||{archetypeOf(...)}`
 
 	if world._queryCache[negativeArchetype] == nil then
 		world:_newQueryArchetype(negativeArchetype)

@@ -401,8 +401,52 @@ end
 	@param ... Component -- The component types to query. Only entities with *all* of these components will be returned.
 	@return QueryResult -- See [QueryResult](/api/QueryResult) docs.
 ]=]
+
+local function noop() end
+
 function World:query(...)
-	return QueryResult.new(self, ...)
+	debug.profilebegin("World:query")
+	assertValidComponent((...), 1)
+
+	local metatables = { ... }
+	local queryLength = select("#", ...)
+
+	local archetype = archetypeOf(...)
+
+	if self._queryCache[archetype] == nil then
+		self:_newQueryArchetype(archetype)
+	end
+
+	local compatibleArchetypes = self._queryCache[archetype]
+
+	debug.profileend()
+
+	if next(compatibleArchetypes) == nil then
+		-- If there are no compatible storages avoid creating our complicated iterator
+		local noopQuery = setmetatable({}, QueryResult)
+		noopQuery._expand = noop
+		noopQuery._next = noop
+	end
+
+	local queryOutput = table.create(queryLength)
+
+	local function expand(entityId, entityData)
+		if not entityId then
+			return
+		end
+
+		for i, metatable in ipairs(metatables) do
+			queryOutput[i] = entityData[metatable]
+		end
+
+		return entityId, unpack(queryOutput, 1, queryLength)
+	end
+
+	if self._pristineStorage == self._storages[1] then
+		self:_markStorageDirty()
+	end
+
+	return QueryResult.new(self, expand, archetype, compatibleArchetypes)
 end
 
 local function cleanupQueryChanged(hookState)

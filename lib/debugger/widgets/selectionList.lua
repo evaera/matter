@@ -123,6 +123,7 @@ return function(Plasma)
 		end)
 
 		local selected
+
 		for _, item in items do
 			if Item(item.text, item.selected, item.icon, item.sideText, options.width):clicked() then
 				selected = item

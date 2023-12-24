@@ -10,12 +10,12 @@ return function(plasma)
 
 		local cache, setCache = plasma.useState()
 		local sort, _ = plasma.useState("alphabetical")
-		local showIntersections, setShowIntersections = plasma.useState(false)
+		local skipIntersections, setSkipIntersections = plasma.useState(false)
 		local debugComponent, setDebugComponent = plasma.useState()
 
 		local closed = plasma
 			.window({
-				title = "WORLD INSPECT",
+				title = "World inspect",
 				closable = true,
 			}, function()
 				if not cache or os.clock() - cache.createdTime > debugger.componentRefreshFrequency then
@@ -46,8 +46,8 @@ return function(plasma)
 				end)
 
 				plasma.row({ padding = 15 }, function()
-					if plasma.checkbox("Show intersections", { checked = showIntersections }):clicked() then
-						setShowIntersections(not showIntersections)
+					if plasma.checkbox("Show intersections", { checked = not skipIntersections }):clicked() then
+						setSkipIntersections(not skipIntersections)
 					end
 
 					if plasma.button("View Raw"):clicked() then
@@ -106,7 +106,7 @@ return function(plasma)
 
 							intersectingData[entityId] = {}
 
-							if not showIntersections then
+							if skipIntersections then
 								continue
 							end
 

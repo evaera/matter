@@ -132,7 +132,7 @@ type System = (...any) -> () | { system: (...any) -> (), event: string?, priorit
 ]=]
 function Loop:scheduleSystems(systems: { System })
 	for _, system in ipairs(systems) do
-		self._systems[system] = system
+		table.insert(self._systems, system)
 		self._systemState[system] = {}
 
 		if RunService:IsStudio() then
@@ -162,11 +162,14 @@ end
 	@param system System
 ]=]
 function Loop:evictSystem(system: System)
-	if self._systems[system] == nil then
+	local systemIndex = table.find(self._systems, system)
+
+	if systemIndex == nil then
 		error("Can't evict system because it doesn't exist")
 	end
 
-	self._systems[system] = nil
+	table.remove(self._systems, systemIndex)
+
 	self._systemErrors[system] = nil
 
 	topoRuntime.start({
@@ -187,12 +190,15 @@ end
 	@param new System
 ]=]
 function Loop:replaceSystem(old: System, new: System)
-	if not self._systems[old] then
+	local systemIndex = table.find(self._systems, old)
+
+	if not systemIndex then
 		error("Before system does not exist!")
 	end
 
-	self._systems[new] = new
-	self._systems[old] = nil
+	table.remove(self._systems, systemIndex)
+	table.insert(self._systems, new)
+
 	self._systemState[new] = self._systemState[old] or {}
 	self._systemState[old] = nil
 
@@ -201,7 +207,7 @@ function Loop:replaceSystem(old: System, new: System)
 		self._skipSystems[new] = true
 	end
 
-	for system in self._systems do
+	for _, system in self._systems do
 		if type(system) == "table" and system.after then
 			local index = table.find(system.after, old)
 
@@ -215,12 +221,21 @@ function Loop:replaceSystem(old: System, new: System)
 end
 
 local function orderSystemsByDependencies(unscheduledSystems: { System })
-	table.sort(unscheduledSystems, function(a, b)
+	local sortedUnscheduledSystems = table.clone(unscheduledSystems)
+
+	table.sort(sortedUnscheduledSystems, function(a, b)
 		local priorityA = systemPriority(a)
 		local priorityB = systemPriority(b)
 
 		if priorityA == priorityB then
-			return systemName(a) < systemName(b)
+			local nameA = systemName(a)
+			local nameB = systemName(b)
+
+			if nameA == nameB then
+				return table.find(unscheduledSystems, a) < table.find(unscheduledSystems, b)
+			end
+
+			return nameA < nameB
 		end
 
 		return priorityA < priorityB
@@ -229,43 +244,30 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 	local scheduledSystemsSet = {}
 	local scheduledSystems = {}
 
-	local explore = 1
-	local visited = 2
+	local visited, explored = 1,2
 
-	while #scheduledSystems < #unscheduledSystems do
-		local index = 1
+	local function scheduleSystem(system)
+		scheduledSystemsSet[system] = visited
 
-		while index <= #unscheduledSystems do
-			local system = unscheduledSystems[index]
-
-			if scheduledSystemsSet[system] == visited then
-				index += 1
-				continue
-			end
-
-			scheduledSystemsSet[system] = explore
-
-			local allScheduled = true
-
-			if type(system) == "table" and system.after then
-				for _, dependency in ipairs(system.after) do
-					if scheduledSystemsSet[dependency] == explore then
-						error("Unable to schedule systems due to cycle")
-					elseif scheduledSystemsSet[dependency] ~= visited then
-						allScheduled = false
-						break
-					end
+		if type(system) == "table" and system.after then
+			for _, dependency in system.after do
+				if scheduledSystemsSet[dependency] == nil then
+					scheduleSystem(dependency)
+				elseif scheduledSystemsSet[dependency] == visited then 
+					error(`Unable to schedule systems due to cyclic dependency between: \n{systemName(system)} \nAND \n{systemName(dependency)}`)
 				end
 			end
+		end
 
-			if allScheduled then
-				scheduledSystemsSet[system] = visited
-				table.insert(scheduledSystems, system)
-				--Once this system is scheduled we want to start from the beginning to schedule systems that have a dependency on this system
-				break
-			end
+		scheduledSystemsSet[system] = explored
 
-			index += 1
+		table.insert(scheduledSystems, system)
+	end
+
+
+	for _, system in sortedUnscheduledSystems do
+		if scheduledSystemsSet[system] == nil then
+			scheduleSystem(system)
 		end
 	end
 
@@ -275,7 +277,7 @@ end
 function Loop:_sortSystems()
 	local systemsByEvent = {}
 
-	for system in pairs(self._systems) do
+	for _, system in pairs(self._systems) do
 		local eventName = "default"
 
 		if type(system) == "table" then
@@ -294,7 +296,7 @@ function Loop:_sortSystems()
 				end
 
 				for _, dependency in system.after do
-					if not self._systems[dependency] then
+					if not table.find(self._systems, dependency) then
 						error(
 							`Unable to schedule "{systemName(system)}" because the system "{systemName(dependency)}" is not scheduled.\n\nEither schedule "{systemName(
 								dependency

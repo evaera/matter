@@ -9,6 +9,7 @@ return function(plasma)
 		local world = debugger.debugWorld
 
 		local cache, setCache = plasma.useState()
+		-- TODO #97 Implement sorting by descending as well.
 		local ascendingOrder, _ = plasma.useState(false)
 		local skipIntersections, setSkipIntersections = plasma.useState(true)
 		local debugComponent, setDebugComponent = plasma.useState()

@@ -453,7 +453,7 @@ function World:query(...)
 		self:_markStorageDirty()
 	end
 
-	return QueryResult.new(self, expand, compatibleArchetypes)
+	return QueryResult.new(self, expand, archetype, compatibleArchetypes)
 end
 
 local function cleanupQueryChanged(hookState)

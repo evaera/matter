@@ -244,7 +244,7 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 	local scheduledSystemsSet = {}
 	local scheduledSystems = {}
 
-	local visited, explored = 1,2
+	local visited, explored = 1, 2
 
 	local function scheduleSystem(system)
 		scheduledSystemsSet[system] = visited
@@ -253,8 +253,12 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 			for _, dependency in system.after do
 				if scheduledSystemsSet[dependency] == nil then
 					scheduleSystem(dependency)
-				elseif scheduledSystemsSet[dependency] == visited then 
-					error(`Unable to schedule systems due to cyclic dependency between: \n{systemName(system)} \nAND \n{systemName(dependency)}`)
+				elseif scheduledSystemsSet[dependency] == visited then
+					error(
+						`Unable to schedule systems due to cyclic dependency between: \n{systemName(system)} \nAND \n{systemName(
+							dependency
+						)}`
+					)
 				end
 			end
 		end
@@ -263,7 +267,6 @@ local function orderSystemsByDependencies(unscheduledSystems: { System })
 
 		table.insert(scheduledSystems, system)
 	end
-
 
 	for _, system in sortedUnscheduledSystems do
 		if scheduledSystemsSet[system] == nil then

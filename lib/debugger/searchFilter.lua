@@ -9,35 +9,46 @@ end
 local function searchFilter(world, query: string)
 	local tokens = tokenize(removeWhitespaces(query))
 
-	local queryLength = #tokens
+	local queryLength = 0
+
+	for _, token in tokens do
+		if string.find(token, "!") then
+			continue
+		end
+		queryLength += 1
+	end
+
+	if queryLength == 0 then
+		error("No valid component")
+	end
+
 	local entities = {}
-	for entity, entityData in world do
-		entities[entity] = {}
-		for _, token in tokens do
-			for metatable, data in entityData do
+	for entity, entityData in world._entityMetatablesCache do
+		local skip = false
+		for _, metatable in entityData do
+			for _, token in tokens do
 				local without = false
-				if string.find(token, "?") then
+				if string.find(token, "!") and without == false then
 					without = true
-					queryLength -= 1
 					token = string.sub(token, 2, string.len(token))
 				end
-
 				if tostring(metatable) == token then
 					if without then
+						skip = true
 						continue
 					end
 
-					entities[entity][token] = data
+					if skip then
+						continue
+					end
+
+					table.insert(entities, {
+						id = entity,
+						component = token,
+						data = world:get(entity, metatable),
+					})
 				end
 			end
-		end
-
-		local i = 0
-		for _ in entities[entity] do
-			i += 1
-		end
-		if i < queryLength then
-			entities[entity] = nil
 		end
 	end
 

@@ -407,7 +407,9 @@ local function noop() end
 local noopQuery = setmetatable({
 	next = noop,
 	snapshot = noop,
-	without = noop,
+	without = function()
+		return noopQuery
+	end,
 	view = noop,
 }, {
 	__iter = function()

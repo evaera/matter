@@ -138,7 +138,7 @@ return function()
 			expect(world:size()).to.equal(1)
 		end)
 
-		it("without prototype", function()
+		it("should not find any entities", function()
 			local world = World.new()
 
 			local Hello = component()
@@ -149,11 +149,11 @@ return function()
 			local _helloShirley = world:spawn(Hello(), Shirley())
 
 			local withoutCount = 0
-			for _ in world:query(Hello):without(Bob) do
+			for _ in world:query(Hello):without(Bob, Shirley) do
 				withoutCount += 1
 			end
 
-			expect(withoutCount).to.equal(1)
+			expect(withoutCount).to.equal(0)
 		end)
 
 		it("should be queryable", function()

@@ -1,5 +1,3 @@
-local TextureGenerationMeshHandler = game:GetService("TextureGenerationMeshHandler")
-
 local formatTableModule = require(script.Parent.Parent.formatTable)
 local formatTable = formatTableModule.formatTable
 
@@ -11,13 +9,13 @@ return function(plasma)
 		local world = debugger.debugWorld
 
 		local cache, setCache = plasma.useState()
-		local sort, setSort = plasma.useState("alphabetical")
+		local sort, _ = plasma.useState("alphabetical")
 		local showIntersections, setShowIntersections = plasma.useState(false)
 		local debugComponent, setDebugComponent = plasma.useState()
 
 		local closed = plasma
 			.window({
-				title = `WORLD INSPECT`,
+				title = "WORLD INSPECT",
 				closable = true,
 			}, function()
 				if not cache or os.clock() - cache.createdTime > debugger.componentRefreshFrequency then
@@ -42,23 +40,10 @@ return function(plasma)
 
 				plasma.row(function()
 					plasma.heading("Size")
-					plasma.label(`{world:size()} ({cache.emptyEntities} empty)`)
+					plasma.label(
+						`{world:size()} {if cache.emptyEntities > 0 then `({cache.emptyEntities} empty)` else nil}`
+					)
 				end)
-
-				--[[plasma.row(function()
-					plasma.heading("Sort")
-					--plasma.space(15)
-
-					if plasma.checkbox("Alphabetical", { checked = sort == "alphabetical" }):clicked() then
-						setSort("alphabetical")
-					end
-
-					if plasma.checkbox("Ascending", { checked = sort == "ascending" }):clicked() then
-						setSort("ascending")
-					end
-
-					--plasma.space(50)
-				end)]]
 
 				plasma.row({ padding = 15 }, function()
 					if plasma.checkbox("Show intersections", { checked = showIntersections }):clicked() then
@@ -74,35 +59,27 @@ return function(plasma)
 					end
 				end)
 
-				local items = {}
+				local items = { { "Count", "Component" } }
 				for component, count in cache.uniqueComponents do
 					table.insert(items, {
-						icon = count,
-						text = tostring(component),
-						component = component,
+						count,
+						tostring(component),
 						selected = debugComponent == component,
+						component = component,
 					})
 				end
+
 				table.sort(items, function(a, b)
 					if sort == "alphabetical" then
-						return a.text < b.text
+						return a[2] < b[2]
 					else
-						return a.icon > b.icon
+						return a[1] > b[1]
 					end
 				end)
 
 				plasma.row({ padding = 30 }, function()
-					local newItems = { { "Count", "Component" } }
-					for _, data in items do
-						print(type(debugComponent), data.text, debugComponent == data.text)
-						table.insert(
-							newItems,
-							{ data.icon, data.text, selected = tostring(debugComponent) == data.text }
-						)
-					end
-
 					local selectedRow = plasma
-						.table(newItems, {
+						.table(items, {
 							width = 200,
 							headings = true,
 							selectable = true,
@@ -110,15 +87,7 @@ return function(plasma)
 						:selected()
 
 					if selectedRow then
-						local selectedItem = nil
-						for _, data in items do
-							if data.text == selectedRow[2] then
-								selectedItem = data
-							end
-						end
-
-						print(selectedItem.component)
-						setDebugComponent(selectedItem.component)
+						setDebugComponent(selectedRow.component)
 					end
 
 					if debugComponent then

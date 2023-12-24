@@ -196,12 +196,18 @@ function World:_newQueryArchetype(queryArchetype)
 		for entityArchetype in storage do
 			local archetype = string.split(queryArchetype, "||")
 			local negatedArchetype = archetype[1]
-			local exclude = archetype[2]
+			local filter = { unpack(archetype, 2, #archetype) }
 
-			if exclude then
+			local skip = false
+			for _, exclude in filter do
 				if areArchetypesCompatible(exclude, entityArchetype) then
-					continue
+					skip = true
+					break
 				end
+			end
+
+			if skip then
+				continue
 			end
 
 			if areArchetypesCompatible(negatedArchetype, entityArchetype) then
@@ -410,7 +416,9 @@ local noopQuery = setmetatable({
 	without = noop,
 	view = noop,
 }, {
-	__iter = noop,
+	__iter = function()
+		return noop
+	end,
 })
 
 function World:query(...)

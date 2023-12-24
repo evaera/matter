@@ -205,7 +205,9 @@ end
 
 function QueryResult:without(...)
 	local world = self.world
-	local negativeArchetype = `{self._queryArchetype}||{archetypeOf(...)}`
+	local filter = table.concat(string.split(archetypeOf(...), "_"), "||")
+
+	local negativeArchetype = `{self._queryArchetype}||{filter}`
 
 	if world._queryCache[negativeArchetype] == nil then
 		world:_newQueryArchetype(negativeArchetype)

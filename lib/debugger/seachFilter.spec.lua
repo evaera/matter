@@ -3,7 +3,7 @@ local component = require(script.Parent.Parent.component).newComponent
 local World = require(script.Parent.Parent.World)
 
 return function()
-	describeFOCUS("Search Filter", function()
+	describe("Search Filter", function()
 		it("should find Oliver", function()
 			local world = World.new()
 			local Test = component("Test")

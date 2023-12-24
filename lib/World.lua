@@ -407,10 +407,14 @@ local function noop() end
 local noopQuery = setmetatable({
 	next = noop,
 	snapshot = noop,
-	without = noop,
+	without = function(self)
+		return self
+	end,
 	view = noop,
 }, {
-	__iter = noop,
+	__iter = function()
+		return noopQuery
+	end,
 })
 
 function World:query(...)

@@ -9,7 +9,7 @@ return function(plasma)
 		local world = debugger.debugWorld
 
 		local cache, setCache = plasma.useState()
-		local sort, _ = plasma.useState("alphabetical")
+		local ascendingOrder, _ = plasma.useState(false)
 		local skipIntersections, setSkipIntersections = plasma.useState(false)
 		local debugComponent, setDebugComponent = plasma.useState()
 
@@ -41,7 +41,7 @@ return function(plasma)
 				plasma.row(function()
 					plasma.heading("Size")
 					plasma.label(
-						`{world:size()} {if cache.emptyEntities > 0 then `({cache.emptyEntities} empty)` else nil}`
+						`{world:size()} {if cache.emptyEntities > 0 then `({cache.emptyEntities} empty)` else ""}`
 					)
 				end)
 
@@ -59,7 +59,7 @@ return function(plasma)
 					end
 				end)
 
-				local items = { { "Count", "Component" } }
+				local items = {}
 				for component, count in cache.uniqueComponents do
 					table.insert(items, {
 						count,
@@ -70,12 +70,15 @@ return function(plasma)
 				end
 
 				table.sort(items, function(a, b)
-					if sort == "alphabetical" then
-						return a[2] < b[2]
-					else
-						return a[1] > b[1]
+					if ascendingOrder then
+						return a[1] < b[1]
 					end
+
+					-- Default to alphabetical
+					return a[2] < b[2]
 				end)
+
+				table.insert(items, 1, { "Count", "Component" })
 
 				plasma.row({ padding = 30 }, function()
 					local selectedRow = plasma

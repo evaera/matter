@@ -404,6 +404,15 @@ end
 
 local function noop() end
 
+local noopQuery = setmetatable({
+	next = noop,
+	snapshot = noop,
+	without = noop,
+	view = noop,
+}, {
+	__iter = noop,
+})
+
 function World:query(...)
 	debug.profilebegin("World:query")
 	assertValidComponent((...), 1)
@@ -423,9 +432,7 @@ function World:query(...)
 
 	if next(compatibleArchetypes) == nil then
 		-- If there are no compatible storages avoid creating our complicated iterator
-		local noopQuery = setmetatable({}, QueryResult)
-		noopQuery._expand = noop
-		noopQuery._next = noop
+		return noopQuery
 	end
 
 	local queryOutput = table.create(queryLength)

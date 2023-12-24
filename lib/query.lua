@@ -33,7 +33,6 @@ end
 local function nextItem(query)
 	local world = query.world
 	local currentCompatibleArchetype = query.currentCompatibleArchetype
-	local storageIndex = query.storageIndex
 	local seenEntities = query.seenEntities
 	local compatibleArchetypes = query.compatibleArchetypes
 
@@ -41,7 +40,7 @@ local function nextItem(query)
 
 	local storages = world._storages
 	repeat
-		local nextStorage = storages[storageIndex]
+		local nextStorage = storages[query.storageIndex]
 		local currently = nextStorage[currentCompatibleArchetype]
 		if currently then
 			entityId, entityData = next(currently, query.lastEntityId)
@@ -51,9 +50,9 @@ local function nextItem(query)
 			currentCompatibleArchetype = next(compatibleArchetypes, currentCompatibleArchetype)
 
 			if currentCompatibleArchetype == nil then
-				storageIndex += 1
+				query.storageIndex += 1
 
-				nextStorage = storages[storageIndex]
+				nextStorage = storages[query.storageIndex]
 
 				if nextStorage == nil or next(nextStorage) == nil then
 					return

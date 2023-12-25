@@ -77,8 +77,8 @@ return function()
 			world:spawn(Hello())
 
 			local entities = searchFilter(world, "Friend, Test, !Hello")
-			print(entities)
 			expect(#entities).to.equal(1)
+			expect(entities[1].id).to.equal(1)
 		end)
 	end)
 end

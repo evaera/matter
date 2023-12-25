@@ -3,7 +3,7 @@ local component = require(script.Parent.Parent.component).newComponent
 local World = require(script.Parent.Parent.World)
 
 return function()
-	describe("Search Filter", function()
+	describeFOCUS("Search Filter", function()
 		it("should find Oliver", function()
 			local world = World.new()
 			local Test = component("Test")
@@ -18,8 +18,7 @@ return function()
 
 			local _, entity = next(entities)
 			expect(entity.id).to.equal(3)
-			expect(entity.data.name).to.equal("Oscar")
-			expect(entity.component).to.equal("Friend")
+			expect(entity.data["Friend"].name).to.equal("Oscar")
 		end)
 
 		it("should find two matching entities", function()
@@ -64,6 +63,22 @@ return function()
 
 			local entities = searchFilter(world, "Friend")
 			expect(#entities).to.equal(2)
+		end)
+
+		it("should only find one (Friend, Test)", function()
+			local world = World.new()
+			local Test = component("Test")
+			local Friend = component("Friend")
+			local Hello = component("Hello")
+			local Bye = component("Bye")
+			world:spawn(Test(), Friend({ name = "Oliver" }))
+			world:spawn(Test(), Hello(), Bye(), Friend())
+			world:spawn(Friend({ name = "Oscar" }), Bye())
+			world:spawn(Hello())
+
+			local entities = searchFilter(world, "Friend, Test, !Hello")
+			print(entities)
+			expect(#entities).to.equal(1)
 		end)
 	end)
 end

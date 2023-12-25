@@ -24,6 +24,7 @@ local function searchFilter(world, query: string)
 
 	local entities = {}
 	for entity, entityData in world._entityMetatablesCache do
+		entities[entity] = {}
 		local skip = false
 		for _, metatable in entityData do
 			for _, token in tokens do
@@ -42,17 +43,29 @@ local function searchFilter(world, query: string)
 						continue
 					end
 
-					table.insert(entities, {
-						id = entity,
-						component = token,
-						data = world:get(entity, metatable),
-					})
+					entities[entity][token] = world:get(entity, metatable)
 				end
 			end
 		end
 	end
 
-	return entities
+	local filteredEntities = {}
+
+	for entity, entityData in entities do
+		local i = 0
+		for _ in entityData do
+			i += 1
+		end
+		if queryLength ~= i then
+			continue
+		end
+		table.insert(filteredEntities, {
+			id = entity,
+			data = entityData,
+		})
+	end
+
+	return filteredEntities
 end
 
 return searchFilter

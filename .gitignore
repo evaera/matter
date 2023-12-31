@@ -39,7 +39,7 @@ luac.out
 *.x86_64
 *.hex
 
-Packages
+DevPackages
 roblox.toml
 build
 *.rbxl

@@ -194,17 +194,7 @@ function World:_newQueryArchetype(queryArchetype)
 
 	for _, storage in self._storages do
 		for entityArchetype in storage do
-			local archetype = string.split(queryArchetype, "||")
-			local negatedArchetype = archetype[1]
-			local exclude = archetype[2]
-
-			if exclude then
-				if areArchetypesCompatible(exclude, entityArchetype) then
-					continue
-				end
-			end
-
-			if areArchetypesCompatible(negatedArchetype, entityArchetype) then
+			if areArchetypesCompatible(queryArchetype, entityArchetype) then
 				self._queryCache[queryArchetype][entityArchetype] = true
 			end
 		end

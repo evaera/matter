@@ -31,7 +31,8 @@ return function(Plasma)
 				create("TextLabel", {
 					Name = "Icon",
 					BackgroundTransparency = 1,
-					Size = UDim2.new(0, 22, 1, 0),
+					AutomaticSize = Enum.AutomaticSize.X,
+					Size = UDim2.new(0, 0, 1, 0),
 					Text = icon,
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextSize = 18,

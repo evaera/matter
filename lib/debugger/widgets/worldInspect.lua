@@ -3,7 +3,6 @@ local formatTable = formatTableModule.formatTable
 
 return function(plasma)
 	return plasma.widget(function(debugger, objectStack)
-		local custom = debugger._customWidgets
 		local style = plasma.useStyle()
 
 		local world = debugger.debugWorld

@@ -28,7 +28,7 @@
         "$path": "example/assets/assets.rbxm"
       },
       "Lib": {
-        "$path": "Packages",
+        "$className": "Folder",
         "Matter": {
           "$path": "lib"
         }

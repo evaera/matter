@@ -3,12 +3,14 @@ local formatTable = formatTableModule.formatTable
 
 return function(plasma)
 	return plasma.widget(function(debugger, objectStack)
-		local custom = debugger._customWidgets
 		local style = plasma.useStyle()
 
 		local world = debugger.debugWorld
 
 		local cache, setCache = plasma.useState()
+		-- TODO #97 Implement sorting by descending as well.
+		local ascendingOrder, _ = plasma.useState(false)
+		local skipIntersections, setSkipIntersections = plasma.useState(true)
 		local debugComponent, setDebugComponent = plasma.useState()
 
 		local closed = plasma
@@ -16,16 +18,33 @@ return function(plasma)
 				title = "World inspect",
 				closable = true,
 			}, function()
-				local skipIntersections
+				if not cache or os.clock() - cache.createdTime > debugger.componentRefreshFrequency then
+					cache = {
+						createdTime = os.clock(),
+						uniqueComponents = {},
+						emptyEntities = 0,
+					}
+
+					setCache(cache)
+
+					for _, entityData in world do
+						if next(entityData) == nil then
+							cache.emptyEntities += 1
+						else
+							for component in entityData do
+								cache.uniqueComponents[component] = (cache.uniqueComponents[component] or 0) + 1
+							end
+						end
+					end
+				end
 
 				plasma.row(function()
 					plasma.heading("Size")
-					plasma.label(world:size())
+					plasma.label(
+						`{world:size()} {if cache.emptyEntities > 0 then `({cache.emptyEntities} empty)` else ""}`
+					)
 
-					plasma.space(30)
-					skipIntersections = plasma.checkbox("Hide intersecting components"):checked()
-
-					if plasma.button("view raw"):clicked() then
+					if plasma.button("View Raw"):clicked() then
 						table.clear(objectStack)
 						objectStack[1] = {
 							value = world,
@@ -34,43 +53,44 @@ return function(plasma)
 					end
 				end)
 
-				if not cache or os.clock() - cache.createdTime > debugger.componentRefreshFrequency then
-					cache = {
-						createdTime = os.clock(),
-						uniqueComponents = {},
-					}
-
-					setCache(cache)
-
-					for _, entityData in world do
-						for component in entityData do
-							cache.uniqueComponents[component] = (cache.uniqueComponents[component] or 0) + 1
-						end
+				plasma.row({ padding = 15 }, function()
+					if plasma.checkbox("Show intersections", { checked = not skipIntersections }):clicked() then
+						setSkipIntersections(not skipIntersections)
 					end
-				end
+				end)
 
 				local items = {}
 				for component, count in cache.uniqueComponents do
 					table.insert(items, {
-						icon = count,
-						text = tostring(component),
-						component = component,
+						count,
+						tostring(component),
 						selected = debugComponent == component,
+						component = component,
 					})
 				end
+
 				table.sort(items, function(a, b)
-					return a.text < b.text
+					if ascendingOrder then
+						return a[1] < b[1]
+					end
+
+					-- Default to alphabetical
+					return a[2] < b[2]
 				end)
 
+				table.insert(items, 1, { "Count", "Component" })
+
 				plasma.row({ padding = 30 }, function()
-					local selectedItem = custom
-						.selectionList(items, {
+					local selectedRow = plasma
+						.table(items, {
 							width = 200,
+							headings = true,
+							selectable = true,
 						})
 						:selected()
 
-					if selectedItem then
-						setDebugComponent(selectedItem.component)
+					if selectedRow then
+						setDebugComponent(selectedRow.component)
 					end
 
 					if debugComponent then

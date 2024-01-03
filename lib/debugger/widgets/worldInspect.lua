@@ -43,12 +43,6 @@ return function(plasma)
 					plasma.label(
 						`{world:size()} {if cache.emptyEntities > 0 then `({cache.emptyEntities} empty)` else ""}`
 					)
-				end)
-
-				plasma.row({ padding = 15 }, function()
-					if plasma.checkbox("Show intersections", { checked = not skipIntersections }):clicked() then
-						setSkipIntersections(not skipIntersections)
-					end
 
 					if plasma.button("View Raw"):clicked() then
 						table.clear(objectStack)
@@ -56,6 +50,12 @@ return function(plasma)
 							value = world,
 							key = "Raw World",
 						}
+					end
+				end)
+
+				plasma.row({ padding = 15 }, function()
+					if plasma.checkbox("Show intersections", { checked = not skipIntersections }):clicked() then
+						setSkipIntersections(not skipIntersections)
 					end
 				end)
 

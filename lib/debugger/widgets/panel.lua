@@ -23,6 +23,7 @@ return function(Plasma)
 						Position = UDim2.new(1, -20, 0.5, 0),
 						AnchorPoint = Vector2.new(1, 0.5),
 						BackgroundTransparency = 1,
+						BorderSizePixel = 0,
 						Size = UDim2.new(0, 120, 0, 26),
 						Image = "rbxassetid://10111567777",
 					}),

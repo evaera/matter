@@ -114,6 +114,20 @@ Debugger.__index = Debugger
 	debugger.componentRefreshFrequency = 1
 	```
 ]=]
+                
+--[=[
+  @prop loopParameterNames {string}
+	@within Debugger
+
+	Create this property in Debugger to specify the names of the parameters to your Loop constructor. This is used to
+	display a more accurate name in the debugger.
+
+	If not specified, the default behavior is to label Worlds as "World" and tables as "table", followed by its index.
+
+	```lua
+	debugger.loopParameterNames = {"World", "State", "Widgets"}
+  ```
+]=]
 
 --[=[
 	Creates a new Debugger.
@@ -149,6 +163,7 @@ function Debugger.new(plasma)
 	local self = setmetatable({
 		plasma = plasma,
 		loop = nil,
+		loopParameterNames = {},
 		enabled = false,
 		componentRefreshFrequency = 3,
 		_windowCount = 0,

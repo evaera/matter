@@ -34,9 +34,10 @@ return function(Plasma)
 					Text = left,
 					Size = UDim2.new(0.5, 0, 1, 0),
 					BackgroundColor3 = style.primaryColor,
+					BorderSizePixel = 0,
 					TextColor3 = style.textColor,
 					Font = Enum.Font.GothamMedium,
-					TextSize = 15,
+					TextSize = 14,
 				}),
 
 				create("TextLabel", {
@@ -44,9 +45,10 @@ return function(Plasma)
 					Text = right,
 					Size = UDim2.new(0.5, 0, 1, 0),
 					BackgroundColor3 = style.bg1,
+					BorderSizePixel = 0,
 					TextColor3 = style.textColor,
 					Font = Enum.Font.GothamMedium,
-					TextSize = 15,
+					TextSize = 14,
 				}),
 
 				MouseEnter = function()

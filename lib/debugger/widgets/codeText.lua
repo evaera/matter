@@ -11,7 +11,7 @@ return function(Plasma)
 				Text = "",
 				AutomaticSize = Enum.AutomaticSize.Y,
 				Font = Enum.Font.Code,
-				TextSize = 22,
+				TextSize = 18,
 				TextStrokeTransparency = 0.5,
 				TextXAlignment = Enum.TextXAlignment.Left,
 				TextYAlignment = Enum.TextYAlignment.Top,

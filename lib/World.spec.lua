@@ -505,9 +505,10 @@ return function()
 				})
 			)
 
-			local snapshot = world:query(Health, Player):snapshot()
+			local query = world:query(Health, Player)
+			local snapshot = query:snapshot()
 
-			for entityId, health, player in world:query(Health, Player):snapshot() do
+			for entityId, health, player in snapshot do
 				expect(type(entityId)).to.equal("number")
 				expect(type(player.name)).to.equal("string")
 				expect(type(health.value)).to.equal("number")
@@ -521,6 +522,8 @@ return function()
 			else
 				expect(snapshot[2][1]).to.equal(1)
 			end
+
+			expect(#world:query(Player):without(Poison):snapshot()).to.equal(1)
 		end)
 
 		it("should not invalidate iterators", function()
